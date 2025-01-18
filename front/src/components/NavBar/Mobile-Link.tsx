@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import navigation from "@/lib/links/navbar.json";
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 
 export default function MobileLink() {
   const [open, setOpen] = useState<boolean>(false);
@@ -27,9 +28,15 @@ export default function MobileLink() {
             {link.name}
           </Link>
         ))}
-        <Link href="/login" className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
-          Login 🥲
-        </Link>
+        <SignedOut>
+          <Link href="/login" className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+            Login 🥲
+          </Link>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+
       </div>
     </div >
   )

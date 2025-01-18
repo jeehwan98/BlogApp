@@ -1,5 +1,6 @@
 import navigation from "@/lib/links/navbar.json";
 import Link from "next/link";
+import { SignedIn, SignedOut, SignIn, SignInButton, UserButton } from "@clerk/nextjs";
 
 export default function DesktopLink() {
   return (
@@ -12,9 +13,16 @@ export default function DesktopLink() {
           {link.name}
         </Link>
       ))}
-      <Link href="/login" className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
-        Login 🥲
-      </Link>
+
+      <SignedOut>
+        {/* <SignIn /> */}
+        <Link href="/login" className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
+          Login 🥲
+        </Link>
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
     </div>
   )
 }
