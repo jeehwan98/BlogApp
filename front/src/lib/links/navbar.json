@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Home",
+    "path": "/"
+  },
+  {
+    "name": "Trending",
+    "path": "/trending"
+  },
+  {
+    "name": "Most Popular",
+    "path": "/most-popular"
+  },
+  {
+    "name": "About",
+    "path": "/about"
+  },
+  {
+    "name": "Contact",
+    "path": "/contact"
+  }
+]
