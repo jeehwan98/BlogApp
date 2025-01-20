@@ -14,6 +14,14 @@
   }
 }
 
+@media (max-width: 768px) {
+  .wrapper {
+    padding-left: 0;
+    /* Remove padding on smaller screens */
+    padding-right: 0;
+  }
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -21,7 +29,8 @@
 }
 
 body {
-  max-width: 100vw; /* prevent overflowing */
+  max-width: 100vw;
+  /* prevent overflowing */
   overflow-x: hidden;
   color: var(--foreground);
   background: var(--background);
@@ -43,4 +52,11 @@ a {
   margin-right: auto;
   padding-left: 80px;
   padding-right: 80px;
+}
+
+.truncate-text {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
