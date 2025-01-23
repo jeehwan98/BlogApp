@@ -1,12 +1,20 @@
 import React from "react";
 
-export default function Button({ children }: { children: React.ReactNode }) {
+export default function Button({
+  children,
+  className,
+  ...props
+}: {
+  children: React.ReactNode;
+  className?: string;
+  [key: string]: any; // Allows passing other props like `onClick`
+}) {
   return (
     <button
-      className="px-4 py-2 rounded-lg border-none bg-blue-500 text-white font-bold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out"
-      type="button"
+      className={`px-4 py-2 rounded-md ${className}`}
+      {...props}
     >
       {children}
     </button>
-  )
+  );
 }

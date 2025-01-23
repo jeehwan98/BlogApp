@@ -1,4 +1,4 @@
-import Button from "../UI/button";
+import Button from "../UI/Button";
 
 export default function CommentSection() {
   return (
