@@ -1,16 +1,12 @@
-import BlogDetails from "@/components/SinglePostPage/AuthorDetails";
-import { BlogHeaderWrapper, BlogPageWrapper, BlogWrapper } from "@/components/SinglePostPage/BlogComponents";
-import BlogContent from "@/components/SinglePostPage/BlogContent";
-import BlogTitle from "@/components/SinglePostPage/BlogTitle";
+import { BlogPageWrapper } from "@/components/SinglePostPage/BlogComponents";
+import BlogPost from "@/components/SinglePostPage/BlogPost";
+import CommentSection from "@/components/SinglePostPage/CommentSection";
 
 export default function SinglePostPage() {
   return (
     <BlogPageWrapper>
-      <BlogHeaderWrapper>
-        <BlogTitle />
-        <BlogDetails />
-      </BlogHeaderWrapper>
-      <BlogContent />
+      <BlogPost />
+      <CommentSection />
     </BlogPageWrapper>
   )
 }
