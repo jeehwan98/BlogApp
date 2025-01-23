@@ -3,8 +3,6 @@ import FeaturedPosts from "@/components/HomePage/FeaturedPosts";
 import Introduction from "@/components/HomePage/Introduction";
 import MainCategories from "@/components/HomePage/MainCategories";
 import PostList from "@/components/HomePage/PostList";
-import Image from "next/image";
-import Link from "next/link";
 
 export default function Home() {
   return (
