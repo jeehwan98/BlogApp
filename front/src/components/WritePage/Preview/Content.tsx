@@ -8,7 +8,7 @@ export default function PreviewContent() {
   console.log(post.content);
 
   return (
-    <>
+    <div className="ql-snow">
       <div
         dangerouslySetInnerHTML={{
           __html: DOMPurify.sanitize(post.content || ""),
@@ -22,6 +22,6 @@ export default function PreviewContent() {
       <div className="text-black">
         {post.content}
       </div>
-    </>
+    </div>
   )
 }

@@ -2,12 +2,16 @@
 
 import useEditStore from "@/lib/zustand/post";
 import dynamic from "next/dynamic";
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useMemo } from "react";
 import "react-quill-new/dist/quill.snow.css";
 import CustomToolbar from "./CustomToolbar";
 import { bindings, formats } from "./Customization";
+import hljs from "highlight.js/lib/common";
+import Quill from "quill";
+import "quill-syntax";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+Quill.register("modules/syntax", true);
 
 export default function Editor() {
   const { post, addContent } = useEditStore();
@@ -20,8 +24,9 @@ export default function Editor() {
   const modules = useMemo(() => {
     return {
       toolbar: "#toolbar",
-      keyboard: {
-        bindings: bindings
+      keyboard: { bindings },
+      syntax: {
+        highlight: (text: string) => hljs.highlightAuto(text).value,
       }
     };
   }, []);
