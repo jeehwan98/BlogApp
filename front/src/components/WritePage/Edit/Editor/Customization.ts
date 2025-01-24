@@ -42,12 +42,14 @@ export const bindings = {
   codeShortcut: {
     key: "Enter",
     collapse: true,
-    prefix: /^\code$/,
+    prefix: /^\/code$/,
     handler: function (this: any, range: any, context: any) {
       const quill = this.quill;
 
+      // apply "code-block" format
       quill.formatLine(range.index, 1, "code-block", true);
 
+      // remove the "/code" text
       quill.deleteText(range.index - 5, 5); // "/code" is removed
     },
   },

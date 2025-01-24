@@ -6,12 +6,16 @@ import React, { useMemo } from "react";
 import "react-quill-new/dist/quill.snow.css";
 import CustomToolbar from "./CustomToolbar";
 import { bindings, formats } from "./Customization";
-import hljs from "highlight.js/lib/common";
-import Quill from "quill";
-import "quill-syntax";
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css";
+
+
+hljs.configure({ languages: ['typescript', 'java', 'javascript', 'mysql'] })
+if (typeof window !== "undefined") {
+  window.hljs = hljs;
+}
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
-Quill.register("modules/syntax", true);
 
 export default function Editor() {
   const { post, addContent } = useEditStore();
@@ -25,9 +29,7 @@ export default function Editor() {
     return {
       toolbar: "#toolbar",
       keyboard: { bindings },
-      syntax: {
-        highlight: (text: string) => hljs.highlightAuto(text).value,
-      }
+      syntax: true,
     };
   }, []);
 
@@ -41,7 +43,6 @@ export default function Editor() {
         modules={modules}
         formats={formats}
         placeholder="Write your story..."
-        className="!border-none text-lg"
       />
     </div>
   );
