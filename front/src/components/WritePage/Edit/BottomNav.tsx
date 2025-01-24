@@ -14,9 +14,6 @@ export default function EditBottomNav() {
         나가기
       </Link>
       <div className="flex gap-4">
-        <Button className="text-green-500 hover:bg-gray-100 font-bold px-4 py-2">
-          임시저장
-        </Button>
         <Button className="bg-green-500 text-white hover:bg-green-600 font-bold px-4 py-2">
           출간하기
         </Button>

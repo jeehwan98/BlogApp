@@ -1,11 +1,12 @@
 import { PreviewWrapper } from "../WriteComponents";
+import PreviewTags from "./Tags";
+import PreviewTitle from "./Title";
 
 export default function PreviewSection() {
   return (
     <PreviewWrapper>
-      <div className="text-black">
-        preview
-      </div>
+      <PreviewTitle />
+      <PreviewTags />
     </PreviewWrapper>
   )
 }

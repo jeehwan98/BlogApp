@@ -36,3 +36,24 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* remove the border from the toolbar */
+#toolbar {
+  border: none !important;
+}
+
+/* remove the border from the editor container */
+.ql-container {
+  border: none !important;
+  outline: none !important;
+}
+
+/* remove the border from the toolbar buttons */
+.ql-toolbar {
+  border: none !important;
+  background-color: transparent;
+}
+
+.ql-editor {
+  font-size: larger;
+}
