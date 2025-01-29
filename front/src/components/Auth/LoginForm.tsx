@@ -7,12 +7,12 @@ import InputField, { Line, LoginBottomNav } from "./Components";
 import { Button, GithubSignInButton } from "../UI/Button";
 
 interface LoginDetails {
-  email: string;
+  username: string;
   password: string;
 }
 
 export default function LoginForm() {
-  const [loginDetails, setLoginDetails] = useState<LoginDetails>({ email: "", password: "" });
+  const [loginDetails, setLoginDetails] = useState<LoginDetails>({ username: "", password: "" });
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>("");
   const router = useRouter();
@@ -21,7 +21,7 @@ export default function LoginForm() {
     setLoginLoading(false);
     try {
       const response = await signIn("credentials", {
-        email: loginDetails.email,
+        username: loginDetails.username,
         password: loginDetails.password,
         redirect: false
       });
@@ -43,10 +43,10 @@ export default function LoginForm() {
       <form onSubmit={onSubmit} className="space-y-4">
         <InputField
           type="text"
-          name="email"
-          placeholder="example@email.com"
-          value={loginDetails.email}
-          onChange={(e) => setLoginDetails({ ...loginDetails, email: e.target.value })}
+          name="username"
+          placeholder="Username"
+          value={loginDetails.username}
+          onChange={(e) => setLoginDetails({ ...loginDetails, username: e.target.value })}
         />
         <InputField
           type="password"
