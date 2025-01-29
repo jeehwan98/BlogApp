@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
 import NavBar from "@/components/NavBar";
 
 const geistSans = Geist({
@@ -24,11 +23,9 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <div className="px-4 md:px-8 lg:px-16 lx:px-32 2xl:px-64">
-        <NavBar />
-        <div>{children}</div>
-      </div>
-    </ClerkProvider>
+    <div className="px-4 md:px-8 lg:px-16 lx:px-32 2xl:px-64">
+      <NavBar />
+      <div>{children}</div>
+    </div>
   );
 }

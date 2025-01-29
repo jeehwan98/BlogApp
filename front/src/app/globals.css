@@ -2,18 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 @media (max-width: 768px) {
   .wrapper {
     padding-left: 0;
@@ -32,8 +20,6 @@ body {
   max-width: 100vw;
   /* prevent overflowing */
   overflow-x: hidden;
-  color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -71,4 +57,10 @@ body {
   font-family: 'Courier New', Courier, monospace !important;
   /* Monospace font */
   font-size: 14px !important;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }
