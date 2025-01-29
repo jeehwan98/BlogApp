@@ -1,8 +1,10 @@
 package com.jee.back.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class User {
 
     @Id

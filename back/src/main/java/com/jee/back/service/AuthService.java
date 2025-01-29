@@ -1,9 +1,11 @@
 package com.jee.back.service;
 
+import com.jee.back.dto.LoginDTO;
 import com.jee.back.dto.RegisterDTO;
 import com.jee.back.entity.Role;
 import com.jee.back.entity.User;
 import com.jee.back.repository.UserRepository;
+import com.jee.back.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+    private final JwtUtil jwtUtil;
 
     public void register(RegisterDTO registerDTO) {
 
@@ -37,5 +40,19 @@ public class AuthService {
 
         User user = modelMapper.map(registerDTO, User.class);
         userRepository.save(user);
+    }
+
+    public String login(LoginDTO loginDTO) {
+        Optional<User> userOptional = userRepository.findByUsername(loginDTO.getUsername());
+        if (userOptional.isEmpty()) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+
+        User user = userOptional.get();
+        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Invalid username or password");
+        }
+
+        return jwtUtil.generateToken(user.getUsername());
     }
 }

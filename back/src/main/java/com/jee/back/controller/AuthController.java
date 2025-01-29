@@ -1,10 +1,11 @@
 package com.jee.back.controller;
 
+import com.jee.back.dto.LoginDTO;
 import com.jee.back.dto.RegisterDTO;
 import com.jee.back.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +19,14 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/login")
-    public String login() {
-        return "login";
+    public ResponseEntity<String> login(@Valid LoginDTO loginDTO) {
+        String token = authService.login(loginDTO);
+        return ResponseEntity.ok(token);
     }
 
-    @PostMapping String register(@Valid RegisterDTO registerDTO) {
+    @PostMapping
+    public ResponseEntity<String> register(@Valid RegisterDTO registerDTO) {
         authService.register(registerDTO);
-        return "register: " + registerDTO;
+        return ResponseEntity.ok("User registered successfully");
     }
 }
