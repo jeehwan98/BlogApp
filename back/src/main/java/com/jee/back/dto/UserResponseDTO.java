@@ -8,8 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponseDTO {
-    private String username;
     private String email;
     private String name;
-    private String imageUrl;
+    private String image;
 }

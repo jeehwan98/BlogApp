@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text" },
+        email: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
@@ -24,23 +24,23 @@ export const authOptions: NextAuthOptions = {
             method: "POST",
             headers: URL.HEADERS,
             body: JSON.stringify({
-              username: credentials?.username,
+              email: credentials?.email,
               password: credentials?.password,
             }),
           });
           const responseData = await response.json();
-          console.log("error message? ", responseData.error);
 
           if (!response.ok) {
             throw new Error(responseData.error);
           }
 
+          console.log(responseData);
           return {
+            token: responseData.token,
             id: responseData.id,
             name: responseData.name,
             email: responseData.email,
             image: responseData.image,
-            username: responseData.username,
           }
         } catch (error) {
           console.error("Error during authentication:", error);
@@ -50,13 +50,33 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
+      if (account?.provider === "github" && user) {
+        console.log("user:", user);
+        try {
+          const response = await fetch(URL.LOGIN_GITHUB, {
+            method: "POST",
+            headers: URL.HEADERS,
+            body: JSON.stringify({
+              name: user.name,
+              email: user.email,
+              image: user.image,
+            }),
+          });
+
+          if (!response.ok) {
+            console.error("Failed to save github user in the backend");
+          }
+        } catch (error) {
+          console.error("Error saving github user: ", error);
+        }
+      }
       if (user) {
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
         token.image = user.image;
-        token.username = user.username;
+        token.accessToken = user.token;
       }
       return token;
     },
@@ -66,8 +86,8 @@ export const authOptions: NextAuthOptions = {
         name: token.name,
         email: token.email,
         image: token.image,
-        username: token.username,
       };
+      session.accessToken = token.accessToken;
       return session;
     },
   },

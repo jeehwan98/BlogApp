@@ -25,7 +25,7 @@ public class AuthService {
     private final JwtUtil jwtUtil;
 
     public String login(LoginDTO loginDTO) {
-        Optional<User> userOptional = userRepository.findByUsername(loginDTO.getUsername());
+        Optional<User> userOptional = userRepository.findByEmail(loginDTO.getEmail());
         if (userOptional.isEmpty()) {
             throw new IllegalArgumentException("Invalid username");
         }
@@ -35,16 +35,10 @@ public class AuthService {
             throw new IllegalArgumentException("Invalid password");
         }
 
-        return jwtUtil.generateToken(user.getUsername());
+        return jwtUtil.generateToken(user.getEmail());
     }
 
-    public void register(RegisterDTO registerDTO) {
-
-        Optional<User> existsByUsername = userRepository.findByUsername(registerDTO.getUsername());
-        if (existsByUsername.isPresent()) {
-            throw new IllegalArgumentException("username already exists");
-        }
-
+    public void registerCredentials(RegisterDTO registerDTO) {
         Optional<User> existsByEmail = userRepository.findByEmail(registerDTO.getEmail());
         if (existsByEmail.isPresent()) {
             throw new IllegalArgumentException("email already exists");
@@ -57,10 +51,17 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public UserResponseDTO getResponse(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("user not found with username: " + username));
+    public void registerGithub(RegisterDTO registerDTO) {
+        registerDTO.setRole(Role.USER);
+        System.out.println(registerDTO);
+
+        User user = modelMapper.map(registerDTO, User.class);
+        userRepository.save(user);
+    }
+
+    public UserResponseDTO getResponse(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found with username: " + email));
         UserResponseDTO userResponseDTO = modelMapper.map(user, UserResponseDTO.class);
         return userResponseDTO;
     }
-
 }

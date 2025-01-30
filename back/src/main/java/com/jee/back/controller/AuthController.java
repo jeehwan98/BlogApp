@@ -25,17 +25,16 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String,Object>> login(@Valid @RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<Map<String,Object>> loginCredentials(@Valid @RequestBody LoginDTO loginDTO) {
         HashMap<String, Object> responseMap = new HashMap<>();
         try {
             /** set the user info into the securitycontextholder */
             String token = authService.login(loginDTO);
             responseMap.put("token", token);
-            UserResponseDTO userResponseDTO = authService.getResponse(loginDTO.getUsername());
+            UserResponseDTO userResponseDTO = authService.getResponse(loginDTO.getEmail());
             responseMap.put("name", userResponseDTO.getName());
-            responseMap.put("username", userResponseDTO.getUsername());
             responseMap.put("email", userResponseDTO.getEmail());
-            responseMap.put("image", userResponseDTO.getImageUrl());
+            responseMap.put("image", userResponseDTO.getImage());
         } catch (IllegalArgumentException e) {
             responseMap.put("error", e.getMessage());
             return ResponseEntity.badRequest().body(responseMap);
@@ -47,7 +46,13 @@ public class AuthController {
     public ResponseEntity<String> register(@Valid @RequestBody RegisterDTO registerDTO) {
         System.out.println("inputted register details>: " + registerDTO);
         log.info("Inputted register details: {}", registerDTO);
-        authService.register(registerDTO);
+        authService.registerCredentials(registerDTO);
+        return ResponseEntity.ok("User registered successfully");
+    }
+
+    @PostMapping("/login/github")
+    public ResponseEntity<String> loginGithub(@Valid @RequestBody RegisterDTO registerDTO) {
+        authService.registerGithub(registerDTO);
         return ResponseEntity.ok("User registered successfully");
     }
 }

@@ -19,11 +19,9 @@ public class User {
     private int id;
     @Column(unique = true)
     private String email;
-    @Column(unique = true)
-    private String username;
     private String name;
     private String password;
-    private String imageUrl;
+    private String image;
     @Enumerated(EnumType.STRING)
     private Role role;
 }

@@ -8,7 +8,7 @@ import { registerAPI } from "@/app/api/auth/register";
 import { Button } from "../UI/Button";
 
 export default function RegisterForm() {
-  const [registerDetails, setregisterDetails] = useState<RegisterDetails>({ email: "", password: "", username: "", name: "", provider: "" });
+  const [registerDetails, setregisterDetails] = useState<RegisterDetails>({ email: "", password: "", name: "", provider: "" });
   const [registerLoading, setRegisterLoading] = useState<boolean>(false);
   const [checkPassword, setCheckPassword] = useState<string>("");
   const [registerError, setRegisterError] = useState<string>("");
@@ -52,13 +52,6 @@ export default function RegisterForm() {
           placeholder="Name"
           value={registerDetails.name}
           onChange={(e) => setregisterDetails({ ...registerDetails, name: e.target.value })}
-        />
-        <InputField
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={registerDetails.username}
-          onChange={(e) => setregisterDetails({ ...registerDetails, username: e.target.value })}
         />
         <InputField
           type="text"
