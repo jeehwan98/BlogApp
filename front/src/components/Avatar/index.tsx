@@ -20,6 +20,7 @@ export default function ProfileAvatar({
     sx={sx}
   />
 
+
   return (
     image ? (
       <Avatar

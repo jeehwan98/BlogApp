@@ -1,8 +1,17 @@
-import NextAuth from "next-auth";
+import { URL } from "@/lib/constants";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GithubProvider from "next-auth/providers/github";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
+    // github
+    GithubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+    }),
+
+    // custom login
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -10,36 +19,65 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const res = await fetch("http://localhost:8090/api/v1/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(credentials),
-        });
+        try {
+          const response = await fetch(URL.LOGIN, {
+            method: "POST",
+            headers: URL.HEADERS,
+            body: JSON.stringify({
+              username: credentials?.username,
+              password: credentials?.password,
+            }),
+          });
+          const responseData = await response.json();
+          console.log("error message? ", responseData.error);
 
-        const user = await res.json();
+          if (!response.ok) {
+            throw new Error(responseData.error);
+          }
 
-        if (res.ok && user) {
-          return user;
-        } else {
-          return null;
+          return {
+            id: responseData.id,
+            name: responseData.name,
+            email: responseData.email,
+            image: responseData.image,
+            username: responseData.username,
+          }
+        } catch (error) {
+          console.error("Error during authentication:", error);
+          throw (error);
         }
       },
     }),
   ],
-  pages: {
-    signIn: "/auth/signin",
-  },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = user.token;
+        token.id = user.id;
+        token.name = user.name;
+        token.email = user.email;
+        token.image = user.image;
+        token.username = user.username;
       }
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
+      session.user = {
+        id: token.id,
+        name: token.name,
+        email: token.email,
+        image: token.image,
+        username: token.username,
+      };
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-});
+  pages: {
+    signIn: "/login",
+  },
+  session: { strategy: "jwt" },
+};
+
+export const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST };

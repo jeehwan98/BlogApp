@@ -29,6 +29,9 @@ export default function UserButton() {
   const toggleDown = () => { setIsOpen((prev) => !prev); }
   const closeDropdown = () => { setIsOpen(false); }
 
+  console.log("session?.user?.name:", session?.user?.name);
+  console.log("session?.user?.email", session?.user?.email);
+
   return (
     <>
       {session ? (

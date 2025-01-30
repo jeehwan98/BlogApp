@@ -1,10 +1,17 @@
 package com.jee.back.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Data
+@Table(name = "user")
 public class User {
 
     @Id
@@ -14,6 +21,7 @@ public class User {
     private String email;
     @Column(unique = true)
     private String username;
+    private String name;
     private String password;
     private String imageUrl;
     @Enumerated(EnumType.STRING)

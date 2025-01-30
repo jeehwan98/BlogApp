@@ -35,6 +35,9 @@ export default function LoginForm() {
     } catch (error) {
       setLoginLoading(false);
       console.error("error occurred while logging in: ", error);
+      setLoginError("An unexpected error occurred. Please try again.");
+    } finally {
+      setLoginLoading(false);
     }
   }
 

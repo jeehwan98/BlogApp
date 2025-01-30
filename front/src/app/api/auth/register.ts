@@ -2,7 +2,6 @@ import { RegisterDetails } from "@/lib/interfaces";
 import { URL } from "@/lib/constants";
 
 export async function registerAPI(data: RegisterDetails) {
-  console.log("URL?: ", URL.REGISTER_USER_EMAIL);
   try {
     const response = await fetch(URL.REGISTER_USER_EMAIL, {
       method: "POST",

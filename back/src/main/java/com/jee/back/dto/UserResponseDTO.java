@@ -1,6 +1,5 @@
 package com.jee.back.dto;
 
-import com.jee.back.entity.Role;
 import lombok.*;
 
 @Data
@@ -8,12 +7,9 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterDTO {
-    private int id;
-    private String name;
+public class UserResponseDTO {
     private String username;
-    private String password;
     private String email;
-    private Role role;
-
+    private String name;
+    private String imageUrl;
 }

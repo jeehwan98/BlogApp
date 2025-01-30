@@ -30,9 +30,17 @@ export function formateDate(input: string | number): string {
 }
 
 export function stringAvatar(name: string) {
+  console.log("name?: ", name);
   const initials = name
     .split(" ")
-    .map((n) => n[0])
+    .map((n) => {
+      // Check if the character is Korean
+      if (/[\u3131-\uD79D]/.test(n)) {
+        return n[0]; // first character of Korean
+      } else {
+        return n[0]; // first character of English
+      }
+    })
     .slice(0, 2)
     .join("")
     .toUpperCase();
@@ -45,7 +53,7 @@ export function stringAvatar(name: string) {
   };
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 export const URL = Object.freeze({
   HEADERS: { 'Content-Type': 'application/json' },
