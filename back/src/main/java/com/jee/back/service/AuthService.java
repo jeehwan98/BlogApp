@@ -62,7 +62,7 @@ public class AuthService {
         }
 
         registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        registerDTO.setRole(Role.USER);
+        registerDTO.setRole(Role.ADMIN);
 
         User user = modelMapper.map(registerDTO, User.class);
         userRepository.save(user);
