@@ -51,6 +51,9 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account }) {
+      // console.log("token?:", token);
+      // console.log("user?:", user);
+      // console.log("account?:", account);
       if (account?.provider === "github" && user) {
         console.log("user:", user);
         try {
@@ -72,15 +75,19 @@ export const authOptions: NextAuthOptions = {
         }
       }
       if (user) {
+        console.log("user???:", user);
         token.id = user.id;
         token.name = user.name;
         token.email = user.email;
         token.image = user.image;
         token.accessToken = user.token;
       }
+      console.log("token?: ", token);
       return token;
     },
     async session({ session, token }) {
+      console.log("token details?: ", token);
+      console.log("session details?: ", session);
       session.user = {
         id: token.id,
         name: token.name,
