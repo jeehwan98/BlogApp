@@ -34,9 +34,9 @@ export const authOptions: NextAuthOptions = {
             throw new Error(responseData.error);
           }
 
-          console.log(responseData);
           return {
-            token: responseData.token,
+            // token: responseData.token, // setting the jwt token from the backend
+            accessToken: responseData.token,
             id: responseData.id,
             name: responseData.name,
             email: responseData.email,
@@ -51,10 +51,8 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account }) {
-      // console.log("token?:", token);
-      // console.log("user?:", user);
-      // console.log("account?:", account);
       if (account?.provider === "github" && user) {
+        console.log("login through github");
         console.log("user:", user);
         try {
           const response = await fetch(URL.LOGIN_GITHUB, {
@@ -80,7 +78,7 @@ export const authOptions: NextAuthOptions = {
         token.name = user.name;
         token.email = user.email;
         token.image = user.image;
-        token.accessToken = user.token;
+        token.accessToken = user.accessToken;
       }
       console.log("token?: ", token);
       return token;
@@ -94,14 +92,13 @@ export const authOptions: NextAuthOptions = {
         email: token.email,
         image: token.image,
       };
+      console.log("🔥", token.accessToken);
       session.accessToken = token.accessToken;
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/login",
-  },
+  pages: { signIn: "/login" },
   session: { strategy: "jwt" },
 };
 

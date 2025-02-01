@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 import navigation from "@/lib/links/navbar.json";
+import { Button, buttonVariants } from "../UI/Button";
+import { signOut, useSession } from "next-auth/react";
 
 export default function MobileLink() {
   const [open, setOpen] = useState<boolean>(false);
+  const { data: session } = useSession();
   return (
     <div className="md:hidden">
       {/* MOBILE BUTTON */}
@@ -13,7 +16,7 @@ export default function MobileLink() {
         className="text-4xl cursor-pointer"
         onClick={() => setOpen(prev => !prev)}
       >
-        {open ? "X" : "="}
+        {open ? "x" : "="}
       </div>
       {/* MOBILE LINK LIST */}
       <div className={`w-full h-screen flex flex-col items-center justify-center absolute top-16 transition-all ease-in-out gap-8 font-medium text-lg
@@ -27,15 +30,10 @@ export default function MobileLink() {
             {link.name}
           </Link>
         ))}
-        {/* <SignedOut>
-          <Link href="/login" className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
-            Login 🥲
-          </Link>
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn> */}
-
+        {session ?
+          <Button onClick={() => signOut()}>로그아웃</Button> :
+          <Link href="/login" className={buttonVariants({ variant: "outline" })}>Login</Link>
+        }
       </div>
     </div >
   )

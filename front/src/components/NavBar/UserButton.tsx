@@ -55,9 +55,9 @@ export default function UserButton() {
           </div>
         </div>
       ) : (
-        <li className="buttons px-4 space-x-2">
+        <li className="buttons px-4 space-x-2 flex">
           <Link href="/login" className={buttonVariants({ variant: "outline" })}>Login</Link >
-          <Link href="/register" className={buttonVariants({ variant: "outline" })}>Register</Link>
+          {/* <Link href="/register" className={buttonVariants({ variant: "outline" })}>Register</Link> */}
         </li>
       )}
     </>
