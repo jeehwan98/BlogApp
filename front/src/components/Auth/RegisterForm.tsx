@@ -26,7 +26,6 @@ export default function RegisterForm() {
       const response = await registerAPI({
         email: registerDetails.email,
         password: registerDetails.password,
-        username: registerDetails.username,
         name: registerDetails.name,
         provider: "email"
       });

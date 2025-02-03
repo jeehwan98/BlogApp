@@ -1,10 +1,11 @@
 "use client"
 
-import { signIn } from "next-auth/react";
+// import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import InputField, { Line, LoginBottomNav } from "./Components";
 import { Button, GithubSignInButton } from "../UI/Button";
+import { loginAPI } from "@/app/api/auth/auth";
 
 interface LoginDetails {
   email: string;
@@ -20,16 +21,16 @@ export default function LoginForm() {
     e.preventDefault();
     setLoginLoading(false);
     try {
-      const response = await signIn("credentials", {
+      const response = await loginAPI({
         email: loginDetails.email,
         password: loginDetails.password,
-        redirect: false
       });
 
       if (response?.error) {
         setLoginError(response.error);
       } else {
-        console.log("login successful:", response);
+        console.log("ƺ", response);
+        localStorage.setItem("token", response);
         router.push("/");
       }
     } catch (error) {

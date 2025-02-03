@@ -53,6 +53,14 @@ export function stringAvatar(name: string) {
   };
 }
 
+const secret = process.env.NEXTAUTH_SECRET || "default_secret_key";
+
+export const HS256_JWK = {
+  kty: "oct",
+  k: Buffer.from(secret).toString("base64"), // convert secret to Base64
+  alg: "HS256",
+};
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 export const URL = Object.freeze({

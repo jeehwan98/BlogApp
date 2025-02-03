@@ -6,7 +6,7 @@ import githubLightLogo from "../../../public/images/githubLightLogo.png";
 
 import { cn } from "@/lib/utils"
 import { useTheme } from "next-themes"
-import { signIn } from "next-auth/react"
+// import { signIn } from "next-auth/react"
 import Image from "next/image"
 
 const buttonVariants = cva(
@@ -65,7 +65,7 @@ function GithubSignInButton() {
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    signIn('github', { callbackUrl: "/" }); // redirect user to homepage after successful login
+    // signIn('github', { callbackUrl: "/" }); // redirect user to homepage after successful login
   };
 
   return (
