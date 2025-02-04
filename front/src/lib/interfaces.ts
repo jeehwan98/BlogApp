@@ -9,3 +9,10 @@ export interface LoginDetails {
   email: string;
   password: string;
 }
+
+export interface DecodedToken {
+  name: string;
+  email: string;
+  image?: string;
+  role?: string;
+}

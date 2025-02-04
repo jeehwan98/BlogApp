@@ -7,19 +7,13 @@ import { buttonVariants } from "../UI/Button";
 import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
 import { getUserId } from "@/lib/constants";
 import { logoutAPI } from "@/app/api/auth/auth";
-import { jwtDecode } from "jwt-decode";
-
-interface DecodedToken {
-  name: string;
-  email: string;
-  role: string;
-  exp: number;
-}
+import { useSession } from "@/lib/SessionProvider";
 
 export default function UserButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [token, setToken] = useState<string | null>(null);
+  const token = useSession();
+  console.log("token?:", token);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -34,38 +28,32 @@ export default function UserButton() {
     };
   }, [dropdownRef]);
 
-  useEffect(() => {
-    async function fetchToken() {
-      try {
-        const response = await fetch("/api/auth/me", { credentials: "include" });
-        if (!response.ok) throw new Error("Unauthorized");
-
-        const data = await response.json();
-        const decodedToken = jwtDecode(data.token);
-        // const decodedToken: DecodedToken = jwtDecode(data.token);
-
-        console.log("decoded token:", decodedToken);
-
-        setToken(decodedToken);
-      } catch (error) {
-        console.error("Error fetching token:", error);
-      }
-    }
-
-    fetchToken();
-  }, []);
-
   const toggleDown = () => { setIsOpen((prev) => !prev); }
   const closeDropdown = () => { setIsOpen(false); }
 
+  const handleLogout = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const success = await logoutAPI();
+
+      if (success) {
+        window.location.reload();
+      } else {
+        console.error("Logout failed, please try again");
+      }
+    } catch (error) {
+      console.error("error occurred while logging in: ", error);
+    }
+  }
+
   return (
     <>
-      {token ? (
+      {token?.user ? (
         <div className="relative">
           <div className="relative" ref={dropdownRef}>
             <button onClick={toggleDown} className="flex items-center space-x-2 hover:text-black transition-colors duration-300 ease-in-out group">
               <ProfileAvatar
-                image={"image" || undefined}
+                image={token.image || undefined}
                 name={"김지환" as string}
                 sx={{ width: 35, height: 35, marginRight: 2 }}
                 fontSize={20}
@@ -75,7 +63,7 @@ export default function UserButton() {
               <DropdownMenu>
                 <NavLink href={getUserId("jihun@naver.com" as string)} onClick={closeDropdown}>내 프로필</NavLink>
                 <NavLink href="/setting" onClick={closeDropdown}>설정</NavLink>
-                <LogoutNavLink onClick={() => logoutAPI()}>로그아웃</LogoutNavLink>
+                <LogoutNavLink onClick={handleLogout}>로그아웃</LogoutNavLink>
               </DropdownMenu>
             )}
           </div>
@@ -83,7 +71,6 @@ export default function UserButton() {
       ) : (
         <li className="buttons px-4 space-x-2 flex">
           <Link href="/login" className={buttonVariants({ variant: "outline" })}>Login</Link >
-          {/* <Link href="/register" className={buttonVariants({ variant: "outline" })}>Register</Link> */}
         </li>
       )}
     </>

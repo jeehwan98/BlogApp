@@ -1,5 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { jwtDecode } from "jwt-decode";
+import { DecodedToken } from "@/lib/interfaces";
 
 export async function GET() {
   const token = cookies().get("accessToken")?.value;
@@ -8,5 +10,12 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  return NextResponse.json({ token });
+  try {
+    const decoded: DecodedToken = jwtDecode(token);
+    console.log("decoded", decoded);
+    return NextResponse.json({ decoded });
+  } catch (error) {
+    console.error("error decoding token:", error);
+    return NextResponse.json({ error: "invalid token" }, { status: 401 });
+  }
 }

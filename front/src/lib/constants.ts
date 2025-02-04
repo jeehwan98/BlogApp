@@ -70,6 +70,7 @@ export const URL = Object.freeze({
   CHECK_EXISTING_USER: `${BASE_URL}/auth/checkUser`,
   REGISTER_USER_GITHUB: `${BASE_URL}/auth/register/github`,
   LOGIN: `${BASE_URL}/auth/login`,
+  LOGOUT: `${BASE_URL}/auth/logout`,
   POST_BLOG: `${BASE_URL}/blog`,
   GET_CURRENT_USER_DETAILS: `${BASE_URL}/user/loggedInUser`,
 });

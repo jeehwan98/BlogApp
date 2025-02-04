@@ -1,11 +1,11 @@
 "use client"
 
-// import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import InputField, { Line, LoginBottomNav } from "./Components";
 import { Button, GithubSignInButton } from "../UI/Button";
 import { loginAPI } from "@/app/api/auth/auth";
+import { useSession } from "@/lib/SessionProvider";
 
 interface LoginDetails {
   email: string;
@@ -17,6 +17,8 @@ export default function LoginForm() {
   const [loginLoading, setLoginLoading] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>("");
   const router = useRouter();
+  const { refreshSession } = useSession();
+
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginLoading(false);
@@ -29,8 +31,8 @@ export default function LoginForm() {
       if (response?.error) {
         setLoginError(response.error);
       } else {
-        console.log("ƺ", response);
-        localStorage.setItem("token", response);
+        console.log("Login successful:", response);
+        refreshSession(); // refresh session after login
         router.push("/");
       }
     } catch (error) {

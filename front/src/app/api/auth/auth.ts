@@ -14,7 +14,10 @@ export async function loginAPI(data: LoginDetails) {
     if (!response.ok) {
       throw new Error(responseData.error || "Login failed");
     }
-    return responseData;
+
+    if (response.ok) {
+      return responseData;
+    }
   } catch (error) {
     console.error("Error during login", error);
     throw error;
@@ -22,5 +25,19 @@ export async function loginAPI(data: LoginDetails) {
 }
 
 export async function logoutAPI() {
-  localStorage.removeItem("token");
+  try {
+    const response = await fetch(URL.LOGOUT, {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to log out");
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Logout failed:", error);
+    return false;
+  }
 }

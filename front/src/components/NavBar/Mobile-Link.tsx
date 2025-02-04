@@ -5,10 +5,11 @@ import { useState } from "react";
 import navigation from "@/lib/links/navbar.json";
 import { Button, buttonVariants } from "../UI/Button";
 import { logoutAPI } from "@/app/api/auth/auth";
+import { useSession } from "@/lib/SessionProvider";
 
 export default function MobileLink() {
   const [open, setOpen] = useState<boolean>(false);
-  const token = localStorage.getItem("token");
+  const token = useSession();
   return (
     <div className="md:hidden">
       {/* MOBILE BUTTON */}
