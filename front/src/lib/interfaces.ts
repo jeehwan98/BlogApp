@@ -16,3 +16,9 @@ export interface DecodedToken {
   image?: string;
   role?: string;
 }
+
+export interface PostBlog {
+  title: string;
+  tags: string[];
+  content: string;
+}

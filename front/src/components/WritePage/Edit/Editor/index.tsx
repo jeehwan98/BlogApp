@@ -26,6 +26,7 @@ export default function Editor() {
   }, []);
 
   const handleContentChange = (value: string) => {
+    console.log("value?:", value);
     addContent(value);
   }
 

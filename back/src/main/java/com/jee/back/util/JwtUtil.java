@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.jee.back.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -39,16 +40,20 @@ public class JwtUtil {
     return extractExpiration(token).before(new Date());
   }
 
-  public String generateToken(String email) {
+  public String generateToken(User user) {
     Map<String, Object> claims = new HashMap<>();
-    return createToken(claims, email);
+    claims.put("name", user.getName());
+    claims.put("image", user.getImage());
+    claims.put("role", user.getRole());
+    claims.put("email", user.getEmail());
+    return createToken(claims, user.getEmail());
   }
 
-  private String createToken(Map<String, Object> claims, String subject) {
+  private String createToken(Map<String, Object> claims, String email) {
     return Jwts
         .builder()
         .setClaims(claims)
-        .setSubject(subject)
+        .setSubject(email)
         .setIssuedAt(new Date(System.currentTimeMillis()))
         .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
         .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();

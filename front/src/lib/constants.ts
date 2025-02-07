@@ -65,6 +65,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_API_URL;
 
 export const URL = Object.freeze({
   HEADERS: { 'Content-Type': 'application/json' },
+  HEADERS_ACCEPT: { 'Accept': 'application/json' },
   LOGIN_GITHUB: `${BASE_URL}/auth/login/github`,
   REGISTER_USER_EMAIL: `${BASE_URL}/auth/register`,
   CHECK_EXISTING_USER: `${BASE_URL}/auth/checkUser`,
