@@ -5,11 +5,10 @@ import { twMerge } from "tailwind-merge";
 export function DropdownMenu({ children }: { children: React.ReactNode }) {
   const { theme } = useTheme();
   return (
-    // <div className="absolute right-0 mt-2 w-48 shadow-xl rounded-lg py-2 z-60">
     <div
-      className={`absolute right-0 mt-2 w-48 shadow-xl rounded-lg py-2 z-60 ${theme === "dark"
-        ? "shadow-black"
-        : ""
+      className={`absolute right-0 mt-2 w-48 shadow-xl rounded-lg py-2 z-110 ${theme === "dark"
+        ? "shadow-black bg-gray-800 text-white"
+        : "bg-white text-black"
         }`}
     >
       {children}

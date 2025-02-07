@@ -1,4 +1,4 @@
-import Button from "@/components/UI/Button";
+import { Button } from "@/components/UI/Button";
 import Link from "next/link";
 
 export default function EditBottomNav() {

@@ -19,7 +19,7 @@ const useEditStore = create<PostState>((set, get) => ({
   },
 
   addTitle: (title: string) =>
-    set((state: any) => ({
+    set((state) => ({
       post: {
         ...state.post,
         title
@@ -27,7 +27,7 @@ const useEditStore = create<PostState>((set, get) => ({
     })),
 
   addTags: (tags: string[]) =>
-    set((state: any) => ({
+    set((state) => ({
       post: {
         ...state.post,
         tags,
@@ -35,12 +35,12 @@ const useEditStore = create<PostState>((set, get) => ({
     })),
 
   addContent: (content: string) =>
-    set((state: any) => ({
-      post: {
-        ...state.post,
-        content
-      },
-    })),
+    set((state) => {
+      // console.log("Updating Zustand state:", content);
+      return {
+        post: { ...state.post, content },
+      };
+    }),
 }));
 
 export default useEditStore;

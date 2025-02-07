@@ -1,4 +1,4 @@
-import { Quill } from "react-quill-new";
+// import { Quill } from "react-quill-new";
 
 export const formats = [
   "font",

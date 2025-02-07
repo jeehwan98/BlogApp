@@ -22,7 +22,6 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
       });
       if (!response.ok) return setUser(null);
       const data = await response.json();
-      console.log("data?:", data.decoded);
       setUser(data.decoded);
     } catch (error) {
       console.error("Error fetching user:", error);

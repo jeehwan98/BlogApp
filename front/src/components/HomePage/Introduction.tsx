@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight01Icon } from "hugeicons-react";
 
 export default function Introduction() {
   return (
@@ -9,11 +8,13 @@ export default function Introduction() {
         <p className="mt-4 text-xs md:text-base lg:text-2xl">This is a personal project that I have made for uploading blog posts</p>
       </div>
       <Link
-        className="hidden text-center lg:block text-sm lg:text-2xl relative px-4 py-2"
+
+        className="hidden text-center lg:block text-sm lg:text-2xl relative px-4 py-2 rounded-md hover:bg-gray-100 z-100"
         href="/write"
       >
         Write...
       </Link>
+      {/* className="hidden text-center lg:block text-sm lg:text-2xl relative px-4 py-2" */}
     </div>
   )
 }

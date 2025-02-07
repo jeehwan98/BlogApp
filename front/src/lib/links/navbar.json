@@ -4,8 +4,8 @@
     "path": "/"
   },
   {
-    "name": "Trending",
-    "path": "/trending"
+    "name": "Write",
+    "path": "/write"
   },
   {
     "name": "Most Popular",

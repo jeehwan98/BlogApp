@@ -5,13 +5,12 @@ import DOMPurify from "dompurify"
 
 export default function PreviewContent() {
   const { post } = useEditStore();
-  console.log(post.content);
 
   return (
     <div className="ql-snow">
       <div
         dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(post.content || ""),
+          __html: DOMPurify.sanitize(post?.content),
         }}
         style={{
           marginTop: "30px",
@@ -19,9 +18,6 @@ export default function PreviewContent() {
           whiteSpace: "normal"
         }}
       />
-      <div className="text-black">
-        {post.content}
-      </div>
     </div>
   )
 }
