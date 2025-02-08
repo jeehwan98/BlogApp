@@ -1,5 +1,15 @@
-export function getUserId(input: string): string {
-  return input.split("@")[0];
+export function genearteUniqueUserId(email: string): string {
+  const [username, domainUrl] = getId(email);
+  const domain = getDomain(domainUrl);
+  return `${username}_${domain}`;
+}
+
+export function getId(email: string): [string, string] {
+  return email.split("@") as [string, string];
+}
+
+export function getDomain(emailUrl: string): string {
+  return emailUrl.split(".")[0];
 }
 
 export function stringToColor(string: string) {

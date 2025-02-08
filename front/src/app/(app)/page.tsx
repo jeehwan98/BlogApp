@@ -5,7 +5,7 @@ import FeaturedPosts from "@/components/HomePage/FeaturedPosts";
 import Introduction from "@/components/HomePage/Introduction";
 import MainCategories from "@/components/HomePage/MainCategories";
 import PostList from "@/components/HomePage/PostList";
-import Title from "@/components/HomePage/Title";
+import Title from "@/components/HomePage/Components";
 import { Blog } from "@/lib/interfaces";
 import { useEffect, useState } from "react";
 import { fetchBlogAPI } from "../api/blog";
@@ -26,10 +26,12 @@ export default function Home() {
     <div className="mt-4 flex flex-col gap-4">
       <BreadCrumbs />
       <Title />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-10 justify-center items-center">
-        {blogs.map(blog => (
-          <BlogCard key={blog.id} blog={blog} />
-        ))}
+      <div className="w-full px-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {blogs.map((blog) => (
+            <BlogCard key={blog.id} blog={blog} />
+          ))}
+        </div>
       </div>
     </div>
   );

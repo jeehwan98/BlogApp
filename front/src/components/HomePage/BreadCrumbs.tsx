@@ -5,7 +5,7 @@ export default function BreadCrumbs() {
     <div className="flex gap-2">
       <Link href="/">Home</Link>
       <span>·</span>
-      <span className="text-blue-300">Blogs and Articles</span>
+      <span className="text-blue-300">Blogs</span>
     </div>
   )
 }
