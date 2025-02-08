@@ -32,13 +32,13 @@ export interface User {
 }
 
 export interface Tags {
-  name: string;
+  name: string[];
 }
 
 export interface Blog {
   id: number;
   title: string;
-  tags: Tags;
+  tags: string[];
   content: string;
   user: User;
   createdAt: Date;

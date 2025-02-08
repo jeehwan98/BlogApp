@@ -13,8 +13,16 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
       />
       <div className="w-2/3 px-4 flex flex-col justify-between">
         <h3 className="font-semibold text-xl font-bold">{blog.title}</h3>
-        <p className="text-sm text-gray-500 mt-3">{blog?.tags}</p>
-        {/* <p className="text-sm text-gray-500 mt-2 h-full truncate">{blog.content}</p> */}
+        <div className="flex flex-wrap items-center gap-2 border-none overflow-x">
+          {blog.tags.map((tag: string, index: number) => (
+            <span
+              key={index}
+              className="flex items-center bg-gray-50 text-gray-800 rounded-lg px-3 py-1 text-base cursor-pointer hover:bg-gray-200"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
         <p
           className="text-sm text-gray-700 mt-2 overflow-hidden line-clamp-6"
           dangerouslySetInnerHTML={{ __html: blog.content }}
