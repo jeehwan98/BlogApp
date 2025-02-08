@@ -1,24 +1,3 @@
-// import { cookies } from "next/headers";
-// import jwt from "jsonwebtoken";
-
-// const SECRET_KEY = process.env.JWT_SECRET || "secret-key";
-
-// export async function getServerSession() {
-//   const cookieStore = cookies();
-//   const tokenObj = await cookieStore.get("accessToken");
-//   const token = tokenObj?.value;
-
-//   if (!token) return null;
-
-//   try {
-//     const user = jwt.verify(token, SECRET_KEY);
-//     return user;
-//   } catch (error) {
-//     console.error("Invalid token", error);
-//     return null;
-//   }
-// }
-
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
@@ -37,6 +16,7 @@ export async function GET() {
     if (!secretKey) throw new Error("JWT_SECRET_KEY is not set in .env");
 
     const decoded = jwt.verify(token, secretKey); // verify the token
+    console.log("decoded?: ", decoded);
     return NextResponse.json({ user: decoded });
   } catch (error) {
     console.error("Error decoding token:", error);
