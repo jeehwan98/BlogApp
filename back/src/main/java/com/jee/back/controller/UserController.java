@@ -35,8 +35,6 @@ public class UserController {
         }
 
         String email1 = SecurityUtil.getAuthenticatedUserEmail();
-        System.out.println("email1?: " + email1);
-
         String email = userDetails.getUsername();
 
         return ResponseEntity.ok(Map.of("email", email));
@@ -44,7 +42,6 @@ public class UserController {
 
     @GetMapping("/{email}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable String email) {
-        log.info("fetched user?: ", email);
         User user = userService.getUser(email);
         UserResponseDTO responseDTO = modelMapper.map(user, UserResponseDTO.class);
 

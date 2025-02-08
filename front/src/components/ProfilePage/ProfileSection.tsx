@@ -8,16 +8,27 @@ import { User } from "@/lib/interfaces";
 
 export default function ProfileSection({ userId }: { userId: string }) {
   const [user, setUser] = useState<User>();
-  console.log("params?: ", userId);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const email = getUserEmail(userId);
-      const fetchedUser = await fetchUserAPI(email);
-      setUser(fetchedUser);
-    }
+      try {
+        const email = getUserEmail(userId);
+        const fetchedUser = await fetchUserAPI(email);
+        setUser(fetchedUser);
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchUser();
-  }, []);
+  }, [userId]);
+
+  if (loading) return <p>Loading user details...</p>;
+
+  if (!user) return <p>Failed to load user details.</p>;
 
   return (
     <div className="flex items-center mb-10">

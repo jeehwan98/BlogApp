@@ -46,3 +46,23 @@ export async function fetchBlogAPI() {
     throw error;
   }
 }
+
+// GET BLOG BY USER
+export async function fetchBlogByUserAPI(email: string) {
+  try {
+    const response = await fetch(`${URL.BLOG}/${email}`, {
+      method: "GET",
+      headers: URL.HEADERS,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error("❌ Error fetching blogs:", error);
+    throw error;
+  }
+}

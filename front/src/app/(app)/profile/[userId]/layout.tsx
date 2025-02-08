@@ -9,13 +9,20 @@ export default function ProfilePageLayout({
   params: { userId: string },
   children: React.ReactNode,
 }) {
-  console.log()
+  const { userId } = params;
+
   return (
     <div className="flex justify-center mt-10">
       <div className="w-[70%]">
-        <ProfileSection userId={params.userId} />
-        <TabsSection userId={params.userId} />
-        {children}
+        {userId ? (
+          <>
+            <ProfileSection userId={userId} />
+            <TabsSection userId={userId} />
+            {children}
+          </>
+        ) : (
+          <p>Loading...</p> // this is done to ensure that the apis are called in order
+        )}
       </div>
     </div>
   )

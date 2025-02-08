@@ -37,7 +37,6 @@ public class JwtFilter extends OncePerRequestFilter {
             email = jwtUtil.extractEmail(token);
         }
 
-        log.info(token);
         if (token != null && !token.isEmpty()) {
             email = jwtUtil.extractEmail(token);
         }
@@ -62,7 +61,6 @@ public class JwtFilter extends OncePerRequestFilter {
                     .findFirst()
                     .orElse(null);
         }
-        log.info("cookies are null");
         return null;
     }
 }

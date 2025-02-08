@@ -11,6 +11,7 @@ import com.jee.back.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class BlogController {
     private final BlogService blogService;
     private final TagsService tagsService;
     private final UserService userService;
+    private final ModelMapper modelMapper;
 
     @PostMapping()
     public ResponseEntity<Map<String, Object>> postBlog(@Valid @RequestBody PostBlogDTO postBlogDTO) {
@@ -39,13 +41,21 @@ public class BlogController {
         return ResponseEntity.ok(Map.of("posted blog", blog));
     }
 
-    @GetMapping()
-    public ResponseEntity<List<BlogsDTO>> getAllBlogs() {
-        log.info("fetching all blogs");
+    public List<BlogsDTO> getBlogs() {
         List<Blog> blogs = blogService.getAllBlogs();
         List<BlogsDTO> blogDTOs = blogs.stream().map(BlogsDTO::new).collect(Collectors.toList());
-        log.info("blog details: {}", blogDTOs);
+        return blogDTOs;
+    }
 
+    @GetMapping()
+    public ResponseEntity<List<BlogsDTO>> getAllBlogs() {
+        List<BlogsDTO> blogDTOs = getBlogs();
         return ResponseEntity.ok(blogDTOs);
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<List<BlogsDTO>> getUserBlogs(@PathVariable String email) {
+        List<BlogsDTO> blogsDTO = blogService.getBlogsByUser(email);
+        return ResponseEntity.ok(blogsDTO);
     }
 }
