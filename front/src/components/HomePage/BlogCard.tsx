@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import blankBlogImage from "../../../public/images/empty blog image.jpg";
 import ProfileAvatar from "../Avatar";
-import { genearteUniqueUserId } from "@/lib/constants";
+import { generateUniqueUserId } from "@/lib/constants";
 
 export default function BlogCard({ blog }: { blog: Blog }) {
   return (
@@ -26,7 +26,7 @@ export default function BlogCard({ blog }: { blog: Blog }) {
       </Link>
       <div className="flex items-center justify-between p-4 border-t">
         <Link
-          href={`profile/${genearteUniqueUserId(blog.user.email)}`}
+          href={`profile/${generateUniqueUserId(blog.user.email)}/post`}
           className="flex items-center cursor-pointer">
           <ProfileAvatar
             image={blog.user.image}

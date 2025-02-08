@@ -1,4 +1,4 @@
-export function genearteUniqueUserId(email: string): string {
+export function generateUniqueUserId(email: string): string {
   const [username, domainUrl] = getId(email);
   const domain = getDomain(domainUrl);
   return `${username}_${domain}`;

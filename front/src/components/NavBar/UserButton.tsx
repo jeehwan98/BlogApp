@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import ProfileAvatar from "../Avatar";
 import { buttonVariants } from "../UI/Button";
 import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
-import { genearteUniqueUserId } from "@/lib/constants";
+import { generateUniqueUserId } from "@/lib/constants";
 import { logoutAPI } from "@/app/api/auth/auth";
 import { useSession } from "@/lib/SessionProvider";
 
@@ -60,7 +60,7 @@ export default function UserButton() {
             </button>
             {isOpen && (
               <DropdownMenu>
-                <NavLink href={genearteUniqueUserId(user?.email as string)} onClick={closeDropdown}>내 프로필</NavLink>
+                <NavLink href={`${generateUniqueUserId(user?.email as string)}/post`} onClick={closeDropdown}>내 프로필</NavLink>
                 <NavLink href="/setting" onClick={closeDropdown}>설정</NavLink>
                 <LogoutNavLink onClick={handleLogout}>로그아웃</LogoutNavLink>
               </DropdownMenu>
