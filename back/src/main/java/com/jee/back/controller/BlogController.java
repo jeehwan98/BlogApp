@@ -1,5 +1,6 @@
 package com.jee.back.controller;
 
+import com.jee.back.dto.BlogsDTO;
 import com.jee.back.dto.PostBlogDTO;
 import com.jee.back.entity.Blog;
 import com.jee.back.entity.User;
@@ -9,16 +10,17 @@ import com.jee.back.service.UserService;
 import com.jee.back.util.SecurityUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+@Log4j2
 @RestController
 @RequestMapping("api/v1/blog")
 @RequiredArgsConstructor
@@ -35,5 +37,15 @@ public class BlogController {
         Blog blog = blogService.saveBlog(postBlogDTO, user);
 
         return ResponseEntity.ok(Map.of("posted blog", blog));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<BlogsDTO>> getAllBlogs() {
+        log.info("fetching all blogs");
+        List<Blog> blogs = blogService.getAllBlogs();
+        List<BlogsDTO> blogDTOs = blogs.stream().map(BlogsDTO::new).collect(Collectors.toList());
+        log.info("blog details: {}", blogDTOs);
+
+        return ResponseEntity.ok(blogDTOs);
     }
 }

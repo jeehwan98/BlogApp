@@ -72,6 +72,6 @@ export const URL = Object.freeze({
   REGISTER_USER_GITHUB: `${BASE_URL}/auth/register/github`,
   LOGIN: `${BASE_URL}/auth/login`,
   LOGOUT: `${BASE_URL}/auth/logout`,
-  POST_BLOG: `${BASE_URL}/blog`,
+  BLOG: `${BASE_URL}/blog`,
   GET_CURRENT_USER_DETAILS: `${BASE_URL}/user/loggedInUser`,
 });

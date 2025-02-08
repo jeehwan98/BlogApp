@@ -22,3 +22,24 @@ export interface PostBlog {
   tags: string[];
   content: string;
 }
+
+export interface User {
+  name: string;
+  email: string;
+  role?: string;
+  image?: string;
+}
+
+export interface Tags {
+  name: string;
+}
+
+export interface Blog {
+  id: number;
+  title: string;
+  tags: Tags;
+  content: string;
+  user: User;
+  createdAt: Date;
+  updatedAt: Date;
+}

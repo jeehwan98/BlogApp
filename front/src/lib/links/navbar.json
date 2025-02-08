@@ -8,10 +8,6 @@
     "path": "/write"
   },
   {
-    "name": "Most Popular",
-    "path": "/most-popular"
-  },
-  {
     "name": "About",
     "path": "/about"
   },

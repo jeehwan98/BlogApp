@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -37,5 +38,9 @@ public class BlogService {
 
         System.out.println("blog to be saved?: " + blog.toString());
         return blogRepository.save(blog);
+    }
+
+    public List<Blog> getAllBlogs() {
+        return blogRepository.findAll();
     }
 }
