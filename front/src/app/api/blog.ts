@@ -40,10 +40,6 @@ export async function fetchBlogAPI() {
     }
 
     const responseData = await response.json();
-    console.log("responseData?: ", responseData);
-
-    console.log("✅ Parsed Response Data:", responseData);
-
     return responseData;
   } catch (error) {
     console.error("❌ Error fetching blogs:", error);

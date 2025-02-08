@@ -30,7 +30,6 @@ export function formateDate(input: string | number): string {
 }
 
 export function stringAvatar(name: string) {
-  console.log("name?: ", name);
   const initials = name
     .split(" ")
     .map((n) => {

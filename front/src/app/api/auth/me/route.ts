@@ -12,7 +12,6 @@ export async function GET() {
 
   try {
     const decoded: DecodedToken = jwtDecode(token);
-    console.log("decoded", decoded);
     return NextResponse.json({ decoded });
   } catch (error) {
     console.error("error decoding token:", error);

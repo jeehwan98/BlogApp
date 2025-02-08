@@ -13,7 +13,6 @@ export default function UserButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const token = useSession();
-  console.log("token?:", token);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -46,22 +45,24 @@ export default function UserButton() {
     }
   }
 
+  console.log("token details?: ", token.user);
+
   return (
     <>
-      {token?.user ? (
+      {token.user ? (
         <div className="relative">
           <div className="relative" ref={dropdownRef}>
             <button onClick={toggleDown} className="flex items-center space-x-2 hover:text-black transition-colors duration-300 ease-in-out group">
               <ProfileAvatar
-                image={token.image || undefined}
-                name={"김지환" as string}
+                image={token.user?.image || undefined}
+                name={token.user.name as string}
                 sx={{ width: 35, height: 35, marginRight: 2 }}
                 fontSize={20}
               />
             </button>
             {isOpen && (
               <DropdownMenu>
-                <NavLink href={getUserId("jihun@naver.com" as string)} onClick={closeDropdown}>내 프로필</NavLink>
+                <NavLink href={getUserId(token.user.email as string)} onClick={closeDropdown}>내 프로필</NavLink>
                 <NavLink href="/setting" onClick={closeDropdown}>설정</NavLink>
                 <LogoutNavLink onClick={handleLogout}>로그아웃</LogoutNavLink>
               </DropdownMenu>

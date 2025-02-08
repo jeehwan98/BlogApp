@@ -19,6 +19,7 @@ export default function ProfileAvatar({
     alt={`${name}'s profile`}
     sx={sx}
   />
+  console.log("name: ", name);
 
 
   return (
