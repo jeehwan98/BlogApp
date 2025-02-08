@@ -24,6 +24,7 @@ export interface PostBlog {
 }
 
 export interface User {
+  int: number;
   name: string;
   email: string;
   role?: string;

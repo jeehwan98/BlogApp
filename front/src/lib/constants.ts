@@ -12,6 +12,20 @@ export function getDomain(emailUrl: string): string {
   return emailUrl.split(".")[0];
 }
 
+export function getDomainAndUsername(username: string, domain: string): string {
+  return `${username}@${domain}.com`;
+}
+
+export function getUserEmail(userId: string): string {
+  const [username, domain] = userId.split("_");
+  return getDomainAndUsername(username, domain);
+}
+
+export function splitUnderBar(userId: string): [string, string] {
+  return userId.split("_") as [string, string];
+}
+
+
 export function stringToColor(string: string) {
   let hash = 0;
   let i;
@@ -82,5 +96,6 @@ export const URL = Object.freeze({
   LOGIN: `${BASE_URL}/auth/login`,
   LOGOUT: `${BASE_URL}/auth/logout`,
   BLOG: `${BASE_URL}/blog`,
+  FETCH_USER: `${BASE_URL}/user`,
   GET_CURRENT_USER_DETAILS: `${BASE_URL}/user/loggedInUser`,
 });
