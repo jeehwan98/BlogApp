@@ -1,5 +1,4 @@
 import PostSection from "@/components/ProfilePage/PostSection";
-import ProfileBlogCard from "@/components/ProfilePage/ProfileBlogCard";
 
 export default function PostPage({
   params,

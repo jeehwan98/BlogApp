@@ -18,6 +18,7 @@ export default function PostSection({ userId }: { userId: string }) {
     }
     fetchBlog();
   }, []);
+
   return (
     <div className="grid gap-6">
       {blogs?.map((blog) => (

@@ -13,7 +13,6 @@ export async function postBlogAPI(data: PostBlog) {
     });
 
     const responseData = await response.json();
-    console.log("response data:", responseData.blog);
     if (!response.ok) {
       throw new Error(responseData.error || "Post failed");
     }

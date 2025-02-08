@@ -12,11 +12,7 @@ export async function fetchUserAPI(email: string) {
       throw new Error("Failed to fetch user");
     }
 
-    console.log("response?: ", response);
-
     const responseData = await response.json();
-
-    console.log("responseData: ", responseData);
     return responseData;
   } catch (error) {
     console.error("Error fetching user: ", error);
