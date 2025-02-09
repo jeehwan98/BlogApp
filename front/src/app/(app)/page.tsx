@@ -1,10 +1,6 @@
 "use client"
 
 import BreadCrumbs from "@/components/HomePage/BreadCrumbs";
-import FeaturedPosts from "@/components/HomePage/FeaturedPosts";
-import Introduction from "@/components/HomePage/Introduction";
-import MainCategories from "@/components/HomePage/MainCategories";
-import PostList from "@/components/HomePage/PostList";
 import Title from "@/components/HomePage/Components";
 import { Blog } from "@/lib/interfaces";
 import { useEffect, useState } from "react";

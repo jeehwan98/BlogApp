@@ -1,11 +1,12 @@
 import blogPicture from "../../../public/images/blog-image.avif";
 import { Blog } from "@/lib/interfaces";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ProfileBlogCard({ blog }: { blog: Blog }) {
 
   return (
-    <div className="flex overflow-hidden">
+    <Link className="flex overflow-hidden hover:bg-slate-50 rounded-md" href={`/blogs/${blog.id}`}>
       <Image
         src={blogPicture}
         alt="Playlist Cover"
@@ -19,7 +20,9 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
               key={index}
               className="flex items-center bg-gray-50 text-gray-800 rounded-lg px-3 py-1 text-base cursor-pointer hover:bg-gray-200"
             >
-              {tag}
+              <Link href={`/tags/${tag}`}>
+                {tag}
+              </Link>
             </span>
           ))}
         </div>
@@ -28,6 +31,7 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
           dangerouslySetInnerHTML={{ __html: blog.content }}
         />
       </div>
-    </div>
+    </Link>
   )
+
 }
