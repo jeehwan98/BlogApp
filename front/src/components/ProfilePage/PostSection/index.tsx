@@ -13,11 +13,10 @@ export default function PostSection({ userId }: { userId: string }) {
     const fetchBlog = async () => {
       const email = convertIdToEmail(userId);
       const fetchedBlog = await fetchBlogByUserAPI(email);
-      console.log("fetched blog?: ", fetchedBlog);
       setBlogs(fetchedBlog);
     }
     fetchBlog();
-  }, []);
+  }, [userId]);
 
   return (
     <div className="grid gap-6">

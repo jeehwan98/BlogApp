@@ -2,14 +2,14 @@ import ProfileSection from "@/components/ProfilePage/ProfileSection";
 import TabsSection from "@/components/ProfilePage/TabSection";
 import React from "react";
 
-export default function ProfilePageLayout({
+export default async function ProfilePageLayout({
   params,
   children,
 }: {
   params: { userId: string },
   children: React.ReactNode,
 }) {
-  const { userId } = params;
+  const { userId } = await params;
 
   return (
     <div className="flex justify-center mt-10">

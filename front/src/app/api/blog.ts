@@ -49,13 +49,12 @@ export async function fetchBlogAPI() {
 // GET BLOG BY USER
 export async function fetchBlogByUserAPI(email: string) {
   try {
-    const response = await fetch(`${URL.BLOG}/${email}`, {
+    const response = await fetch(`${URL.BLOG}/user/${email}`, {
       method: "GET",
       headers: URL.HEADERS,
     });
 
     const responseData = await response.json();
-    console.log("responseData?:", responseData);
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);

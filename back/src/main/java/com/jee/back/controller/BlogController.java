@@ -50,12 +50,9 @@ public class BlogController {
         return ResponseEntity.ok(blogDTOs);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/user/{email}")
     public ResponseEntity<List<BlogsDTO>> getUserBlogs(@PathVariable String email) {
-        log.info("in fetch blog by user");
-        List<BlogsDTO> blogsDTO = blogService.getBlogsByUser(email);
-        log.info("user blogs?: {}", blogsDTO);
-        return ResponseEntity.ok(blogsDTO);
+        return ResponseEntity.ok(blogService.getBlogsByUser(email));
     }
 
     @GetMapping("/{id}")
