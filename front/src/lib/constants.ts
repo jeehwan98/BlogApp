@@ -16,7 +16,7 @@ export function getDomainAndUsername(username: string, domain: string): string {
   return `${username}@${domain}.com`;
 }
 
-export function getUserEmail(userId: string): string {
+export function convertIdToEmail(userId: string): string {
   const [username, domain] = userId.split("_");
   return getDomainAndUsername(username, domain);
 }

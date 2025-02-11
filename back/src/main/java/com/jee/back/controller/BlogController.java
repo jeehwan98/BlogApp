@@ -14,9 +14,6 @@ import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,7 +52,16 @@ public class BlogController {
 
     @GetMapping("/{email}")
     public ResponseEntity<List<BlogsDTO>> getUserBlogs(@PathVariable String email) {
+        log.info("in fetch blog by user");
         List<BlogsDTO> blogsDTO = blogService.getBlogsByUser(email);
+        log.info("user blogs?: {}", blogsDTO);
+        return ResponseEntity.ok(blogsDTO);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BlogsDTO> getBlogById(@PathVariable int id) {
+        Blog blog = blogService.getBlogById(id);
+        BlogsDTO blogsDTO = modelMapper.map(blog, BlogsDTO.class);
         return ResponseEntity.ok(blogsDTO);
     }
 }

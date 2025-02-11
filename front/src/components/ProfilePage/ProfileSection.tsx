@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ProfileAvatar from "../Avatar";
 import { fetchUserAPI } from "@/app/api/user";
-import { getUserEmail } from "@/lib/constants";
+import { convertIdToEmail } from "@/lib/constants";
 import { User } from "@/lib/interfaces";
 
 export default function ProfileSection({ userId }: { userId: string }) {
@@ -13,7 +13,7 @@ export default function ProfileSection({ userId }: { userId: string }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const email = getUserEmail(userId);
+        const email = convertIdToEmail(userId);
         const fetchedUser = await fetchUserAPI(email);
         setUser(fetchedUser);
       } catch (error) {

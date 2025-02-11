@@ -55,4 +55,8 @@ public class BlogService {
         List<Blog> blogs = blogRepository.findByUser(user);
         return blogs.stream().map(BlogsDTO::new).collect(Collectors.toList());
     }
+
+    public Blog getBlogById(int id) {
+        return blogRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Blog not found for id: " + id));
+    }
 }

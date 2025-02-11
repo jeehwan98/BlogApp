@@ -54,8 +54,6 @@ public class AuthController {
                 .maxAge(Duration.ofMinutes(180))
                 .build();
 
-        System.out.println("details: " + responseMap);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(responseMap);

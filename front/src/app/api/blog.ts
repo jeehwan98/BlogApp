@@ -54,11 +54,13 @@ export async function fetchBlogByUserAPI(email: string) {
       headers: URL.HEADERS,
     });
 
+    const responseData = await response.json();
+    console.log("responseData?:", responseData);
+
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
 
-    const responseData = await response.json();
     return responseData;
   } catch (error) {
     console.error("❌ Error fetching blogs:", error);

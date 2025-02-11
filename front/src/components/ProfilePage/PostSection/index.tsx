@@ -2,7 +2,7 @@
 
 import ProfileBlogCard from "../ProfileBlogCard";
 import { fetchBlogByUserAPI } from "@/app/api/blog";
-import { getUserEmail } from "@/lib/constants";
+import { convertIdToEmail } from "@/lib/constants";
 import { Blog } from "@/lib/interfaces";
 import { useEffect, useState } from "react";
 
@@ -11,7 +11,7 @@ export default function PostSection({ userId }: { userId: string }) {
 
   useEffect(() => {
     const fetchBlog = async () => {
-      const email = getUserEmail(userId);
+      const email = convertIdToEmail(userId);
       const fetchedBlog = await fetchBlogByUserAPI(email);
       console.log("fetched blog?: ", fetchedBlog);
       setBlogs(fetchedBlog);
