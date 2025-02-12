@@ -43,14 +43,15 @@ export function stringToColor(string: string) {
 
   return color;
 }
+export function formatDate(localDateTimeArray: number[]) {
+  if (!Array.isArray(localDateTimeArray) || localDateTimeArray.length < 6) {
+    return "Invalid date";
+  }
 
-export function formateDate(input: string | number): string {
-  const date = new Date(input);
-  return date.toLocaleDateString("ko-KR", {
-    month: "long",
-    day: "numeric",
-    year: "numeric"
-  });
+  const [year, month, day, hour, minute, second] = localDateTimeArray;
+  const date = new Date(year, month - 1, day, hour, minute, second); // JavaScript months start from 0
+
+  return date.toLocaleString(); // Converts to readable format based on locale
 }
 
 export function stringAvatar(name: string) {

@@ -58,7 +58,6 @@ public class BlogController {
     @GetMapping("/{id}")
     public ResponseEntity<BlogsDTO> getBlogById(@PathVariable int id) {
         Blog blog = blogService.getBlogById(id);
-        BlogsDTO blogsDTO = modelMapper.map(blog, BlogsDTO.class);
-        return ResponseEntity.ok(blogsDTO);
+        return ResponseEntity.ok(new BlogsDTO(blog));
     }
 }

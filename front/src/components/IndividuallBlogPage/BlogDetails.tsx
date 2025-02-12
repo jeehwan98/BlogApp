@@ -1,43 +1,28 @@
-"use client"
-
-import { fetchBlogById } from "@/app/api/blog";
 import { Blog } from "@/lib/interfaces";
-import { useEffect, useState } from "react";
+import TagButton from "../UI/Tags";
 
-export default function BlogDetails({ id }: { id: string }) {
-  const [blogDetail, setBlogDetail] = useState<Blog | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const fetchedBlog = await fetchBlogById(id);
-        setBlogDetail(fetchedBlog);
-      } catch (error) {
-        console.error("Error fetching blog:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchBlog();
-  }, [id]);
-
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (!blogDetail) {
-    return <div>Failed to load blog details.</div>
-  }
-
+export default function BlogInfo({ blogInfo }: { blogInfo: Blog }) {
+  console.log("blogInfo?:", blogInfo);
   return (
-    <div className="flex-1 p-4">
-      <h3 className="text-xl font-bold truncate">{blogDetail.title}</h3>
-      <p
-        className="text-sm text-gray-700 mt-2 overflow-hidden line-clamp-6"
-        dangerouslySetInnerHTML={{ __html: blogDetail.content }}
-      />
-    </div>
+    <>
+      <div className="flex gap-2 items-center justify-between">
+        <div className="flex gap-2">
+          <span>{blogInfo.user.name}</span>
+          <span>{blogInfo.createdAt}</span>
+        </div>
+
+      </div>
+      {/* TAGS */}
+      <div className="flex flex-wrap items-center gap-2 border-none overflow-x mt-3">
+        {blogInfo.tags.map((tag: string, index: number) => (
+          <span
+            key={index}
+            className="flex items-center bg-gray-50 text-gray-800 rounded-lg px-3 py-1 text-base cursor-pointer hover:bg-gray-200"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </>
   )
 }
