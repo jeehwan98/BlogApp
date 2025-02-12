@@ -1,12 +1,12 @@
-import BlogDetails from "@/components/IndividuallBlogPage";
-import BlogContainer from "@/components/IndividuallBlogPage/Components";
+import BlogInfo from "@/components/IndividualBlogPage";
+import BlogContainer from "@/components/IndividualBlogPage/Components";
 
 export default async function IndividualBlogPage({ params }: { params: { id: string } }) {
   const blogId = await params.id;
 
   return (
     <BlogContainer>
-      <BlogDetails id={blogId} />
+      <BlogInfo id={blogId} />
     </BlogContainer>
   )
 }

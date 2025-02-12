@@ -76,7 +76,6 @@ export async function fetchBlogById(id: string) {
     });
 
     const responseData = await response.json();
-    console.log("responseData?:", responseData);
 
     if (!response.ok) {
       throw new Error("Error fetching blog");

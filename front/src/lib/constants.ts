@@ -44,14 +44,44 @@ export function stringToColor(string: string) {
   return color;
 }
 export function formatDate(localDateTimeArray: number[]) {
-  if (!Array.isArray(localDateTimeArray) || localDateTimeArray.length < 6) {
-    return "Invalid date";
-  }
+  console.log("localDateTimeArray:", localDateTimeArray);
 
   const [year, month, day, hour, minute, second] = localDateTimeArray;
   const date = new Date(year, month - 1, day, hour, minute, second); // JavaScript months start from 0
 
-  return date.toLocaleString(); // Converts to readable format based on locale
+  return date.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+export function formatRelativeDate(localDateTimeArray: number[]) {
+  console.log("localDateTimeArray:", localDateTimeArray);
+
+  if (!Array.isArray(localDateTimeArray) || localDateTimeArray.length < 3) {
+    return "Invalid date";
+  }
+
+  const [year, month, day, hour = 0, minute = 0, second = 0] = localDateTimeArray;
+  const createdDate = new Date(year, month - 1, day, hour, minute, second);
+  const today = new Date();
+
+  // Calculate difference in days
+  const diffInMs = today.getTime() - createdDate.getTime();
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)); // Convert ms to days
+
+  // If less than 7 days, show relative time
+  if (diffInDays < 7) {
+    return `${diffInDays}일 전`;
+  }
+
+  // Otherwise, show full date
+  return createdDate.toLocaleDateString("ko-KR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 }
 
 export function stringAvatar(name: string) {
