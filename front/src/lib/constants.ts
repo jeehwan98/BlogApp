@@ -67,22 +67,35 @@ export function formatRelativeDate(localDateTimeArray: number[]) {
   const createdDate = new Date(year, month - 1, day, hour, minute, second);
   const today = new Date();
 
-  // Calculate difference in days
+  // difference in milliseconds
   const diffInMs = today.getTime() - createdDate.getTime();
-  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24)); // Convert ms to days
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60)); // Convert ms to minutes
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  const diffInDays = Math.floor(diffInHours / 24);
 
-  // If less than 7 days, show relative time
+  // < 1 hour, show "방금 전"
+  if (diffInMinutes < 60) {
+    return diffInMinutes === 0 ? "방금 전" : `${diffInMinutes}분 전`;
+  }
+
+  // < 1 day, show "__시간 전"
+  if (diffInHours < 24) {
+    return `${diffInHours}시간 전`;
+  }
+
+  // < 7 days, show "__일 전"
   if (diffInDays < 7) {
     return `${diffInDays}일 전`;
   }
 
-  // Otherwise, show full date
+  // otherwise, show the full date
   return createdDate.toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
 }
+
 
 export function stringAvatar(name: string) {
   const initials = name
