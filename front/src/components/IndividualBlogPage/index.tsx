@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import BlogTitle from "./Title";
 import BlogContent from "./BlogContent";
 import BlogInfo from "./BlogInfo";
+import SeparateLine from "../UI/SeparateLine";
+import CommentSection from "../SinglePostPage/CommentSection";
+import Comments from "./Comment/Comments";
 
 export default function BlogDetails({ id }: { id: string }) {
   const [blogDetail, setBlogDetail] = useState<Blog | null>(null);
@@ -39,7 +42,9 @@ export default function BlogDetails({ id }: { id: string }) {
       <BlogTitle title={blogDetail.title} />
       <BlogInfo blogInfo={blogDetail} />
       <BlogContent content={blogDetail.content} />
-      <hr className="border-t border-gray-300 mt-20" />
+      <SeparateLine />
+      <CommentSection />
+      <Comments />
     </div>
   )
 }
