@@ -7,13 +7,10 @@ import { useRouter } from "next/navigation";
 export default function ProfileBlogCard({ blog }: { blog: Blog }) {
   const router = useRouter();
 
-  const handleBlogClick = (blogId: number) => {
-    router.push(`/blogs/${blogId}`);
-  }
   return (
-    <div
+    <Link
       className="flex overflow-hidden hover:bg-slate-50 rounded-md"
-      onClick={() => handleBlogClick(blog.id)}
+      href={`/blogs/${blog.id}`}
     >
       <Image
         src={blogPicture}
@@ -28,9 +25,9 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
               key={index}
               className="flex items-center bg-gray-50 text-gray-800 rounded-lg px-3 py-1 text-base cursor-pointer hover:bg-gray-200"
             >
-              <Link href={`/tags/${tag}`}>
+              <span onClick={() => router.push(`/tags/${tag}`)}>
                 {tag}
-              </Link>
+              </span>
             </span>
           ))}
         </div>
@@ -39,7 +36,6 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
           dangerouslySetInnerHTML={{ __html: blog.content }}
         />
       </div>
-    </div>
+    </Link>
   )
-
 }

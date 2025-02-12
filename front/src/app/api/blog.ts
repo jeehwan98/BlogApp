@@ -66,3 +66,25 @@ export async function fetchBlogByUserAPI(email: string) {
     throw error;
   }
 }
+
+export async function fetchBlogById(id: string) {
+  console.log("received id ?: ", id);
+  try {
+    const response = await fetch(`${URL.BLOG}/${id}`, {
+      method: "GET",
+      headers: URL.HEADERS,
+    });
+
+    const responseData = await response.json();
+    console.log("responseData?:", responseData);
+
+    if (!response.ok) {
+      throw new Error("Error fetching blog");
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    throw error;
+  }
+}
