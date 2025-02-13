@@ -2,10 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import InputField, { Line, LoginBottomNav } from "./Components";
-import { Button, GithubSignInButton } from "../UI/Button";
 import { loginAPI } from "@/app/api/auth/auth";
 import { useSession } from "@/lib/SessionProvider";
+import InputField from "@/components/UI/InputField";
+import { LoginBottomNav } from "../LoginBottomNav";
+import { Line } from "../Line";
+import { Button, GithubSignInButton } from "@/components/UI/Button";
 
 interface LoginDetails {
   email: string;

@@ -1,11 +1,12 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import InputField, { RegisterBottomNav } from "./Components";
 import { useState } from "react";
 import { RegisterDetails } from "@/lib/interfaces";
 import { registerAPI } from "@/app/api/auth/register";
-import { Button } from "../UI/Button";
+import InputField from "@/components/UI/InputField";
+import { Button } from "@/components/UI/Button";
+import { RegisterBottomNav } from "../RegisterBottomNav";
 
 export default function RegisterForm() {
   const [registerDetails, setregisterDetails] = useState<RegisterDetails>({ email: "", password: "", name: "", provider: "" });

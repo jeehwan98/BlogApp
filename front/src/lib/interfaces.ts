@@ -1,3 +1,16 @@
+
+
+
+import React from "react";
+
+export interface InputFieldProps {
+  type: string;
+  name: string;
+  placeholder: string;
+  value: string;
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
+
 export interface RegisterDetails {
   email: string;
   password: string;

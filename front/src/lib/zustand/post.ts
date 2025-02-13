@@ -11,7 +11,7 @@ interface PostState {
   addContent: (content: string) => void;
 };
 
-const useEditStore = create<PostState>((set, get) => ({
+const useEditStore = create<PostState>((set) => ({
   post: {
     title: "",
     tags: [],
