@@ -7,7 +7,7 @@ import BlogTitle from "./Title";
 import BlogContent from "./BlogContent";
 import BlogInfo from "./BlogInfo";
 import SeparateLine from "../UI/SeparateLine";
-import CommentSection from "../SinglePostPage/CommentSection";
+import CommentSection from "./CommentSection";
 import Comments from "./Comment/Comments";
 
 export default function BlogDetails({ id }: { id: string }) {

@@ -7,7 +7,6 @@ import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
 import { useEffect, useState } from "react";
 import { Blog } from "@/lib/interfaces";
 import { fetchCommentsAPI } from "@/app/api/comment";
-import image from "../../../../public/images/blog-image.avif";
 
 export default function Comments({ blogInfo }: { blogInfo: Blog }) {
   const [comments, setComments] = useState<Comment[]>([]);
@@ -25,12 +24,10 @@ export default function Comments({ blogInfo }: { blogInfo: Blog }) {
     fetchComments();
   }, []);
 
-  console.log("comments?: ", comments);
-
   return (
     <div className="w-full">
       {comments.length === 0 ? (
-        <p className="italic">No comments yet</p>
+        <p className="italic">Be the first to write a comment</p>
       ) : (
         comments.map((comment) => (
           <div key={comment.id} className="w-full mb-4 border-b pb-4">
