@@ -43,8 +43,8 @@ export default function BlogDetails({ id }: { id: string }) {
       <BlogInfo blogInfo={blogDetail} />
       <BlogContent content={blogDetail.content} />
       <SeparateLine />
-      <CommentSection />
-      <Comments />
+      <CommentSection blogInfo={blogDetail} />
+      <Comments blogInfo={blogDetail} />
     </div>
   )
 }

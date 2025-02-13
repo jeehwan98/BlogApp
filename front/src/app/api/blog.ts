@@ -68,7 +68,6 @@ export async function fetchBlogByUserAPI(email: string) {
 }
 
 export async function fetchBlogById(id: string) {
-  console.log("received id ?: ", id);
   try {
     const response = await fetch(`${URL.BLOG}/${id}`, {
       method: "GET",

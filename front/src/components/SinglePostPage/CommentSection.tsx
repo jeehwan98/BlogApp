@@ -1,11 +1,14 @@
 "use client"
 
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "../UI/Button";
+import { Blog } from "@/lib/interfaces";
+import { postCommentAPI } from "@/app/api/comment";
 
-export default function CommentSection() {
+export default function CommentSection({ blogInfo }: { blogInfo: Blog }) {
   const [comment, setComment] = useState<string>("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [posting, setPosting] = useState<boolean>(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -13,6 +16,32 @@ export default function CommentSection() {
     if (textAreaRef.current) {
       textAreaRef.current.style.height = "auto"; // reset height
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`; // expand dynamically
+    }
+  };
+
+  const handlePostComment = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (!comment.trim()) {
+      alert("값을 입력하셔야 합니다");
+      return;
+    }
+    setPosting(true);
+    try {
+      const response = await postCommentAPI(blogInfo.id, comment);
+      console.log("Response:", response);
+
+      if (response.success) {
+        setComment("");
+        alert("comment posted successfully");
+      } else {
+        alert("Failed to post comment");
+      }
+
+    } catch (error) {
+      setPosting(false);
+      console.error("Error occurred while posting comments", error);
+    } finally {
+      setPosting(false);
     }
   };
 
@@ -36,7 +65,12 @@ export default function CommentSection() {
         />
       </div>
       <div className="flex justify-end">
-        <Button>Post</Button>
+        <Button
+          onClick={handlePostComment}
+          disabled={posting}
+        >
+          {posting ? "Posting" : "Post"}
+        </Button>
       </div>
     </div>
   )

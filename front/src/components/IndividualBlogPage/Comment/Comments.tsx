@@ -1,32 +1,90 @@
-import image from "../../../../public/images/blog-image.avif";
+"use client"
+
+import { Comment } from "@/lib/interfaces";
 import ProfileAvatar from "@/components/Avatar";
 import Link from "next/link";
 import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
+import { useEffect, useState } from "react";
+import { Blog } from "@/lib/interfaces";
+import { fetchCommentsAPI } from "@/app/api/comment";
+import image from "../../../../public/images/blog-image.avif";
 
-export default function Comments() {
+export default function Comments({ blogInfo }: { blogInfo: Blog }) {
+  const [comments, setComments] = useState<Comment[]>([]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const fetchedComments = await fetchCommentsAPI(blogInfo.id);
+        setComments(fetchedComments);
+      } catch (error) {
+        console.error("Error fetching errors:", error);
+      }
+    };
+
+    fetchComments();
+  }, []);
+
+  console.log("comments?: ", comments);
+
   return (
-
-    <div className="w-full mb-2">
-      <div className="flex items-center gap-4 mt-10">
-        <Link
-          href={`/profile/${generateUniqueUserId("jeehwan.98@gmail.com")}/post`}
-          className="flex items-center cursor-pointer gap-4"
-        >
-          <ProfileAvatar
-            image={image || undefined}
-            name={"호두과자" as string}
-            sx={{ width: 50, height: 50 }}
-            fontSize={20}
-          />
-          <div className="flex flex-col">
-            <span className="font-bold">호두과자</span>
-            <span className="text-gray-400 font-medium">{formatRelativeDate([2025, 2, 12, 14, 33, 54, 328748000])}</span>
+    <div className="w-full">
+      {comments.length === 0 ? (
+        <p className="italic">No comments yet</p>
+      ) : (
+        comments.map((comment) => (
+          <div key={comment.id} className="w-full mb-4 border-b pb-4">
+            <div className="flex items-center gap-4 mt-4">
+              <Link
+                href={`/profile/${generateUniqueUserId(comment.userEmail)}/post`}
+                className="flex items-center cursor-pointer gap-4"
+              >
+                <ProfileAvatar
+                  image={comment.userImage || undefined} // ✅ Ensure userImage is available in API
+                  name={comment.userName}
+                  sx={{ width: 50, height: 50 }}
+                  fontSize={20}
+                />
+                <div className="flex flex-col">
+                  <span className="font-bold">{comment.userName}</span>
+                  <span className="text-gray-400 font-medium">
+                    {formatRelativeDate(comment.createdAt)}
+                  </span>
+                </div>
+              </Link>
+            </div>
+            <p className="mt-4 w-full">{comment.content}</p>
           </div>
-        </Link>
-      </div>
-      <p className="mt-4 w-full">
-        굉장히 흥미로운 주제인 것 같습니다!! 구독하고 다음에 또 좋은 내용 부탁합니다!
-      </p>
+        ))
+      )}
     </div>
   )
+  // <div className="w-full">
+  //   {comments.length === 0 ? (
+  //     <p className="text-gray-400 italic">No comments yet.</p>
+  //   ) : (
+  //     comments.map((comment) => (
+  //       <div key={comment.id} className="w-full mb-4 border-b pb-4">
+  //         <div className="flex items-center gap-4 mt-4">
+  //           <Link
+  //             href={`/profile/${generateUniqueUserId(comment.user.email)}/post`}
+  //             className="flex items-center cursor-pointer gap-4"
+  //           >
+  //             <ProfileAvatar
+  //               image={comment.user.image || undefined}
+  //               name={comment.user.name}
+  //               sx={{ width: 50, height: 50 }}
+  //               fontSize={20}
+  //             />
+  //             <div className="flex flex-col">
+  //               <span className="font-bold">{comment.user.name}</span>
+  //               <span className="text-gray-400 font-medium">{formatRelativeDate(comment.createdAt)}</span>
+  //             </div>
+  //           </Link>
+  //         </div>
+  //         <p className="mt-4 w-full">{comment.content}</p>
+  //       </div>
+  //     ))
+  //   )}
+  // </div>
 }

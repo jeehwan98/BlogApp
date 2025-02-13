@@ -59,3 +59,14 @@ export interface Blog {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface Comment {
+  id: number;
+  content: string;
+  userName: string;
+  userEmail: string;
+  userImage: string;
+  blog: Blog;
+  createdAt: Date;
+  updatedAt: Date;
+}

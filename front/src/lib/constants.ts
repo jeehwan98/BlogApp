@@ -44,8 +44,6 @@ export function stringToColor(string: string) {
   return color;
 }
 export function formatDate(localDateTimeArray: number[]) {
-  console.log("localDateTimeArray:", localDateTimeArray);
-
   const [year, month, day, hour, minute, second] = localDateTimeArray;
   const date = new Date(year, month - 1, day, hour, minute, second); // JavaScript months start from 0
 
@@ -57,8 +55,6 @@ export function formatDate(localDateTimeArray: number[]) {
 }
 
 export function formatRelativeDate(localDateTimeArray: number[]) {
-  console.log("localDateTimeArray:", localDateTimeArray);
-
   if (!Array.isArray(localDateTimeArray) || localDateTimeArray.length < 3) {
     return "Invalid date";
   }
@@ -142,4 +138,5 @@ export const URL = Object.freeze({
   BLOG: `${BASE_URL}/blog`,
   FETCH_USER: `${BASE_URL}/user`,
   GET_CURRENT_USER_DETAILS: `${BASE_URL}/user/loggedInUser`,
+  COMMENT: `${BASE_URL}/comments`,
 });
