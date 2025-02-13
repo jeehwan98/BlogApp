@@ -49,8 +49,11 @@ export default function IntroductionPage() {
 
   const handleSaveIntroduction = async () => {
     try {
-      await updateIntroductionAPI(userDetails?.email as string, introduction as string); // Send to backend
-      setEditing(false);
+      const result = await updateIntroductionAPI(userDetails?.email as string, introduction as string); // Send to backend
+      if (result) {
+        setEditing(false);
+        window.location.reload();
+      }
     } catch (error) {
       console.error("Error updating introduction:", error);
     }
@@ -84,9 +87,9 @@ export default function IntroductionPage() {
             <>
               {/* SHOW INTRODUCTION IF AVAILABLE */}
               {userDetails?.introduction ? (
-                <p className="mt-2">{userDetails.introduction}</p>
+                <p className="mt-2 mb-5">{userDetails.introduction}</p>
               ) : (
-                <p className="text-center mt-2 text-gray-500 italic mb-5">
+                <p className="mt-2 text-gray-500 italic mb-5">
                   {isOwnProfile ? "No introduction... Do you want to write an introduction?" : "No introduction."}
                 </p>
               )}
