@@ -12,6 +12,7 @@ export interface InputFieldProps {
 }
 
 export interface RegisterDetails {
+  image: string;
   email: string;
   password: string;
   name: string;
