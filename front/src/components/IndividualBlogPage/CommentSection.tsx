@@ -47,6 +47,7 @@ export default function CommentSection({ blogInfo }: { blogInfo: Blog }) {
       if (response.success) {
         setComment("");
         alert("comment posted successfully");
+        window.location.reload();
       } else {
         alert("Failed to post comment");
       }
