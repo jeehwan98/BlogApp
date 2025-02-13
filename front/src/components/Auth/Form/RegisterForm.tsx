@@ -54,6 +54,7 @@ export default function RegisterForm() {
       if (registerDetails.image instanceof File) {
         uploadedImageUrl = await uploadImage(registerDetails.image);
       }
+
       const response = await registerAPI({
         image: uploadedImageUrl,
         email: registerDetails.email,
