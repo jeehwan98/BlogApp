@@ -3,10 +3,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import navigation from "@/lib/links/navbar.json";
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { Button, buttonVariants } from "../UI/Button";
+import { logoutAPI } from "@/app/api/auth/auth";
+import { useSession } from "@/lib/SessionProvider";
 
 export default function MobileLink() {
   const [open, setOpen] = useState<boolean>(false);
+  const token = useSession();
   return (
     <div className="md:hidden">
       {/* MOBILE BUTTON */}
@@ -14,7 +17,7 @@ export default function MobileLink() {
         className="text-4xl cursor-pointer"
         onClick={() => setOpen(prev => !prev)}
       >
-        {open ? "X" : "="}
+        {open ? "x" : "="}
       </div>
       {/* MOBILE LINK LIST */}
       <div className={`w-full h-screen flex flex-col items-center justify-center absolute top-16 transition-all ease-in-out gap-8 font-medium text-lg
@@ -28,15 +31,10 @@ export default function MobileLink() {
             {link.name}
           </Link>
         ))}
-        <SignedOut>
-          <Link href="/login" className="py-2 px-4 rounded-3xl bg-blue-800 text-white">
-            Login 🥲
-          </Link>
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-
+        {token ?
+          <Button onClick={() => logoutAPI()}>로그아웃</Button> :
+          <Link href="/login" className={buttonVariants({ variant: "outline" })}>Login</Link>
+        }
       </div>
     </div >
   )

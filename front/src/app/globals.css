@@ -2,15 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (max-width: 768px) {
+  .wrapper {
+    padding-left: 0;
+    /* Remove padding on smaller screens */
+    padding-right: 0;
   }
 }
 
@@ -21,26 +17,67 @@
 }
 
 body {
-  max-width: 100vw; /* prevent overflowing */
+  max-width: 100vw;
+  /* prevent overflowing */
   overflow-x: hidden;
-  color: var(--foreground);
-  background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* remove the border from the toolbar */
+#toolbar {
+  border: none !important;
 }
 
-.container {
-  min-height: 100vh;
+/* remove the border from the editor container */
+.ql-container {
+  border: none !important;
+  outline: none !important;
 }
 
-.wrapper {
-  max-width: 1536px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 80px;
-  padding-right: 80px;
+/* remove the border from the toolbar buttons */
+.ql-toolbar {
+  border: none !important;
+  background-color: transparent;
+}
+
+.ql-editor {
+  font-size: larger;
+  padding: 8px;
+}
+
+.ql-syntax {
+  background-color: #2d2d2d !important;
+  /* Dark background */
+  color: #f8f8f2 !important;
+  /* Light text color */
+  padding: 10px !important;
+  /* Padding around code */
+  border-radius: 4px;
+  /* Rounded corners */
+  font-family: 'Courier New', Courier, monospace !important;
+  /* Monospace font */
+  font-size: 14px !important;
+}
+
+.ql-snow {
+  h1 {
+    font-size: 2em;
+    font-weight: bold;
+  }
+
+  h2 {
+    font-size: 1.75em;
+    font-weight: bold;
+  }
+
+  h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }
