@@ -137,6 +137,7 @@ export const URL = Object.freeze({
   LOGOUT: `${BASE_URL}/auth/logout`,
   BLOG: `${BASE_URL}/blog`,
   FETCH_USER: `${BASE_URL}/user`,
+  FEEDBACK: `${BASE_URL}/feedback`,
   GET_CURRENT_USER_DETAILS: `${BASE_URL}/user/loggedInUser`,
   COMMENT: `${BASE_URL}/comments`,
 });

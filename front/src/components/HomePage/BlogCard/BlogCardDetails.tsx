@@ -6,8 +6,6 @@ import { formatRelativeDate } from "@/lib/constants";
 
 export default function BlogCardDetails({ blog }: { blog: Blog }) {
 
-  console.log("blog details?:", blog);
-
   const parseContent = (htmlContent: string) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
