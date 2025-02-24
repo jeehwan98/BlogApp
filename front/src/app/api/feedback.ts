@@ -6,14 +6,17 @@ export async function postFeedbackAPI(email: string, feedback: string) {
       method: "POST",
       headers: URL.HEADERS,
       credentials: "include",
-      body: feedback
+      body: JSON.stringify(feedback)
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Response not OK: ", response.status, errorText);
       throw new Error("Failed to post feedback");
     }
 
     const responseData = await response.json();
+    console.log("success message?: ", responseData.success);
     return responseData;
   } catch (error) {
     console.error("Error posting feedback: ", error);

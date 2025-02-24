@@ -8,10 +8,6 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
-interface FeedbackPageProps {
-  userId?: string; // Added userId prop from layout params
-}
-
 export default function FeedbackPage() {
   const { user } = useSession();
   const params = useParams();
@@ -20,12 +16,11 @@ export default function FeedbackPage() {
   const router = useRouter();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [posting, setPosting] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null); // New state for success message
 
   const visitedUserEmail = convertIdToEmail(userId as string);
   const isOwnProfile = user && user.email === visitedUserEmail;
 
-  console.log("visited user email?: ", visitedUserEmail);
-  console.log("isOwnProfile?: ", isOwnProfile);
   useEffect(() => {
     if (!user || !isOwnProfile) {
       router.push("/");
@@ -53,8 +48,11 @@ export default function FeedbackPage() {
 
       if (response.success) {
         setFeedback("");
-        alert("Feedback posted successfully");
-        window.location.reload();
+        setSuccessMessage("Feedback has been posted successfully, returning back to profile page...");
+        // redirect after 2 seconds to allow the message to be seen
+        setTimeout(() => {
+          router.push(`/profile/${userId}/post`);
+        }, 2000);
       } else {
         alert("Failed to post feedback");
       }
@@ -67,6 +65,14 @@ export default function FeedbackPage() {
 
   if (!isOwnProfile) {
     return null;
+  }
+
+  if (successMessage) {
+    return (
+      <div className="text-center">
+        <p className="text-green-600 text-lg font-semibold">{successMessage}</p>
+      </div>
+    );
   }
 
   // If user is not logged in, show return to login button
