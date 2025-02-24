@@ -6,6 +6,8 @@ import DOMPurify from "dompurify"
 export default function PreviewContent() {
   const { post } = useEditStore();
 
+  console.log(post.content);
+
   return (
     <div className="ql-snow">
       <div

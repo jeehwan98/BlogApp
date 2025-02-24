@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function BlogInfo({ blogInfo }: { blogInfo: Blog }) {
   return (
     <>
-      <div className="flex gap-2 items-center justify-between mt-10 mb-3">
+      <div className="flex gap-2 items-center justify-between mt-10 mb-5">
         <div className="flex gap-4">
           <Link
             href={`/profile/${generateUniqueUserId(blogInfo.user.email)}/post`}
