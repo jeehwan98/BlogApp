@@ -6,5 +6,9 @@
   {
     "name": "Introduction",
     "path": "/introduction"
+  },
+  {
+    "name": "Settings",
+    "path": "/setting"
   }
 ]
