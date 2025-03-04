@@ -11,13 +11,29 @@ export async function loginAPI(data: LoginDetails) {
     });
 
     const responseData = await response.json();
+    console.log(responseData);
+
     if (!response.ok) {
-      throw new Error(responseData.error || "Login failed");
+      return {
+        success: false,
+        error: responseData.error || "Login failed"
+      };
     }
 
-    if (response.ok) {
-      return responseData;
+    if (!responseData.success) {
+      return {
+        success: false,
+        error: responseData.error
+      }
     }
+
+    return {
+      success: true,
+      message: responseData.message,
+      accessToken: responseData.accessToken,
+      refreshToken: responseData.refreshToken
+    };
+
   } catch (error) {
     console.error("Error during login", error);
     throw error;

@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { RegisterDetails } from "@/lib/interfaces";
 import { registerAPI } from "@/app/api/auth/register";
-import InputField from "@/components/UI/InputField";
+import InputField from "@/components/UI/input";
 import { Button } from "@/components/UI/Button";
 import { RegisterBottomNav } from "../RegisterBottomNav";
 import Image from "next/image";

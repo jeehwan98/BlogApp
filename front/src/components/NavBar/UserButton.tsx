@@ -7,12 +7,12 @@ import { buttonVariants } from "../UI/Button";
 import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
 import { generateUniqueUserId } from "@/lib/constants";
 import { logoutAPI } from "@/app/api/auth/auth";
-import { useSession } from "@/lib/SessionProvider";
+import { useAuth } from "@/lib/auth-client";
 
 export default function UserButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { user } = useSession();
+  const { user } = useAuth();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

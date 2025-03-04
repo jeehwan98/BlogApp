@@ -1,79 +1,65 @@
 "use client"
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { loginAPI } from "@/app/api/auth/auth";
 import { useSession } from "@/lib/SessionProvider";
-import InputField from "@/components/UI/InputField";
+import InputField, { FormInput, PasswordInput } from "@/components/UI/input";
 import { LoginBottomNav } from "../LoginBottomNav";
 import { Line } from "../Line";
 import { Button, GithubSignInButton } from "@/components/UI/Button";
-
-interface LoginDetails {
-  email: string;
-  password: string;
-}
+import { Loader2, Mail } from "lucide-react";
+import { loginAction } from "@/app/(app)/login/action";
+import { useAuth } from "@/lib/auth-client";
 
 export default function LoginForm() {
-  const [loginDetails, setLoginDetails] = useState<LoginDetails>({ email: "", password: "" });
-  const [loginLoading, setLoginLoading] = useState<boolean>(false);
-  const [loginError, setLoginError] = useState<string>("");
+  // const [loginDetails, setLoginDetails] = useState<LoginDetails>({ email: "", password: "" });
+  // const [loginLoading, setLoginLoading] = useState<boolean>(false);
+  // const [loginError, setLoginError] = useState<string>("");
+  // const router = useRouter();
+  // const { refreshSession } = useSession();
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [state, formAction, isPending] = useActionState(loginAction, {
+    success: false,
+    errors: {},
+  });
   const router = useRouter();
-  const { refreshSession } = useSession();
+  const { user } = useAuth();
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoginLoading(false);
-    try {
-      const response = await loginAPI({
-        email: loginDetails.email,
-        password: loginDetails.password,
-      });
-
-      if (response?.error) {
-        setLoginError(response.error);
-      } else {
-        console.log("Login successful:", response);
-        refreshSession(); // refresh session after login
-        router.push("/");
-      }
-    } catch (error) {
-      setLoginLoading(false);
-      console.error("error occurred while logging in: ", error);
-      setLoginError("An unexpected error occurred. Please try again.");
-    } finally {
-      setLoginLoading(false);
-    }
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   }
+
+  useEffect(() => {
+    if (state.success && !isPending) {
+      window.location.href = "/";
+    } else if (user) {
+      router.push("/"); // redirect if already authorized
+    }
+  }, [state.success, isPending, user, router]);
 
   return (
     <div className="max-w-sm mx-auto mt-16 p-6">
-      <form onSubmit={onSubmit} className="space-y-4">
-        <InputField
-          type="text"
+      <form action={formAction}>
+        <FormInput
           name="email"
-          placeholder="example@email.com"
-          value={loginDetails.email}
-          onChange={(e) => setLoginDetails({ ...loginDetails, email: e.target.value })}
+          placeholder="jee@email.com"
+          error={state?.errors?.email}
+          icon={Mail}
         />
-        <InputField
-          type="password"
+        <PasswordInput
           name="password"
           placeholder="Password"
-          value={loginDetails.password}
-          onChange={(e) => setLoginDetails({ ...loginDetails, password: e.target.value })}
+          togglePasswordVisibility={togglePasswordVisibility}
+          showPassword={showPassword}
+          error={state?.errors?.password || state?.errors?.general}
         />
-        {loginError && <p className="text-red-500 text-sm">{loginError}</p>}
         <Button
-          type="submit"
-          disabled={loginLoading}
-          className="w-full"
+          disabled={isPending}
+          className="w-full mt-3"
         >
-          {loginLoading ? 'Logging in...' : 'Login'}
+          {isPending ? <Loader2 className="animate-spin" /> : "Login"}
         </Button>
-        <LoginBottomNav />
-        <Line />
-        <GithubSignInButton />
       </form>
     </div>
   )
