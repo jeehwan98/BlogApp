@@ -1,30 +1,138 @@
 package com.jee.back.config;
 
+import com.jee.back.entity.User;
 import com.jee.back.filter.JwtFilter;
+import com.jee.back.repository.UserRepository;
+import com.jee.back.service.CustomOAuth2UserService;
+import com.jee.back.util.CookieUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+@Log4j2
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
+    private final UserRepository userRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CookieUtil cookieUtil;
+    private final UserDetailsService userDetailsService;
+    private final JwtFilter jwtFilter;
 
-    /** 비밀번호 암호화 */
+    @Bean
+    @Order(1)
+    public SecurityFilterChain permittedURLS(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/api/v1/auth/register", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout")
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().permitAll())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable());
+
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain loginFilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/api/v1/auth/login")
+                .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable());
+        return http.build();
+    }
+
+    @Bean
+    @Order(3)
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
+
+        http
+                .csrf(csrf -> csrf.disable())
+                .cors(Customizer.withDefaults())
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/login/github", "/api/v1/auth/register", "api/v1/auth/logout").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/blog").permitAll()
+                        .requestMatchers("/api/v1/auth/logout").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/api/v1/comments/**").permitAll()
+//                        .requestMatchers("/api/v1/user/**").hasRole("USER")
+                        .requestMatchers("/api/v1/user/**").permitAll()
+                        .requestMatchers("/api/v1/blog/**").permitAll()
+//                        .requestMatchers("/api/v1/feedback/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/v1/feedback/**").permitAll()
+//                        .requestMatchers("/api/v1/blog/**").hasAnyRole("USER", "ADMIN")
+                        .anyRequest().authenticated())
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+                        .successHandler(((request, response, authentication) -> {
+                            log.info("security config success handler ✅");
+                            String email = authentication.getName();
+                            User user = userRepository.findByEmail(email)
+                                    .orElseThrow(
+                                            () -> new UsernameNotFoundException("User not found with email: " + email));
+                            cookieUtil.createCookies(response, user);
+
+                            // set the authentication details manually
+                            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
+                            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(authToken);
+
+                            Authentication authCheck = SecurityContextHolder.getContext().getAuthentication();
+                            log.info("✅ User authenticated in SecurityContextHolder: {}",
+                                    authCheck != null ? authCheck.getName() : "No authentication found");
+
+                            // manually clear session to avoid persistence
+                            request.getSession().invalidate();
+
+                            response.sendRedirect("http://localhost:3000/");
+
+                        })))
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"User not authenticated\"}");
+                        })
+                );;
+
+        return http.build();
+    }
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -54,28 +162,5 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
 
-        http
-                .csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults())
-                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/login/github", "/api/v1/auth/register", "api/v1/auth/logout").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/blog").permitAll()
-                        .requestMatchers("/api/v1/auth/logout").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers("/api/v1/comments/**").permitAll()
-//                        .requestMatchers("/api/v1/user/**").hasRole("USER")
-                        .requestMatchers("/api/v1/user/**").permitAll()
-                        .requestMatchers("/api/v1/blog/**").permitAll()
-//                        .requestMatchers("/api/v1/feedback/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/v1/feedback/**").permitAll()
-//                        .requestMatchers("/api/v1/blog/**").hasAnyRole("USER", "ADMIN")
-                        .anyRequest().authenticated());
-
-        return http.build();
-    }
 }

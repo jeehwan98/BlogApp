@@ -30,6 +30,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private String provider;
+    private String githubId;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Blog> blogs;
     private String introduction;
@@ -46,6 +47,14 @@ public class User implements UserDetails {
         this.image = registerDTO.getImage();
         this.role = registerDTO.getRole();
         this.provider = registerDTO.getProvider();
+    }
+
+    public User(String githubId, String email, String name, String avatarUrl, String bio) {
+        this.githubId = githubId;
+        this.email = email;
+        this.name = name;
+        this.image = avatarUrl;
+        this.introduction = bio;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.jee.back.service;
 
+import com.jee.back.entity.Role;
+import com.jee.back.entity.User;
 import com.jee.back.repository.UserRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,14 @@ import org.springframework.stereotype.Service;
 public class UsersDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return (UserDetails) userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found with email: " + email));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+        String password = user.getPassword() != null ? user.getPassword() : "{noop}dummy_password"; // 임시 암호 for OAuth2 users
+        return org.springframework.security.core.userdetails.User
+                .withUsername(user.getEmail())
+                .password(password)
+                .roles("USER")
+                .build();
     }
 }
