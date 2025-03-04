@@ -4,12 +4,11 @@ import Link from "next/link";
 import { useState } from "react";
 import navigation from "@/lib/links/navbar.json";
 import { Button, buttonVariants } from "../UI/Button";
-import { logoutAPI } from "@/app/api/auth/auth";
-import { useSession } from "@/lib/SessionProvider";
+import { useAuth } from "@/lib/auth-client";
 
 export default function MobileLink() {
   const [open, setOpen] = useState<boolean>(false);
-  const token = useSession();
+  const { user, logout } = useAuth();
   return (
     <div className="md:hidden">
       {/* MOBILE BUTTON */}
@@ -31,8 +30,8 @@ export default function MobileLink() {
             {link.name}
           </Link>
         ))}
-        {token ?
-          <Button onClick={() => logoutAPI()}>로그아웃</Button> :
+        {user ?
+          <Button onClick={logout}>로그아웃</Button> :
           <Link href="/login" className={buttonVariants({ variant: "outline" })}>Login</Link>
         }
       </div>

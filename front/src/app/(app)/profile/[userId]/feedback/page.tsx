@@ -2,14 +2,14 @@
 
 import { postFeedbackAPI } from "@/app/api/feedback";
 import { Button } from "@/components/UI/Button";
+import { useAuth } from "@/lib/auth-client";
 import { convertIdToEmail } from "@/lib/constants";
-import { useSession } from "@/lib/SessionProvider";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 export default function FeedbackPage() {
-  const { user } = useSession();
+  const { user } = useAuth();
   const params = useParams();
   const userId = params?.userId as string;
   const [feedback, setFeedback] = useState<string>("");

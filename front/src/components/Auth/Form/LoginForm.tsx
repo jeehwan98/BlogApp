@@ -2,11 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-import { loginAPI } from "@/app/api/auth/auth";
-import { useSession } from "@/lib/SessionProvider";
-import InputField, { FormInput, PasswordInput } from "@/components/UI/input";
-import { LoginBottomNav } from "../LoginBottomNav";
-import { Line } from "../Line";
+import { FormInput, PasswordInput } from "@/components/UI/input";
 import { Button, GithubSignInButton } from "@/components/UI/Button";
 import { Loader2, Mail } from "lucide-react";
 import { loginAction } from "@/app/(app)/login/action";

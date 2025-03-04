@@ -1,14 +1,14 @@
 "use client"
 
+import { useAuth } from "@/lib/auth-client";
 import { convertIdToEmail } from "@/lib/constants";
 import navlinks from "@/lib/links/profile_navbar.json";
-import { useSession } from "@/lib/SessionProvider";
 
 import Link from "next/link"
 import { usePathname } from "next/navigation";
 
 export default function TabsSection({ userId }: { userId: string }) {
-  const { user } = useSession();
+  const { user } = useAuth();
   const pathname = usePathname();
 
   const visitedUserEmail = convertIdToEmail(userId);

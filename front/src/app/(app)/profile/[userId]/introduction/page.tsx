@@ -3,16 +3,16 @@
 import { fetchUserAPI, updateIntroductionAPI } from "@/app/api/user";
 import { convertIdToEmail } from "@/lib/constants";
 import { User } from "@/lib/interfaces";
-import { useSession } from "@/lib/SessionProvider";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/UI/Button";
+import { useAuth } from "@/lib/auth-client";
 
 export default function IntroductionPage() {
   // const { userId } = params;
   const params = useParams();
   const userId = params?.userId as string;
-  const { user } = useSession();
+  const { user } = useAuth();
   const [userDetails, setUserDetails] = useState<User>();
   const [loading, setLoading] = useState<boolean>(true);
   const [introduction, setIntroduction] = useState<string>("");
