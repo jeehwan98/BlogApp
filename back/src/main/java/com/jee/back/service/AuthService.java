@@ -54,17 +54,15 @@ public class AuthService {
         return jwtUtil.generateToken(user);
     }
 
-    public void registerCredentials(RegisterDTO registerDTO) {
+    public User registerCredentials(RegisterDTO registerDTO) {
         Optional<User> existsByEmail = userRepository.findByEmail(registerDTO.getEmail());
         if (existsByEmail.isPresent()) {
             throw new IllegalArgumentException("email already exists");
         }
 
         registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        registerDTO.setRole(Role.ADMIN);
-
-        User user = modelMapper.map(registerDTO, User.class);
-        userRepository.save(user);
+        registerDTO.setRole(Role.USER);
+        return userRepository.save(new User(registerDTO));
     }
 
     public void registerGithub(RegisterDTO registerDTO) {

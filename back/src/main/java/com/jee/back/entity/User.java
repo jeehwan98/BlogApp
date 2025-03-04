@@ -1,14 +1,18 @@
 package com.jee.back.entity;
 
+import com.jee.back.dto.RegisterDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @Entity
+@Setter
 @Getter
 @AllArgsConstructor
 @Table(name = "user")
@@ -28,6 +32,21 @@ public class User implements UserDetails {
     private String provider;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Blog> blogs;
+    private String introduction;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks = new ArrayList<>();
+
+    public User(RegisterDTO registerDTO) {
+        this.id = registerDTO.getId();
+        this.email = registerDTO.getEmail();
+        this.name = registerDTO.getName();
+        this.password = registerDTO.getPassword();
+        this.image = registerDTO.getImage();
+        this.role = registerDTO.getRole();
+        this.provider = registerDTO.getProvider();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -32,7 +32,7 @@ public class BlogController {
     @PostMapping()
     public ResponseEntity<Map<String, Object>> postBlog(@Valid @RequestBody PostBlogDTO postBlogDTO) {
         String email = SecurityUtil.getAuthenticatedUserEmail();
-        User user = userService.getUser(email);
+        User user = userService.getUserByEmail(email);
         Blog blog = blogService.saveBlog(postBlogDTO, user);
 
         return ResponseEntity.ok(Map.of("posted blog", blog));

@@ -1,0 +1,76 @@
+package com.jee.back.util;
+
+import com.jee.back.entity.User;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import java.util.Arrays;
+
+@Log4j2
+@Component
+@RequiredArgsConstructor
+public class CookieUtil {
+    private final JwtUtil jwtUtil;
+
+    public void setCookie(HttpServletResponse response, String name, String value, int maxAge) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAge);
+
+        String sameSite = "None";
+        String cookieHeader = String.format("%s=%s; Max-Age=%d; Path=/; HttpOnly; Secure; SameSite=%s",
+                name, value, maxAge, sameSite);
+        response.addHeader("Set-Cookie", cookieHeader);
+        log.info("Set cookie: name={}, value={}, maxAge={}, SameSite={}", name, value, maxAge, sameSite);
+    }
+
+    public void createCookies(HttpServletResponse response, User user) {
+        String accessToken = createAccessToken(user);
+        String refreshToken = createRefreshToken();
+
+        setCookie(response, "accessToken", accessToken, 15 * 60);
+        setCookie(response, "refreshToken", refreshToken, 7 * 24 * 60 * 60);
+        log.info("Cookies set - accessToken: {}, refreshToken: {}", accessToken, refreshToken);
+    }
+
+    public String createAccessToken(User user) {
+        return JwtUtil.generateAccessToken(user.getEmail());
+    }
+
+    public String createRefreshToken() {
+        return JwtUtil.generateRefreshToken();
+    }
+
+    public static String getAuthenticatedUserEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("User not authenticated in cookie Util");
+        }
+
+        return authentication.getName();
+    }
+
+    public String getLoggedInUserEmail(HttpServletRequest request) {
+        String token = extractTokenFromCookies(request);
+        String email = jwtUtil.extractEmail(token);
+        return email;
+    }
+
+    private static String extractTokenFromCookies(HttpServletRequest request) {
+        if (request.getCookies() != null) {
+            return Arrays.stream(request.getCookies())
+                    .filter(cookie -> "accessToken".equals(cookie.getName()))
+                    .map(Cookie::getValue)
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
+}

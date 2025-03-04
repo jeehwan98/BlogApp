@@ -3,6 +3,7 @@ package com.jee.back.controller;
 import com.jee.back.dto.LoginDTO;
 import com.jee.back.dto.RegisterDTO;
 import com.jee.back.dto.UserResponseDTO;
+import com.jee.back.entity.User;
 import com.jee.back.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -76,11 +77,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterDTO registerDTO) {
-        System.out.println("inputted register details>: " + registerDTO);
+    public ResponseEntity<Map<String, Object>> register(@Valid @RequestBody RegisterDTO registerDTO) {
+        HashMap<String, Object> responseMap = new HashMap<>();
         log.info("Inputted register details: {}", registerDTO);
-        authService.registerCredentials(registerDTO);
-        return ResponseEntity.ok("User registered successfully");
+        User user = authService.registerCredentials(registerDTO);
+
+        System.out.println("saved user?: " + user);
+        responseMap.put("user", user);
+
+        return ResponseEntity.ok(responseMap);
     }
 
     @PostMapping("/login/github")

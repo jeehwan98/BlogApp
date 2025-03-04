@@ -32,8 +32,6 @@ export async function updateIntroductionAPI(email: string, introduction: string)
     if (!response.ok) {
       throw new Error("Error updating user introduction:");
     }
-
-    console.log("responseData?:", responseData.success);
     return responseData;
   } catch (error) {
     console.error("Error updating introduction:", error);

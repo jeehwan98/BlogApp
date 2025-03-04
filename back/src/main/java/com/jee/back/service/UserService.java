@@ -1,5 +1,6 @@
 package com.jee.back.service;
 
+import com.jee.back.dto.UpdateUserDTO;
 import com.jee.back.entity.User;
 import com.jee.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User getUser(String email) {
+    public User getUserByEmail(String email) {
         return (User) userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found with email: " + email));
+    }
+
+    public User updateUser(String email, UpdateUserDTO updateUserDTO) {
+        User user = getUserByEmail(email);
+        user.setIntroduction(updateUserDTO.getIntroduction());
+        User updatedUser = userRepository.save(user);
+        return updatedUser;
     }
 }

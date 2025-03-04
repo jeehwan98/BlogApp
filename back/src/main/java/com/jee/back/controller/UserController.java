@@ -1,5 +1,6 @@
 package com.jee.back.controller;
 
+import com.jee.back.dto.UpdateUserDTO;
 import com.jee.back.dto.UserResponseDTO;
 import com.jee.back.entity.User;
 import com.jee.back.service.UserService;
@@ -42,9 +43,17 @@ public class UserController {
 
     @GetMapping("/{email}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable String email) {
-        User user = userService.getUser(email);
+        User user = userService.getUserByEmail(email);
         UserResponseDTO responseDTO = modelMapper.map(user, UserResponseDTO.class);
 
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @PutMapping("/{email}")
+    public ResponseEntity<Map<String, Object>> updateUserInfo(@PathVariable String email, @RequestBody UpdateUserDTO updateUserDTO) {
+        System.out.println(updateUserDTO.getIntroduction());
+        User user = userService.updateUser(email, updateUserDTO);
+        System.out.println("updated user info: " + user);
+        return ResponseEntity.ok(Map.of("success", user));
     }
 }

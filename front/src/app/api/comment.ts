@@ -31,7 +31,6 @@ export async function fetchCommentsAPI(id: number) {
     });
 
     const responseData = await response.json();
-    console.log("responseData?: ", responseData);
 
     if (!response.ok) {
       throw new Error("Error fetching comments");
