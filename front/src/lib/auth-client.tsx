@@ -24,7 +24,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
 
   const refreshUser = async () => {
     try {
-      const response = await fetch("http://localhost:8090/api/v1/auth/current", {
+      const response = await fetch("http://localhost:8080/api/v1/auth/current", {
         credentials: "include",
       });
       if (response.ok) {
@@ -44,7 +44,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     console.log("trying to logout in auth/client")
     try {
       // clear SecurityContextHolder and cookies
-      const response = await fetch("http://localhost:8090/api/v1/auth/logout", {
+      const response = await fetch("http://localhost:8080/api/v1/auth/logout", {
         method: "POST",
         credentials: "include",
       });

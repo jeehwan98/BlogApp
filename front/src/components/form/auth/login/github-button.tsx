@@ -10,7 +10,7 @@ export default function GithubSignInButton() {
 
   const handleLoginGithub = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    window.location.href = "http://localhost:8090/api/v1/auth/login/github";
+    window.location.href = "http://localhost:8080/api/v1/auth/login/github";
   };
 
   return (

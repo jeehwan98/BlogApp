@@ -88,12 +88,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/logout").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_ADMIN")
                         .requestMatchers("/api/v1/comments/**").permitAll()
-//                        .requestMatchers("/api/v1/user/**").hasRole("USER")
                         .requestMatchers("/api/v1/user/**").permitAll()
                         .requestMatchers("/api/v1/blog/**").permitAll()
-//                        .requestMatchers("/api/v1/feedback/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/v1/feedback/**").permitAll()
-//                        .requestMatchers("/api/v1/blog/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
