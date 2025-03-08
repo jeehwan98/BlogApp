@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ProfileAvatar from "../avatar";
-import { buttonVariants } from "../UI/Button";
+import { buttonVariants } from "../ui/Button";
 import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
 import { generateUniqueUserId } from "@/lib/constants";
 import { logoutAPI } from "@/app/api/auth/auth";

@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useActionState, useRef, useState } from "react";
-import { Button } from "@/components/UI/Button";
-import { FormImageInput, FormInput, PasswordInput } from "@/components/UI/input";
+import { Button } from "@/components/ui/Button";
+import { FormImageInput, FormInput, PasswordInput } from "@/components/ui/input";
 import { RegisterBottomNav } from "./components";
 import { registerAction } from "@/app/(app)/register/action";
 import { Loader2, Mail, User } from "lucide-react";

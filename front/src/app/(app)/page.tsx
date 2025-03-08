@@ -1,6 +1,5 @@
 "use client"
 
-import BreadCrumbs from "@/components/HomePage/BreadCrumbs";
 import Title from "@/components/HomePage/Components";
 import { Blog } from "@/lib/interfaces";
 import { useEffect, useState } from "react";

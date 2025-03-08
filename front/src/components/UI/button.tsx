@@ -59,28 +59,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
-function GithubSignInButton() {
-  const { theme } = useTheme();
-  const logo = theme === "dark" ? githubDarkLogo : githubLightLogo;
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    // signIn('github', { callbackUrl: "/" }); // redirect user to homepage after successful login
-  };
-
-  return (
-    <Button
-      onClick={handleClick}
-      className="w-full"
-    >
-      <Image src={logo} alt="Github Logo" width={20} height={20} />
-      <span>Continue with Github</span>
-    </Button>
-  )
-}
-
 export {
   Button,
   buttonVariants,
-  GithubSignInButton
 }

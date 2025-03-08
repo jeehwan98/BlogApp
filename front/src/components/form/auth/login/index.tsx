@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
-import { FormInput, PasswordInput } from "@/components/UI/input";
-import { Button } from "@/components/UI/Button";
+import { FormInput, PasswordInput } from "@/components/ui/input";
+import { Button } from "@/components/ui/Button";
 import { Loader2, Mail } from "lucide-react";
 import { loginAction } from "@/app/(app)/login/action";
 import { useAuth } from "@/lib/auth-client";
@@ -30,7 +30,7 @@ export default function LoginForm() {
   }, [state.success, isPending, user, router]);
 
   return (
-    <div className="max-w-sm mx-auto mt-16 p-6">
+    <div className="max-w-sm mx-auto">
       <form action={formAction}>
         <FormInput
           name="email"

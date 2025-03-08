@@ -1,7 +1,7 @@
 "use client";
 
 import { postFeedbackAPI } from "@/app/api/feedback";
-import { Button } from "@/components/UI/Button";
+import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/lib/auth-client";
 import { convertIdToEmail } from "@/lib/constants";
 import Link from "next/link";

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import BlogTitle from "./Title";
 import BlogContent from "./BlogContent";
 import BlogInfo from "./BlogInfo";
-import SeparateLine from "../UI/SeparateLine";
+import SeparateLine from "../ui/SeparateLine";
 import CommentSection from "./CommentSection";
 import Comments from "./Comment/Comments";
 

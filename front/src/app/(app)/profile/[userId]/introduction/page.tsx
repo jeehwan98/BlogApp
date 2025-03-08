@@ -5,7 +5,7 @@ import { convertIdToEmail } from "@/lib/constants";
 import { User } from "@/lib/interfaces";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/UI/Button";
+import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/lib/auth-client";
 
 export default function IntroductionPage() {
