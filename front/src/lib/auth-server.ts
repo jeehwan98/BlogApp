@@ -1,4 +1,4 @@
-import { User } from "@/lib/interfaces/user";
+import { User } from "@/interfaces/user";
 import { headers } from "next/headers";
 
 export async function getServerSession(): Promise<User | null> {

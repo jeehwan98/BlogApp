@@ -1,9 +1,9 @@
-export async function uploadImage(image: File): Promise<string> {
+export async function uploadImageToCloudinary(image: File): Promise<string> {
   const formData = new FormData();
   formData.append("file", image);
 
   try {
-    const response = await fetch("/api/upload", {
+    const response = await fetch("http://localhost:3000/api/upload", {
       method: "POST",
       body: formData,
     });

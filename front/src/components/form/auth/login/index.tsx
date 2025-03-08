@@ -3,17 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { FormInput, PasswordInput } from "@/components/UI/input";
-import { Button, GithubSignInButton } from "@/components/UI/Button";
+import { Button } from "@/components/UI/Button";
 import { Loader2, Mail } from "lucide-react";
 import { loginAction } from "@/app/(app)/login/action";
 import { useAuth } from "@/lib/auth-client";
 
 export default function LoginForm() {
-  // const [loginDetails, setLoginDetails] = useState<LoginDetails>({ email: "", password: "" });
-  // const [loginLoading, setLoginLoading] = useState<boolean>(false);
-  // const [loginError, setLoginError] = useState<string>("");
-  // const router = useRouter();
-  // const { refreshSession } = useSession();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [state, formAction, isPending] = useActionState(loginAction, {
     success: false,

@@ -1,4 +1,5 @@
-import { RegisterDetails } from "@/lib/interfaces";
+
+import { RegisterDetails } from "@/interfaces/auth";
 import { URL } from "@/lib/constants";
 
 export async function registerAPI(data: RegisterDetails) {

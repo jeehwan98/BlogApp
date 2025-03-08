@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import ProfileAvatar from "../Avatar";
+import ProfileAvatar from "../avatar";
 import { fetchUserAPI } from "@/app/api/user";
 import { convertIdToEmail } from "@/lib/constants";
 import { User } from "@/lib/interfaces";

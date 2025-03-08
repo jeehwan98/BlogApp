@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { AuthContextType, User } from "@/lib/interfaces/user";
+import { AuthContextType, User } from "@/interfaces/user";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

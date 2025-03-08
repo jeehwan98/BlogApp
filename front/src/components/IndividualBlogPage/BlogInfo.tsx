@@ -1,7 +1,7 @@
 import { Blog } from "@/lib/interfaces";
 import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
 import TagList from "../UI/TagList";
-import ProfileAvatar from "../Avatar";
+import ProfileAvatar from "../avatar";
 import Link from "next/link";
 
 export default function BlogInfo({ blogInfo }: { blogInfo: Blog }) {

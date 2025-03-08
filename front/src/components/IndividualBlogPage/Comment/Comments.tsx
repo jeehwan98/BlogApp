@@ -1,7 +1,7 @@
 "use client"
 
 import { Comment } from "@/lib/interfaces";
-import ProfileAvatar from "@/components/Avatar";
+import ProfileAvatar from "@/components/avatar";
 import Link from "next/link";
 import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
 import { useEffect, useState } from "react";

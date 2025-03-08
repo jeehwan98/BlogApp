@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import ProfileAvatar from "../Avatar";
+import ProfileAvatar from "../avatar";
 import { buttonVariants } from "../UI/Button";
 import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
 import { generateUniqueUserId } from "@/lib/constants";

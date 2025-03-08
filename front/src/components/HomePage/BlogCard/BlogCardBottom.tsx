@@ -1,4 +1,4 @@
-import ProfileAvatar from "@/components/Avatar";
+import ProfileAvatar from "@/components/avatar";
 import { generateUniqueUserId } from "@/lib/constants";
 import { Blog } from "@/lib/interfaces";
 import Link from "next/link";

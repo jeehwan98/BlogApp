@@ -1,8 +1,11 @@
-import { FormInputProps, PasswordInputProps } from "@/lib/interfaces/inputs";
+import { FormInputProps, ImageUploadProps, PasswordInputProps } from "@/interfaces/inputs";
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Eye, EyeOff, Lock, Mail } from "lucide-react"
 import { capitalizeFirstLetter } from "@/lib/constants";
+import Image from "next/image";
+import defaultCameraImage from "../../../public/images/default-camera.jpg";
+import { Button } from "./Button";
 
 export const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
@@ -21,7 +24,6 @@ export const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"in
 )
 
 Input.displayName = "Input"
-
 
 export function PasswordInput({
   name,
@@ -81,6 +83,44 @@ export function FormInput({
         )}
       </div>
       {error && <p className="text-red-500 text-sm mt-3 ml-1">{error}</p>}
+    </div>
+  )
+}
+
+export function FormImageInput({
+  name,
+  previewUrl,
+  fileInputRef,
+  handleImageChange,
+  triggerFileInput
+}: ImageUploadProps) {
+  return (
+    <div className="relative w-40 h-40 mx-auto mb-24">
+      {/* Profile Image */}
+      <Image
+        className="object-cover w-full h-full rounded-full"
+        src={previewUrl || defaultCameraImage}
+        width={200}
+        height={200}
+        alt="Profile Image"
+      />
+      <input
+        name={name}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        ref={fileInputRef}
+        onChange={handleImageChange}
+      />
+      <div className="flex flex-col items-center mt-2">
+        <Button
+          type="button"
+          onClick={triggerFileInput}
+          className="mt-2"
+        >
+          Upload
+        </Button>
+      </div>
     </div>
   )
 }

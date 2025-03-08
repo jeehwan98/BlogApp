@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react";
+import { RefObject } from "react";
 
 export interface PasswordInputProps {
   name: string;
@@ -15,11 +16,18 @@ export interface FormInputProps {
   icon?: LucideIcon
 }
 
-
 export interface InputFieldProps {
   type: string;
   name: string;
   placeholder: string;
   value: string;
   onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
+
+export interface ImageUploadProps {
+  name: string;
+  previewUrl: string | null;
+  fileInputRef: RefObject<HTMLInputElement | null>;
+  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  triggerFileInput: () => void;
 }

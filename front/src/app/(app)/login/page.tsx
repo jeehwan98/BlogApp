@@ -1,5 +1,5 @@
-import AuthHeader from "@/components/Auth/AuthHeader";
-import LoginForm from "@/components/Auth/Form/LoginForm";
+import LoginForm from "@/components/form/auth/login";
+import AuthHeader from "@/components/form/AuthHeader";
 
 export default function LoginPage() {
   return (
