@@ -5,7 +5,7 @@ export async function getServerSession(): Promise<User | null> {
   const headersData = await headers();
   const cookie = headersData.get("cookie") || "";
   try {
-    const response = await fetch("http://localhost:8080/api/v1/auth/current", {
+    const response = await fetch("http://localhost:8090/api/v1/auth/current", {
       headers: { Cookie: cookie },
       credentials: "include",
       cache: "no-store", // ensure fresh data

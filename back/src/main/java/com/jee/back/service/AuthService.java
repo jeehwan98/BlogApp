@@ -36,7 +36,7 @@ public class AuthService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
     private final CookieUtil cookieUtil;
-    private UserDetailsService userDetailsService;
+    private final UsersDetailsService usersDetailsService;
 
     public Map<String, Object> login(LoginDTO loginDTO, HttpServletRequest request, HttpServletResponse httpResponse) {
         Map<String, Object> response = new HashMap<>();
@@ -50,7 +50,7 @@ public class AuthService {
 
         cookieUtil.createCookies(httpResponse, user);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getEmail());
+        UserDetails userDetails = usersDetailsService.loadUserByUsername(user.getEmail());
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
