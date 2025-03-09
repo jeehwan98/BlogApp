@@ -15,9 +15,8 @@ export async function registerAPI(data: RegisterDetails) {
     if (!response.ok) {
       throw new Error(responseData.error || "Registration failed");
     }
-    const user = responseData.user;
-    console.log("user?:", user);
-    return user;
+
+    return responseData;
   } catch (error) {
     console.error("Error during registration", error);
     throw error;

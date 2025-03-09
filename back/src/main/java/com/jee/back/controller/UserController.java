@@ -1,6 +1,7 @@
 package com.jee.back.controller;
 
 import com.jee.back.dto.UpdateUserDTO;
+import com.jee.back.dto.UpdateUserImageDTO;
 import com.jee.back.dto.UserResponseDTO;
 import com.jee.back.entity.User;
 import com.jee.back.service.UserService;
@@ -55,5 +56,12 @@ public class UserController {
         User user = userService.updateUser(email, updateUserDTO);
         System.out.println("updated user info: " + user);
         return ResponseEntity.ok(Map.of("success", user));
+    }
+
+    @PutMapping("/image")
+    public ResponseEntity<Map<String, Object>> updateUserImage(@RequestBody UpdateUserImageDTO updateImageDTO) {
+        log.info("Updating user image for email: {}", updateImageDTO.getEmail());
+        Map<String, Object> response = userService.updateUserImage(updateImageDTO);
+        return ResponseEntity.ok(response);
     }
 }

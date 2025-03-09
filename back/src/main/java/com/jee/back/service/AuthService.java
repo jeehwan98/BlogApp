@@ -7,22 +7,17 @@ import com.jee.back.entity.Role;
 import com.jee.back.entity.User;
 import com.jee.back.repository.UserRepository;
 import com.jee.back.util.CookieUtil;
-import com.jee.back.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -98,6 +93,8 @@ public class AuthService {
             return response;
         }
 
+        registerDTO.setRole(Role.USER);
+        registerDTO.setProvider("Email");
         registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         User user = modelMapper.map(registerDTO, User.class);
         userRepository.save(user);

@@ -7,7 +7,7 @@ export async function updateUserImageAPI({
 
   console.log("updated image url?: ", image);
   try {
-    const response = await fetch("http://localhost:8080/api/v1/users/image", {
+    const response = await fetch("http://localhost:8080/api/v1/user/image", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, image }),

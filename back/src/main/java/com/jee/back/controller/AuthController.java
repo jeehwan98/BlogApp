@@ -72,6 +72,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@Valid @RequestBody RegisterDTO registerDTO) {
+        log.info("registering user ✅");
         Map<String, Object> response = authService.registerUser(registerDTO);
         if (!(Boolean) response.get("success")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
