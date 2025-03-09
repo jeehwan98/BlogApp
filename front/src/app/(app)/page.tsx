@@ -1,10 +1,10 @@
 "use client"
 
-import Title from "@/components/HomePage/Components";
+import Title from "@/components/home/components";
 import { Blog } from "@/lib/interfaces";
 import { useEffect, useState } from "react";
 import { fetchBlogAPI } from "../api/blog";
-import BlogCard from "@/components/HomePage/blogCard/index";
+import BlogCard from "@/components/home/blog-card/index";
 
 export default function Home() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
