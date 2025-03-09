@@ -4,7 +4,7 @@ import Title from "@/components/HomePage/Components";
 import { Blog } from "@/lib/interfaces";
 import { useEffect, useState } from "react";
 import { fetchBlogAPI } from "../api/blog";
-import BlogCard from "@/components/HomePage/BlogCard/index";
+import BlogCard from "@/components/HomePage/blogCard/index";
 
 export default function Home() {
   const [blogs, setBlogs] = useState<Blog[]>([]);

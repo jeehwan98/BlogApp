@@ -2,11 +2,12 @@ import ProfileAvatar from "@/components/avatar";
 import { generateUniqueUserId } from "@/lib/constants";
 import { Blog } from "@/lib/interfaces";
 import Link from "next/link";
+import { BlogCardBottomContainer, BlogCardBottomUserContainer } from "./components";
 
 export default function BlogCardBottom({ blog }: { blog: Blog }) {
   return (
-    <div className="flex items-center justify-between p-4 border-t">
-      <div className="flex items-center align-middle gap-3">
+    <BlogCardBottomContainer>
+      <BlogCardBottomUserContainer>
         <Link
           href={`profile/${generateUniqueUserId(blog.user.email)}/post`}
           className="flex items-center cursor-pointer">
@@ -22,13 +23,13 @@ export default function BlogCardBottom({ blog }: { blog: Blog }) {
             </span>
           </div>
         </Link>
-      </div>
+      </BlogCardBottomUserContainer>
       <Link
         href={`/blogs/${blog.id}`}
         className="text-sm text-blue-500 hover:underline"
       >
         더 보기
       </Link>
-    </div>
+    </BlogCardBottomContainer >
   )
 }
