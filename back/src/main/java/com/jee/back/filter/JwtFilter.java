@@ -28,8 +28,15 @@ public class JwtFilter extends OncePerRequestFilter {
     /** this filter extracts the token from the request, validates it, and sets authentication in the context */
     private final JwtUtil jwtUtil;
     private final UsersDetailsService usersDetailsService;
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/api/v1/auth/forgot-password/**");
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        log.info("in doFilterInternal");
         String token = extractTokenFromCookies(request);
         String email = null;
 

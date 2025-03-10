@@ -33,6 +33,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Log4j2
@@ -44,13 +45,13 @@ public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final CookieUtil cookieUtil;
     private final UserDetailsService userDetailsService;
-    private final JwtFilter jwtFilter;
 
     @Bean
     @Order(1)
     public SecurityFilterChain permittedURLS(HttpSecurity http) throws Exception {
+
         http
-                .securityMatcher("/api/v1/auth/register", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout")
+                .securityMatcher("/api/v1/auth/register", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout", "/api/v1/auth/forgot-password/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session
@@ -83,7 +84,7 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/login/github", "/api/v1/auth/register", "api/v1/auth/logout").permitAll()
+                        .requestMatchers("/api/v1/auth/login", "/api/v1/auth/login/github", "/api/v1/auth/register", "/api/v1/auth/logout").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/blog").permitAll()
                         .requestMatchers("/api/v1/auth/logout").hasAnyRole("ADMIN", "USER")
                         .requestMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_ADMIN")
@@ -91,6 +92,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/user/**").permitAll()
                         .requestMatchers("/api/v1/blog/**").permitAll()
                         .requestMatchers("/api/v1/feedback/**").permitAll()
+                        .requestMatchers("/api/v1/auth/forgotPassword").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
@@ -145,7 +147,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "Set-Cookie"));
-        configuration.setExposedHeaders(List.of("Set-Cookie"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
 
@@ -158,6 +160,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-
-
 }

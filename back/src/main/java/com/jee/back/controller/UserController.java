@@ -32,6 +32,7 @@ public class UserController {
      * */
     @GetMapping("/current")
     public ResponseEntity<Map<String, Object>> getCurrentUserInfo(@AuthenticationPrincipal UserDetails userDetails) {
+        log.info("get current user info in user controller");
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not authenticated"));
         }

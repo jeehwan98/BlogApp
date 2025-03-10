@@ -18,7 +18,15 @@ export function AuthFormContainer({ children }: { children: ReactNode }) {
 export function AuthHeader() {
   const pathname = usePathname();
 
-  const headerName = pathname === '/login' ? 'Sign In' : pathname === '/register' ? 'Register' : '';
+  const headerName =
+    pathname === "/login"
+      ? "Sign In"
+      : pathname === "/register"
+        ? "Register"
+        : pathname === "/forgot-password"
+          ? "Forgot Password"
+          : "";
+
   return (
     <h1 className="text-2xl font-bold text-center my-4 mb-4">
       {headerName}
