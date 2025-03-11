@@ -2,6 +2,8 @@
 
 import useEditStore from "@/lib/zustand/post"
 import React, { useState } from "react";
+import { EditTagContainer } from "./components";
+import { Button } from "@/components/ui/Button";
 
 export default function EditTags() {
   const { post, addTags } = useEditStore();
@@ -50,21 +52,22 @@ export default function EditTags() {
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2 border-none overflow-x">
+    <EditTagContainer>
       {post.tags.map((tag, index) => (
-        <span
+        <Button
+          variant="ghost"
           key={index}
           className="flex items-center bg-gray-50 text-gray-800 rounded-lg px-3 py-1 text-base cursor-pointer hover:bg-gray-200"
           onClick={() => removeTag(index)}
         >
           {tag}
-        </span>
+        </Button>
       ))}
       <input
         type="text"
         name="tags"
         placeholder="태그를 입력하세요"
-        className="flex-grow text-xl px-2 outline-none bg-transparent"
+        className="flex-grow text-xl outline-none bg-transparent pl-2"
         value={currentTag}
         onChange={handleTagsInput}
         onKeyDown={handleKeyDown}
@@ -72,6 +75,6 @@ export default function EditTags() {
         onCompositionStart={handleCompositionStart}
         onCompositionEnd={handleCompositionEnd}
       />
-    </div>
+    </EditTagContainer>
   )
 }

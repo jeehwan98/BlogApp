@@ -1,4 +1,4 @@
-import { PreviewWrapper } from "../WriteComponents";
+import { PreviewWrapper } from "../components";
 import PreviewContent from "./Content";
 import PreviewTags from "./Tags";
 import PreviewTitle from "./Title";

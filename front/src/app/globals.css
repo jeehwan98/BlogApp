@@ -42,7 +42,11 @@ body {
 
 .ql-editor {
   font-size: larger;
-  padding: 8px;
+  /* padding: 2rem 4rem; */
+}
+
+.ql-lbank {
+  padding: 2rem 4rem;
 }
 
 .ql-syntax {

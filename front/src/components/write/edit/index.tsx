@@ -1,4 +1,4 @@
-import { EditWrapper } from "../WriteComponents";
+import { EditWrapper } from "../components";
 import EditBottomNav from "./BottomNav";
 import EditContent from "./Content";
 // import Divider from "./Divider";

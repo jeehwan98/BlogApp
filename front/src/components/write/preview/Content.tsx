@@ -17,7 +17,9 @@ export default function PreviewContent() {
         style={{
           marginTop: "30px",
           overflow: "auto",
-          whiteSpace: "normal"
+          height: "auto",
+          whiteSpace: "normal",
+          overflowY: "visible",
         }}
       />
     </div>

@@ -2,7 +2,7 @@
 
 import useEditStore from "@/lib/zustand/post"
 import React from "react";
-import Divider from "./Divider";
+import { Divider, EditTitleContainer } from "./components";
 
 export default function EditTitle() {
   const { post, addTitle } = useEditStore();
@@ -12,7 +12,7 @@ export default function EditTitle() {
   }
 
   return (
-    <div>
+    <EditTitleContainer>
       <input
         type="text"
         name='title'
@@ -22,6 +22,6 @@ export default function EditTitle() {
         className="w-full text-4xl font-bold p-2 outline-none bg-transparent overscroll-auto"
       />
       <Divider />
-    </div>
+    </EditTitleContainer>
   )
 }
