@@ -51,7 +51,7 @@ public class SecurityConfig {
     public SecurityFilterChain permittedURLS(HttpSecurity http) throws Exception {
 
         http
-                .securityMatcher("/api/v1/auth/register", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout", "/api/v1/auth/forgot-password/**")
+                .securityMatcher("/api/v1/auth/register", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout", "/api/v1/auth/forgot-password/**", "/api/v1/auth/reset-password/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session

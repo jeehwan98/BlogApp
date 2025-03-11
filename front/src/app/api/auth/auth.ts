@@ -60,15 +60,14 @@ export async function logoutAPI() {
 
 export async function forgotPasswordAPI(email: string) {
   try {
-    const response = await fetch("http://localhost:8080/api/v1/auth/forgotPassword", {
+    const response = await fetch(`http://localhost:8080/api/v1/auth/forgot-password/${email}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", },
-      body: JSON.stringify(email),
     });
 
     const responseData = await response.json();
 
-    console.log(responseData);
+    console.log("response from forgot password action", responseData);
 
     if (!response.ok || !responseData.success) {
       console.log("error");
@@ -90,37 +89,41 @@ export async function forgotPasswordAPI(email: string) {
       errors: { email: "Something went wrong. Please try again." },
     };
   }
-  // try {
-  //   const response = await fetch("http://localhost:3000/api/v1/auth/forgot-password", {
-  //     method: "POST",
-  //     headers: URL.HEADERS,
-  //     body: JSON.stringify(email),
-  //     credentials: "include",
-  //   });
+}
 
-  //   const responseData = await response.json();
-  //   console.log("response data?: ", responseData);
+export async function resetPasswordAPI(token: string, password: string) {
+  const formData = new FormData();
+  formData.append("token", token);
+  formData.append("password", password);
 
-  //   if (!response.ok) {
-  //     return {
-  //       success: false,
-  //       error: responseData.error || "User doesn't exist"
-  //     };
-  //   }
+  let responseData;
+  try {
+    const response = await fetch("http://localhost:8080/api/v1/auth/reset-password", {
+      method: "POST",
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+      body: formData,
+    });
 
-  //   if (!responseData.success) {
-  //     return {
-  //       success: false,
-  //       error: responseData.error
-  //     }
-  //   }
+    responseData = await response.json();
 
-  //   return {
-  //     success: true,
-  //     message: responseData.message,
-  //   };
-  // } catch (error) {
-  //   console.error("Error during login", error);
-  //   throw error;
-  // }
+    if (!response.ok) {
+      return {
+        success: false,
+        errors: { general: responseData.error || "Failed to reset password." },
+      };
+    }
+
+    return {
+      success: true,
+      message: responseData.message,
+    };
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    return {
+      success: false,
+      errors: { general: responseData.error },
+    };
+  }
 }

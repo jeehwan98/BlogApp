@@ -150,20 +150,21 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(
+    public ResponseEntity<Map<String, Object>> resetPassword(
             @RequestParam String token,
-            @RequestParam String newPassword) {
+            @RequestParam String password) {
+        log.info("in reset-password method ✅");
+        Map<String, Object> response = new HashMap<>();
         Optional<PasswordResetToken> tokenOpt = tokenRepository.findByToken(token);
         if (tokenOpt.isEmpty() || tokenOpt.get().isExpired()) {
-            return ResponseEntity.badRequest().body("Invalid or expired token");
+            response.put("success", false);
+            response.put("error", "Invalid or expired token");
+            return ResponseEntity.badRequest().body(response);
         }
 
         User user = tokenOpt.get().getUser();
-        user.setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user);
-        tokenRepository.delete(tokenOpt.get());
-
-        return ResponseEntity.ok("Password reset successfully");
+        response =  userService.updatePassword(user, password, tokenOpt.get());
+        return ResponseEntity.ok(response);
     }
 
     private void sendResetEmail(String email, String resetUrl) throws MessagingException {
