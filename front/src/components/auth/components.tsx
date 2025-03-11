@@ -57,7 +57,7 @@ export function AlertMessage() {
     <div className="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white text-sm font-medium px-4 py-3 rounded-lg shadow-lg gap-3 animate-fadeIn">
       <div className="flex justify-center gap-2 align-middle text-center items-center">
         <CircleCheck className="w-5 h-5" />
-        <span>Password Reset Successfully</span>
+        <span>{alertMessage}</span>
       </div>
     </div>
   );

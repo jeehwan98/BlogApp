@@ -6,7 +6,7 @@ import { FormImageInput, FormInput, PasswordInput } from "@/components/ui/input"
 import { RegisterBottomNav } from "./components";
 import { registerAction } from "@/app/(app)/register/action";
 import { Loader2, Mail, User } from "lucide-react";
-import { RegisterStateProps } from "@/interfaces/auth";
+import { RegisterStateProps } from "@/interfaces/auth/register";
 
 export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState<boolean>(false);

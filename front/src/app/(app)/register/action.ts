@@ -81,5 +81,6 @@ export async function registerAction(
     };
   }
 
-  redirect("/login");
+  // redirect("/login");
+  redirect("/login?message=Registration successful")
 }

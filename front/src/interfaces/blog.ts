@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface PostBlog {
   title: string;
   tags: string[];

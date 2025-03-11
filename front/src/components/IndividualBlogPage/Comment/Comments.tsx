@@ -1,12 +1,11 @@
 "use client"
 
-import { Comment } from "@/lib/interfaces";
 import ProfileAvatar from "@/components/avatar";
 import Link from "next/link";
 import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
 import { useEffect, useState } from "react";
-import { Blog } from "@/lib/interfaces";
 import { fetchCommentsAPI } from "@/app/api/comment";
+import { Blog, Comment } from "@/interfaces/blog";
 
 export default function Comments({ blogInfo }: { blogInfo: Blog }) {
   const [comments, setComments] = useState<Comment[]>([]);
