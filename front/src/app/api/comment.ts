@@ -31,13 +31,17 @@ export async function fetchCommentsAPI(id: number) {
     });
 
     const responseData = await response.json();
+    console.log("responseData:", responseData);
 
-    if (!response.ok) {
-      throw new Error("Error fetching comments");
-    }
 
     if (response.ok) {
+      console.log("완료!");
       return responseData;
+    }
+
+    if (!response.ok) {
+      // 여기?
+      throw new Error("Error fetching comments");
     }
   } catch (error) {
     console.error("Error fetching comments", error);

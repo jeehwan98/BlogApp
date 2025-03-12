@@ -1,28 +1,23 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { fetchCommentsAPI, postCommentAPI } from "@/app/api/comment";
-import { Blog } from "@/interfaces/blog";
+import { postCommentAPI } from "@/app/api/comment";
+import { Blog, Comment } from "@/interfaces/blog";
+import { toast } from "sonner";
 
-export default function CommentSection({ blogInfo }: { blogInfo: Blog }) {
+export default function CommentSection({
+  blogInfo,
+  comments,
+  setComments,
+}: {
+  blogInfo: Blog,
+  comments: Comment[],
+  setComments: () => Promise<void>;
+}) {
   const [comment, setComment] = useState<string>("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [posting, setPosting] = useState<boolean>(false);
-  const [comments, setComments] = useState<Comment[]>([]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const fetchedComments = await fetchCommentsAPI(blogInfo.id);
-        setComments(fetchedComments);
-      } catch (error) {
-        console.error("Error fetching errors:", error);
-      }
-    };
-
-    fetchComments();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -46,15 +41,14 @@ export default function CommentSection({ blogInfo }: { blogInfo: Blog }) {
 
       if (response.success) {
         setComment("");
-        alert("comment posted successfully");
-        window.location.reload();
+        await setComments();
+        toast.success("Comment posted successfully");
       } else {
-        alert("Failed to post comment");
+        toast.error("Failed to post comment")
       }
-
     } catch (error) {
-      setPosting(false);
       console.error("Error occurred while posting comments", error);
+      toast.error("Failed to post comment");
     } finally {
       setPosting(false);
     }
@@ -64,8 +58,12 @@ export default function CommentSection({ blogInfo }: { blogInfo: Blog }) {
     <div className="flex flex-col lg:gap-6 md:gap-5 gap-4 w-full mt-5">
       {/* COMMENT TITLE */}
       <div className="flex items-center gap-1">
-        <span className="lg:text-xl md:text-lg text-base font-semibold">{comments.length}</span>
-        <h1 className="lg:text-xl md:text-lg text-base font-semibold">Comments</h1>
+        <span className="lg:text-xl md:text-lg text-base font-semibold">
+          {comments.length}
+        </span>
+        <h1 className="lg:text-xl md:text-lg text-base font-semibold">
+          Comments
+        </h1>
       </div>
       {/* COMMENT WRITE AREA */}
       <div className="flex items-center justify-between gap-8">

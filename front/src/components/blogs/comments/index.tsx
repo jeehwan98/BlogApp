@@ -3,57 +3,51 @@
 import ProfileAvatar from "@/components/avatar";
 import Link from "next/link";
 import { ALERT, ERROR, formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
-import { useCallback, useEffect, useState } from "react";
-import { deleteCommentAPI, fetchCommentsAPI } from "@/app/api/comment";
+import { deleteCommentAPI } from "@/app/api/comment";
 import { Blog, Comment } from "@/interfaces/blog";
 import { useAuth } from "@/lib/auth-client";
 import { CommentedUserDetailsContainer } from "./components";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 
-export default function Comments({ blogInfo }: { blogInfo: Blog }) {
+export default function Comments({
+  blogInfo,
+  comments,
+  setComments,
+}: {
+  blogInfo: Blog,
+  comments: Comment[],
+  setComments: React.Dispatch<React.SetStateAction<Comment[]>>;
+}) {
   const { user } = useAuth();
-  const [comments, setComments] = useState<Comment[]>([]);
-
-  const fetchComments = useCallback(async () => {
-    try {
-      const fetchedComments = await fetchCommentsAPI(blogInfo.id);
-      setComments(fetchedComments);
-    } catch (error) {
-      console.error("Error fetching comments:", error);
-      toast.error(ERROR.SOMETHING_WENT_WRONG, {
-        description: "Failed to load comments.",
-      });
-    }
-  }, [blogInfo.id]);
-
-  useEffect(() => {
-    fetchComments();
-  }, [fetchComments]);
 
   const handleDeleteComment = async (commentId: number) => {
     if (!user || !confirm(ALERT.DELETE_COMMENT)) return;
+
+    const commentToDelete = comments.find((comment) => comment.id === commentId);
+    setComments(comments.filter((comment) => comment.id !== commentId));
 
     try {
       const response = await deleteCommentAPI(blogInfo.id, commentId, user.email);
       console.log("response in client side?: ", response);
       if (response.error) {
-        toast(ERROR.SOMETHING_WENT_WRONG, {
+        if (commentToDelete) {
+          setComments([...comments, commentToDelete].sort((a, b) => a.id - b.id));
+        }
+        toast.error(ERROR.SOMETHING_WENT_WRONG, {
           description: response.error,
-          // action: {
-          //   label: "Undo",
-          //   onClick: () => console.log("Undo"),
-          // },
-        })
+        });
+        return;
       };
 
-      await fetchComments();
-
-      toast(response.success);
+      toast.success(response.success);
     } catch (error) {
       console.error("Error deleting comment:", error);
+      if (commentToDelete) {
+        setComments([...comments, commentToDelete].sort((a, b) => a.id - b.id));
+      }
       toast.error(ERROR.SOMETHING_WENT_WRONG, {
-        description: ERROR.DELETE_COMMENT
+        description: "Failed to delete comment.",
       });
     }
   };
