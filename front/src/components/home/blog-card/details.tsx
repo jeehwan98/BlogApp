@@ -1,8 +1,8 @@
-import { Blog } from "@/lib/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import blankBlogImage from "../../../../public/images/blog-image.avif";
 import { formatRelativeDate } from "@/lib/constants";
+import { Blog } from "@/interfaces/blog";
 
 export default function BlogCardDetails({ blog }: { blog: Blog }) {
 
@@ -10,7 +10,7 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
 
-    // Find the first image
+    // show the first image as the image
     const firstImage = doc.querySelector("img");
     let coverImageSrc = blankBlogImage.src; // Default image
     let remainingContent = htmlContent;
@@ -21,6 +21,11 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
       firstImage.remove();
       remainingContent = doc.body.innerHTML;
     }
+
+    // remove all remaining images from the content
+    const remainingImages = doc.querySelectorAll("img");
+    remainingImages.forEach(image => image.remove());
+    remainingContent = doc.body.innerHTML;
 
     return { coverImageSrc, remainingContent };
   };

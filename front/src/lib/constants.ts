@@ -85,7 +85,7 @@ export function formatDate(localDateTimeArray: number[]) {
   });
 }
 
-export function formatRelativeDate(localDateTimeArray: number[]) {
+export function formatRelativeDate(localDateTimeArray: Date) {
   if (!Array.isArray(localDateTimeArray) || localDateTimeArray.length < 3) {
     return "Invalid date";
   }
