@@ -29,7 +29,6 @@ export default function Comments({
 
     try {
       const response = await deleteCommentAPI(blogInfo.id, commentId, user.email);
-      console.log("response in client side?: ", response);
       if (response.error) {
         if (commentToDelete) {
           setComments([...comments, commentToDelete].sort((a, b) => a.id - b.id));

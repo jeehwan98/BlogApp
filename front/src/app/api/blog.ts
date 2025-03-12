@@ -1,4 +1,4 @@
-import { PostBlog } from "@/lib/interfaces";
+import { PostBlog } from "@/interfaces/blog";
 import { URL } from "@/lib/constants";
 
 // POST BLOG
@@ -67,7 +67,7 @@ export async function fetchBlogByUserAPI(email: string) {
   }
 }
 
-export async function fetchBlogById(id: string) {
+export async function fetchBlogById(id: number) {
   try {
     const response = await fetch(`${URL.BLOG}/${id}`, {
       method: "GET",

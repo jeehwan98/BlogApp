@@ -1,5 +1,5 @@
-import ProfileSection from "@/components/ProfilePage/ProfileSection";
-import TabsSection from "@/components/ProfilePage/TabSection";
+import ProfileSection from "@/components/profile/ProfileSection";
+import TabsSection from "@/components/profile/TabSection";
 import React from "react";
 
 export default async function ProfilePageLayout({

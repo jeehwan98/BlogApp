@@ -51,10 +51,6 @@ export async function fetchCommentsAPI(id: number) {
 }
 
 export async function deleteCommentAPI(blogId: number, commentId: number, email: string) {
-  console.log("in delete comment API!");
-  console.log(blogId);
-  console.log(commentId);
-  console.log(email);
   try {
     const response = await fetch(`http://localhost:8080/api/v1/comments/${blogId}/${commentId}`, {
       method: "DELETE",
@@ -69,7 +65,6 @@ export async function deleteCommentAPI(blogId: number, commentId: number, email:
     }
 
     if (response.ok) {
-      console.log("responseData?: ", responseData.success);
       return responseData;
     }
   } catch (error) {

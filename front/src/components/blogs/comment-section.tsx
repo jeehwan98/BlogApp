@@ -37,7 +37,6 @@ export default function CommentSection({
     setPosting(true);
     try {
       const response = await postCommentAPI(blogInfo.id, comment);
-      console.log("Response:", response);
 
       if (response.success) {
         setComment("");
