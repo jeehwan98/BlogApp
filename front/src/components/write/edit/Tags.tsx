@@ -67,7 +67,7 @@ export default function EditTags() {
         type="text"
         name="tags"
         placeholder="태그를 입력하세요"
-        className="flex-grow text-xl outline-none bg-transparent pl-2"
+        className="flex-grow text-xl outline-none bg-transparent pl-3"
         value={currentTag}
         onChange={handleTagsInput}
         onKeyDown={handleKeyDown}

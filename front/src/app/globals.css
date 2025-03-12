@@ -45,10 +45,11 @@ body {
 }
 
 .ql-editor {
+  padding: 30px 15px;
   font-size: larger;
-  max-height: 100%;
+  /* max-height: 100%; */
   /* prevents it from growing beyond its container */
-  overflow-y: auto;
+  overflow-y: hidden;
   /* ensures scrolling within the editor */
 }
 

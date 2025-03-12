@@ -1,7 +1,7 @@
 import { PreviewContainer } from "../components";
-import PreviewContent from "./Content";
-import PreviewTags from "./Tags";
-import PreviewTitle from "./Title";
+import PreviewContent from "./content";
+import PreviewTags from "./tags";
+import PreviewTitle from "./title";
 
 export default function PreviewSection() {
   return (

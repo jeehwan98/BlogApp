@@ -94,6 +94,7 @@ public class AuthController {
 
     @GetMapping("/current")
     public ResponseEntity<Map<String, Object>> getCurrentUserInfo(HttpServletRequest request) {
+        log.info("in current!");
         try {
             String email = cookieUtil.getLoggedInUserEmail(request);
             if (email == null) {

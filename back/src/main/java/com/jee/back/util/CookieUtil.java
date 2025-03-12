@@ -34,7 +34,7 @@ public class CookieUtil {
         String accessToken = createAccessToken(user);
         String refreshToken = createRefreshToken();
 
-        setCookie(response, "accessToken", accessToken, 15 * 60);
+        setCookie(response, "accessToken", accessToken, 60 * 60);
         setCookie(response, "refreshToken", refreshToken, 7 * 24 * 60 * 60);
         log.info("Cookies set - accessToken: {}, refreshToken: {}", accessToken, refreshToken);
     }

@@ -33,11 +33,11 @@ public class JwtFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         return path.startsWith("/api/v1/auth/forgot-password/**") ||
-                path.startsWith("/api/v1/auth/reset-password/**");
+                path.startsWith("/api/v1/auth/reset-password/**") ||
+                path.startsWith("/api/v1/auth/current/**");
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.info("in doFilterInternal");
         String token = extractTokenFromCookies(request);
         String email = null;
 

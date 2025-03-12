@@ -13,6 +13,7 @@ export default function UserButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
+  // const { user } = get
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

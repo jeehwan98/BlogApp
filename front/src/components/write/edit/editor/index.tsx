@@ -81,7 +81,7 @@ export default function Editor() {
   const updatedFormats = useMemo(() => [...formats, "image"], []);
 
   return (
-    <div className="w-full pb-20">
+    <div className="w-full">
       <CustomToolbar />
       <ReactQuill
         ref={quillRef}
@@ -91,6 +91,7 @@ export default function Editor() {
         modules={modules}
         formats={updatedFormats}
         placeholder="Write your story..."
+        className="h-[calc(100%-40px)]"
       />
     </div>
   );
