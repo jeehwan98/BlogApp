@@ -1,9 +1,9 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "../ui/button";
-import { Blog } from "@/lib/interfaces";
+import { Button } from "@/components/ui/button";
 import { fetchCommentsAPI, postCommentAPI } from "@/app/api/comment";
+import { Blog } from "@/interfaces/blog";
 
 export default function CommentSection({ blogInfo }: { blogInfo: Blog }) {
   const [comment, setComment] = useState<string>("");

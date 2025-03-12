@@ -1,14 +1,14 @@
 "use client"
 
 import { fetchBlogById } from "@/app/api/blog";
-import { Blog } from "@/lib/interfaces";
 import { useEffect, useState } from "react";
 import BlogTitle from "./Title";
-import BlogContent from "./BlogContent";
+import BlogContent from "./content";
 import BlogInfo from "./BlogInfo";
-import SeparateLine from "../ui/SeparateLine";
 import CommentSection from "./CommentSection";
-import Comments from "./Comment/Comments";
+import Comments from "@/components/blogs/comments";
+import SeparateLine from "@/components/ui/separate-line";
+import { Blog } from "@/interfaces/blog";
 
 export default function BlogDetails({ id }: { id: string }) {
   const [blogDetail, setBlogDetail] = useState<Blog | null>(null);

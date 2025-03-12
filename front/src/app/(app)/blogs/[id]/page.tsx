@@ -1,7 +1,7 @@
-import BlogInfo from "@/components/IndividualBlogPage";
-import BlogContainer from "@/components/IndividualBlogPage/BlogContainer";
+import BlogInfo from "@/components/blogs";
+import BlogContainer from "@/components/blogs/BlogContainer";
 
-export default async function IndividualBlogPage({ params }: { params: { id: string } }) {
+export default async function BlogPage({ params }: { params: { id: string } }) {
   const blogId = await params.id;
 
   return (
