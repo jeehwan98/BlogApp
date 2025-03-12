@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { getServerSession } from "@/lib/auth-server";
 import { AuthProvider } from "@/lib/auth-client";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,6 +16,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
       <body>
         <AuthProvider initialUser={user}>
           {children}
+          <Toaster />
         </AuthProvider>
       </body>
     </html>

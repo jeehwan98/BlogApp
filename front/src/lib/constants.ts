@@ -172,3 +172,12 @@ export const URL = Object.freeze({
   GET_CURRENT_USER_DETAILS: `${BASE_URL}/user/loggedInUser`,
   COMMENT: `${BASE_URL}/comments`,
 });
+
+export const ALERT = Object.freeze({
+  DELETE_COMMENT: "Are you sure you want to delete this comment?",
+});
+
+export const ERROR = Object.freeze({
+  SOMETHING_WENT_WRONG: "Uh oh! Something went wrong.",
+  REQUEST_DESCRIPTION: "There was a problem with your request.",
+});

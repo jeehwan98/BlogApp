@@ -2,13 +2,13 @@
 
 import { fetchBlogById } from "@/app/api/blog";
 import { useEffect, useState } from "react";
-import BlogTitle from "./Title";
 import BlogContent from "./content";
 import BlogInfo from "./blog-info";
 import CommentSection from "./comment-section";
 import Comments from "@/components/blogs/comments";
 import SeparateLine from "@/components/ui/separate-line";
 import { Blog } from "@/interfaces/blog";
+import { BlogTitle } from "./components";
 
 export default function BlogDetails({ id }: { id: string }) {
   const [blogDetail, setBlogDetail] = useState<Blog | null>(null);

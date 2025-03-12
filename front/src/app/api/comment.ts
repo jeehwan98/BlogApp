@@ -44,3 +44,12 @@ export async function fetchCommentsAPI(id: number) {
     throw error;
   }
 }
+
+export async function deleteCommentAPI(commendId: number, email: string) {
+  try {
+    console.log(commendId);
+    console.log(email);
+  } catch (error) {
+    console.log(error);
+  }
+}
