@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "../ui/Button";
+import { Button } from "../ui/button";
 import { Blog } from "@/lib/interfaces";
 import { fetchCommentsAPI, postCommentAPI } from "@/app/api/comment";
 

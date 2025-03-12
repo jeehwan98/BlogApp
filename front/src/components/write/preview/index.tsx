@@ -1,14 +1,14 @@
-import { PreviewWrapper } from "../components";
+import { PreviewContainer } from "../components";
 import PreviewContent from "./Content";
 import PreviewTags from "./Tags";
 import PreviewTitle from "./Title";
 
 export default function PreviewSection() {
   return (
-    <PreviewWrapper>
+    <PreviewContainer>
       <PreviewTitle />
       <PreviewTags />
       <PreviewContent />
-    </PreviewWrapper>
+    </PreviewContainer>
   )
 }

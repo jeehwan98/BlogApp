@@ -2,7 +2,7 @@ import blogPicture from "../../../public/images/blog-image.avif";
 import { Blog } from "@/lib/interfaces";
 import Image from "next/image";
 import Link from "next/link";
-import TagList from "../ui/TagList";
+import TagList from "../ui/tag-list";
 
 export default function ProfileBlogCard({ blog }: { blog: Blog }) {
 

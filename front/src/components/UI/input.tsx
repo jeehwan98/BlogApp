@@ -5,7 +5,7 @@ import { Eye, EyeOff, Lock, Mail } from "lucide-react"
 import { capitalizeFirstLetter } from "@/lib/constants";
 import Image from "next/image";
 import defaultCameraImage from "../../../public/images/default-camera.jpg";
-import { Button } from "./Button";
+import { Button } from "./button";
 
 export const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {

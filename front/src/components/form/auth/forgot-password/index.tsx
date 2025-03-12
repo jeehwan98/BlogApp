@@ -1,7 +1,7 @@
 "use client"
 
 import { forgotPasswordAction } from "@/app/(app)/forgot-password/action";
-import { Button } from "@/components/ui/Button"
+import { Button } from "@/components/ui/button"
 import { FormInput } from "@/components/ui/input";
 import { Loader2, Mail } from "lucide-react";
 import Link from "next/link";

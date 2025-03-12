@@ -1,6 +1,6 @@
 import { Blog } from "@/lib/interfaces";
 import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
-import TagList from "../ui/TagList";
+import TagList from "../ui/tag-list";
 import ProfileAvatar from "../avatar";
 import Link from "next/link";
 

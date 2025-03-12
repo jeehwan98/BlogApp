@@ -26,7 +26,7 @@ export function EditTagContainer({ children }: { children: ReactNode }) {
 
 export function EditContentContainer({ children }: { children: ReactNode }) {
   return (
-    <div className="px-10 flex items-center justify-between gap-8 h-[calc(100vh-200px)] overflow-y-auto">
+    <div className="px-10 flex justify-between gap-8 h-[calc(100vh-200px)] overflow-y-auto pb-20">
       {children}
     </div>
   )

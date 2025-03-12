@@ -3,7 +3,7 @@
 import useEditStore from "@/lib/zustand/post"
 import React, { useState } from "react";
 import { EditTagContainer } from "./components";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 export default function EditTags() {
   const { post, addTags } = useEditStore();

@@ -81,7 +81,7 @@ export default function Editor() {
   const updatedFormats = useMemo(() => [...formats, "image"], []);
 
   return (
-    <div className="w-full">
+    <div className="w-full pb-20">
       <CustomToolbar />
       <ReactQuill
         ref={quillRef}

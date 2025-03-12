@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import navigation from "@/lib/links/navbar.json";
-import { Button, buttonVariants } from "../ui/Button";
+import { Button, buttonVariants } from "../ui/button";
 import { useAuth } from "@/lib/auth-client";
 
 export default function MobileLink() {

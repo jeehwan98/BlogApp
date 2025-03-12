@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useActionState, useRef, useState } from "react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { FormImageInput, FormInput, PasswordInput } from "@/components/ui/input";
 import { RegisterBottomNav } from "./components";
 import { registerAction } from "@/app/(app)/register/action";

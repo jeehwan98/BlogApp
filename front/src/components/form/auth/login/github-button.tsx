@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTheme } from "next-themes"
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 export default function GithubSignInButton() {
   const { theme } = useTheme();

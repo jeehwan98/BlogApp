@@ -1,7 +1,7 @@
 "use client"
 
 import { resetPasswordAction } from "@/app/(app)/reset-password/action";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { PasswordInput } from "@/components/ui/input";
 import { ResetPasswordProps } from "@/interfaces/auth/reset-password";
 import { Loader2 } from "lucide-react";

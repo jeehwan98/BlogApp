@@ -16,9 +16,13 @@
   box-sizing: border-box;
 }
 
+html,
 body {
   max-width: 100vw;
   /* prevent overflowing */
+  height: 100%;
+  margin: 0;
+  padding: 0;
   overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -42,11 +46,14 @@ body {
 
 .ql-editor {
   font-size: larger;
-  /* padding: 2rem 4rem; */
+  max-height: 100%;
+  /* prevents it from growing beyond its container */
+  overflow-y: auto;
+  /* ensures scrolling within the editor */
 }
 
-.ql-lbank {
-  padding: 2rem 4rem;
+.ql-blank {
+  /* padding: 2rem 4rem; */
 }
 
 .ql-syntax {

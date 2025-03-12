@@ -4,7 +4,7 @@ import navigation from "@/lib/links/navbar.json";
 import Link from "next/link";
 import UserButton from "./UserButton";
 import { usePathname } from "next/navigation";
-import { buttonVariants } from "../ui/Button";
+import { buttonVariants } from "../ui/button";
 
 export default function DesktopLink() {
   const path = usePathname();

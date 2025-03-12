@@ -1,4 +1,4 @@
-import { EditWrapper } from "../components";
+import { EditContainer } from "../components";
 import EditBottomNav from "./BottomNav";
 import EditContent from "./Content";
 // import Divider from "./Divider";
@@ -7,11 +7,11 @@ import EditTitle from "./Title";
 
 export default function EditSection() {
   return (
-    <EditWrapper>
+    <EditContainer>
       <EditTitle />
       <EditTags />
       <EditContent />
       <EditBottomNav />
-    </EditWrapper>
+    </EditContainer>
   )
 }

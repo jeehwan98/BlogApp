@@ -1,7 +1,7 @@
 "use client"
 
 import { postBlogAPI } from "@/app/api/blog";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { uploadImage } from "@/lib/cloudinary";
 import useEditStore from "@/lib/zustand/post";
 import Link from "next/link";
