@@ -8,7 +8,7 @@ import CommentSection from "./comment-section";
 import Comments from "@/components/blogs/comments";
 import SeparateLine from "@/components/ui/separate-line";
 import { Blog } from "@/interfaces/blog";
-import { BlogTitle } from "./components";
+import { BlogDetailsContainer, BlogTitle } from "./components";
 
 export default function BlogDetails({ id }: { id: string }) {
   const [blogDetail, setBlogDetail] = useState<Blog | null>(null);
@@ -38,13 +38,13 @@ export default function BlogDetails({ id }: { id: string }) {
   }
 
   return (
-    <div className="flex-1 p-4">
+    <BlogDetailsContainer>
       <BlogTitle title={blogDetail.title} />
       <BlogInfo blogInfo={blogDetail} />
       <BlogContent content={blogDetail.content} />
       <SeparateLine />
       <CommentSection blogInfo={blogDetail} />
       <Comments blogInfo={blogDetail} />
-    </div>
+    </BlogDetailsContainer>
   )
 }

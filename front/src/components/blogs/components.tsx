@@ -18,3 +18,11 @@ export function BlogTitle({ title }: { title: string }) {
     </h1>
   )
 }
+
+export function BlogDetailsContainer({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex-1 p-4">
+      {children}
+    </div>
+  )
+}
