@@ -1,10 +1,11 @@
 import { URL } from "@/lib/constants";
 
 export async function postCommentAPI(blogId: number, comment: string) {
+  console.log("comment?: ", comment);
   try {
     const response = await fetch(`${URL.COMMENT}/${blogId}`, {
       method: "POST",
-      body: JSON.stringify(comment),
+      body: comment,
       headers: URL.HEADERS,
       credentials: "include",
     });
