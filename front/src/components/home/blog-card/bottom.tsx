@@ -1,8 +1,8 @@
 import ProfileAvatar from "@/components/avatar";
 import { generateUniqueUserId } from "@/lib/constants";
-import { Blog } from "@/lib/interfaces";
 import Link from "next/link";
 import { BlogCardBottomContainer, BlogCardBottomUserContainer } from "./components";
+import { Blog } from "@/interfaces/blog";
 
 export default function BlogCardBottom({ blog }: { blog: Blog }) {
   return (

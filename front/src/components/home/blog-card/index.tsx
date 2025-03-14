@@ -1,7 +1,7 @@
-import { Blog } from "@/lib/interfaces";
 import BlogCardBottom from "./bottom";
 import BlogCardDetails from "./details";
 import { BlogCardContainer } from "./components";
+import { Blog } from "@/interfaces/blog";
 
 export default function BlogCard({ blog }: { blog: Blog }) {
   return (
