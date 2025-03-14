@@ -34,7 +34,8 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         return path.startsWith("/api/v1/auth/forgot-password/**") ||
                 path.startsWith("/api/v1/auth/reset-password/**") ||
-                path.startsWith("/api/v1/auth/current/**");
+                path.startsWith("/api/v1/auth/current/**") ||
+                path.startsWith("/api/v1/comments/**");
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

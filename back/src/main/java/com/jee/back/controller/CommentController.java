@@ -31,6 +31,7 @@ public class CommentController {
             @PathVariable int blogId,
             @RequestBody String comment,
             @RequestParam(required = false) Integer parentCommentId) {
+//        log.info("inputted comment?: ");
         String email = userDetails.getUsername();
         Comment postedComment = commentService.postComment(blogId, email, comment,parentCommentId);
         return ResponseEntity.ok(Map.of("success", postedComment));
@@ -42,5 +43,16 @@ public class CommentController {
         List<Comment> comments = blogDetails.getComments();
         List<CommentResponseDTO> commentResponseDTOS = CommentResponseDTO.fromComments(comments);
         return ResponseEntity.ok(commentResponseDTOS);
+    }
+
+    @DeleteMapping("/{blogId}/{commentId}")
+    public ResponseEntity<Map<String, Object>> deleteSpecificComment(
+            @PathVariable("blogId") int blogId,
+            @PathVariable("commentId") int commentId,
+            @RequestBody String email) {
+        Comment comment = commentService.getCommentById(commentId);
+        commentService.deleteCommentById(commentId);
+
+        return ResponseEntity.ok(Map.of("success", "Comment successfully removed"));
     }
 }

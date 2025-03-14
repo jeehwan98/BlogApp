@@ -8,7 +8,10 @@ import com.jee.back.repository.CommentRepository;
 import com.jee.back.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,5 +34,19 @@ public class CommentService {
         );
 
         return commentRepository.save(comment);
+    }
+
+    public Comment getCommentById(int commentId) {
+        Optional<Comment> commentExists = commentRepository.findById(commentId);
+        if (commentExists.isEmpty()) {
+            log.info("comment doesn't exist");
+            return null;
+        }
+        return commentExists.get();
+    }
+
+    public void deleteCommentById(int commentId) {
+        commentRepository.deleteById(commentId);
+        log.info(getCommentById(commentId));
     }
 }
