@@ -35,9 +35,9 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
       <Image
         src={coverImageSrc}
         alt="Playlist Cover"
-        width={300}
+        width={100}
         height={180}
-        className="w-1/3 h-48 object-cover"
+        className="w-4/12 h-44 object-cover rounded-md"
       />
       <div className="w-2/3 px-4 flex flex-col justify-between">
         <h3 className="font-semibold text-xl">{blog.title}</h3>

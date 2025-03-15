@@ -1,6 +1,7 @@
 "use client"
 
 import { fetchBlogByUserAPI } from "@/app/api/blog";
+import { ProfileBlogCardSkeletonArray } from "@/components/profile/components";
 import { PostSectionContainer } from "@/components/profile/post/components";
 import ProfileBlogCard from "@/components/profile/ProfileBlogCard";
 import { Blog } from "@/interfaces/blog";
@@ -15,8 +16,8 @@ export default function PostPage({
 }) {
   const resolvedParams = React.use(params);
   const userId = resolvedParams.userId;
-
   const [blogs, setBlogs] = useState<Blog[]>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchBlog = useCallback(async () => {
     try {
@@ -25,12 +26,20 @@ export default function PostPage({
       setBlogs(fetchedBlog);
     } catch (error) {
       console.error("Error fetching comments:", error);
+    } finally {
+      setLoading(false);
     }
   }, [userId]);
 
   useEffect(() => {
     fetchBlog();
   }, [fetchBlog]);
+
+  if (loading) return (
+    <PostSectionContainer>
+      <ProfileBlogCardSkeletonArray count={3} />
+    </PostSectionContainer>
+  )
 
   return (
     <PostSectionContainer>
