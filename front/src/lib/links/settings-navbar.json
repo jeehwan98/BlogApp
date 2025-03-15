@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Profile",
+    "path": "/profile"
+  },
+  {
+    "name": "Security",
+    "path": "/security"
+  }
+]

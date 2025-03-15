@@ -29,7 +29,7 @@ export function NavLink({
 
   return (
     <Link
-      href={`/profile/${href}`}
+      href={href}
       onClick={onClick}
       className={twMerge(
         "block px-4 py-2 text-base",

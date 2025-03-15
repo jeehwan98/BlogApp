@@ -61,9 +61,9 @@ export default function UserButton() {
             </button>
             {isOpen && (
               <DropdownMenu>
-                <NavLink href={`${generateUniqueUserId(user?.email as string)}/post`} onClick={closeDropdown}>내 프로필</NavLink>
-                <NavLink href={`${generateUniqueUserId(user.email)}/setting`} onClick={closeDropdown}>설정</NavLink>
-                <LogoutNavLink onClick={handleLogout}>로그아웃</LogoutNavLink>
+                <NavLink href={`/profile/${generateUniqueUserId(user?.email as string)}/post`} onClick={closeDropdown}>내 프로필</NavLink>
+                <NavLink href="/setting" onClick={closeDropdown}>설정</NavLink>
+                <LogoutNavLink onClick={() => handleLogout}>로그아웃</LogoutNavLink>
               </DropdownMenu>
             )}
           </div>
