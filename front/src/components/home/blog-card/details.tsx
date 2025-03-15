@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import blankBlogImage from "../../../../public/images/blog-image.avif";
-import { formatRelativeDate } from "@/lib/constants";
+import { formatRelativeDate } from "@/lib/constants/format";
 import { Blog } from "@/interfaces/blog";
 
 export default function BlogCardDetails({ blog }: { blog: Blog }) {

@@ -1,7 +1,7 @@
 "use client"
 
-import { useAuth } from "@/lib/auth-client";
-import { convertIdToEmail } from "@/lib/constants";
+import { useAuth } from "@/lib/auth/auth-client";
+import { convertIdToEmail } from "@/lib/constants/format";
 import navlinks from "@/lib/links/profile_navbar.json";
 
 import Link from "next/link"

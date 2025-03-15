@@ -1,4 +1,4 @@
-import { URL } from "@/lib/constants";
+import { URL } from "@/lib/constants/url";
 
 export async function postCommentAPI(blogId: number, comment: string) {
   console.log("comment?: ", comment);

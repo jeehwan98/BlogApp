@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import ProfileAvatar from "../avatar";
 import { buttonVariants } from "../ui/button";
 import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
-import { generateUniqueUserId } from "@/lib/constants";
+import { generateUniqueUserId } from "@/lib/constants/format";
 import { logoutAPI } from "@/app/api/auth/auth";
-import { useAuth } from "@/lib/auth-client";
+import { useAuth } from "@/lib/auth/auth-client";
 
 export default function UserButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);

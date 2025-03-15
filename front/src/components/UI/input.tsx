@@ -1,8 +1,8 @@
 import { FormInputProps, ImageUploadProps, PasswordInputProps } from "@/interfaces/inputs";
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Eye, EyeOff, Lock, Mail } from "lucide-react"
-import { capitalizeFirstLetter } from "@/lib/constants";
+import { Eye, EyeOff, Lock } from "lucide-react"
+import { capitalizeFirstLetter } from "@/lib/constants/format";
 import Image from "next/image";
 import defaultCameraImage from "../../../public/images/default-camera.jpg";
 import { Button } from "./button";

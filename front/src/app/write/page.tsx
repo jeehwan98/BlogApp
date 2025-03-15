@@ -1,7 +1,7 @@
 import EditSection from "@/components/write/edit";
 import PreviewSection from "@/components/write/preview";
 import { WriteContainer } from "@/components/write/components";
-import { getServerSession } from "@/lib/auth-server";
+import { getServerSession } from "@/lib/auth/auth-server";
 import { redirect } from "next/navigation";
 
 export default async function WritePage() {

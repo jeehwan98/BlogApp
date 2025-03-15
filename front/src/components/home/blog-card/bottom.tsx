@@ -1,5 +1,5 @@
 import ProfileAvatar from "@/components/avatar";
-import { generateUniqueUserId } from "@/lib/constants";
+import { generateUniqueUserId } from "@/lib/constants/format";
 import Link from "next/link";
 import { BlogCardBottomContainer, BlogCardBottomUserContainer } from "./components";
 import { Blog } from "@/interfaces/blog";

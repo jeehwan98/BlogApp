@@ -1,8 +1,8 @@
 import blogPicture from "../../../public/images/blog-image.avif";
-import { Blog } from "@/lib/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import TagList from "../ui/tag-list";
+import { Blog } from "@/interfaces/blog";
 
 export default function ProfileBlogCard({ blog }: { blog: Blog }) {
 
@@ -10,14 +10,14 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
 
-    // Find the first image
+    // extract the first image and the remaining content
     const firstImage = doc.querySelector("img");
     let coverImageSrc = blogPicture.src; // Default image
     let remainingContent = htmlContent;
 
     if (firstImage) {
       coverImageSrc = firstImage.src;
-      // Remove the first image from the content
+      // remove the first image from the content
       firstImage.remove();
       remainingContent = doc.body.innerHTML;
     }

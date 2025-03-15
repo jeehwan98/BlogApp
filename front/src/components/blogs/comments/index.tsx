@@ -2,10 +2,11 @@
 
 import ProfileAvatar from "@/components/avatar";
 import Link from "next/link";
-import { ALERT, ERROR, formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
+import { ALERT, ERROR } from "@/lib/constants/statements";
+import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants/format";
 import { deleteCommentAPI } from "@/app/api/comment";
 import { Blog, Comment } from "@/interfaces/blog";
-import { useAuth } from "@/lib/auth-client";
+import { useAuth } from "@/lib/auth/auth-client";
 import { CommentedUserDetailsContainer } from "./components";
 import { X } from "lucide-react";
 import { toast } from "sonner";

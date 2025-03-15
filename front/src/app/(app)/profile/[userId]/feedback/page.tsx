@@ -2,8 +2,8 @@
 
 import { postFeedbackAPI } from "@/app/api/feedback";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/auth-client";
-import { convertIdToEmail } from "@/lib/constants";
+import { useAuth } from "@/lib/auth/auth-client";
+import { convertIdToEmail } from "@/lib/constants/format";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";

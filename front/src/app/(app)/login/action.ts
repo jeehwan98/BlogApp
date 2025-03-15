@@ -1,7 +1,7 @@
 "use server"
 
 import { cookies } from "next/headers";
-import { validateFormEmailInput, validateFormPasswordInput } from "@/lib/constants";
+import { validateFormEmailInput, validateFormPasswordInput } from "@/lib/constants/validation";
 import { loginAPI } from "@/app/api/auth/auth";
 
 type FormState = {

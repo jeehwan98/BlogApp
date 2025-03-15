@@ -3,7 +3,7 @@
 import ProfileBlogCard from "../ProfileBlogCard";
 import { fetchBlogByUserAPI } from "@/app/api/blog";
 import { Blog } from "@/interfaces/blog";
-import { convertIdToEmail } from "@/lib/constants";
+import { convertIdToEmail } from "@/lib/constants/format";
 import { useCallback, useEffect, useState } from "react";
 import { PostSectionContainer } from "./components";
 

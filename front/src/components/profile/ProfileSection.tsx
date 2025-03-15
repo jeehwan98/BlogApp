@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import ProfileAvatar from "../avatar";
 import { fetchUserAPI } from "@/app/api/user";
-import { convertIdToEmail } from "@/lib/constants";
+import { convertIdToEmail } from "@/lib/constants/format";
 import { User } from "@/interfaces/user";
 import { ProfileSkeleton } from "./components";
 

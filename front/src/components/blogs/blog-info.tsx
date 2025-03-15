@@ -1,4 +1,4 @@
-import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants";
+import { formatRelativeDate, generateUniqueUserId } from "@/lib/constants/format";
 import TagList from "../ui/tag-list";
 import ProfileAvatar from "../avatar";
 import Link from "next/link";

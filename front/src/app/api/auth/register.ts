@@ -1,6 +1,6 @@
 
-import { RegisterDetails } from "@/interfaces/auth";
-import { URL } from "@/lib/constants";
+import { RegisterDetails } from "@/interfaces/auth/register";
+import { URL } from "@/lib/constants/url";
 
 export async function registerAPI(data: RegisterDetails) {
   console.log("inputted data?:", data);

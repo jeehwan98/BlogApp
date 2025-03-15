@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { getServerSession } from "@/lib/auth-server";
-import { AuthProvider } from "@/lib/auth-client";
+import { getServerSession } from "@/lib/auth/auth-server";
+import { AuthProvider } from "@/lib/auth/auth-client";
 import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {

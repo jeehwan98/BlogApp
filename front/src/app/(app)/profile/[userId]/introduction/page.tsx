@@ -1,12 +1,12 @@
 "use client"
 
 import { fetchUserAPI, updateIntroductionAPI } from "@/app/api/user";
-import { convertIdToEmail } from "@/lib/constants";
-import { User } from "@/lib/interfaces";
+import { convertIdToEmail } from "@/lib/constants/format";
+import { User } from "@/interfaces/user";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/lib/auth-client";
+import { useAuth } from "@/lib/auth/auth-client";
 
 export default function IntroductionPage() {
   // const { userId } = params;

@@ -79,7 +79,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     logout,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={ value }> { children } </AuthContext.Provider>;
 }
 
 export function useAuth(): AuthContextType & { refreshUser: () => Promise<void> } {

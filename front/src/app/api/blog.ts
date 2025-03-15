@@ -1,5 +1,5 @@
 import { PostBlog } from "@/interfaces/blog";
-import { URL } from "@/lib/constants";
+import { URL } from "@/lib/constants/url";
 
 // POST BLOG
 export async function postBlogAPI(data: PostBlog) {

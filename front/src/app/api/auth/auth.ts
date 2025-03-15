@@ -1,5 +1,5 @@
 import { LoginDetails } from "@/interfaces/auth/login";
-import { URL } from "@/lib/constants";
+import { URL } from "@/lib/constants/url";
 
 export async function loginAPI(data: LoginDetails) {
   try {

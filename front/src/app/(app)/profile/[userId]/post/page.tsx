@@ -4,7 +4,7 @@ import { fetchBlogByUserAPI } from "@/app/api/blog";
 import { PostSectionContainer } from "@/components/profile/post/components";
 import ProfileBlogCard from "@/components/profile/ProfileBlogCard";
 import { Blog } from "@/interfaces/blog";
-import { convertIdToEmail } from "@/lib/constants";
+import { convertIdToEmail } from "@/lib/constants/format";
 import React, { useCallback, useEffect, useState } from "react";
 
 export default function PostPage({
