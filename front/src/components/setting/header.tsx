@@ -24,6 +24,6 @@ export default function SettingsHeader() {
           ))}
         </ul>
       </nav>
-    </header >
+    </header>
   );
 }

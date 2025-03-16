@@ -6,7 +6,7 @@ import ProfileAvatar from "../avatar";
 import { buttonVariants } from "../ui/button";
 import { generateUniqueUserId } from "@/lib/constants/format";
 import { useAuth } from "@/lib/auth/auth-client";
-import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
+import { DropdownMenu, LogoutNavLink, NavLink } from "./components";
 
 export default function UserButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
