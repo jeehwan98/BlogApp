@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContextType, User } from "@/interfaces/user";
+import { logoutAPI } from "@/app/api/auth/auth";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -43,29 +44,11 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
   const logout = async () => {
     console.log("trying to logout in auth/client")
     try {
-      // clear SecurityContextHolder and cookies
-      const response = await fetch("http://localhost:8080/api/v1/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to logout from backend");
-      }
-
-      console.log("next step");
-
-      // Clear client-side cookies on http://localhost:3000
-      // Since cookies are set by Next.js, we need a server action to clear them
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
-      // Clear user state
+      await logoutAPI();
       setUser(null);
-      // Redirect to login
-      window.location.href = "/login"; // Force reload to re-render RootLayout
+      // redirect to login upon successful logout
+      window.location.href = "/"; // force reload to re-render RootLayout
+      window.location.reload();
     } catch (err) {
       setError((err as Error).message);
     }
@@ -79,7 +62,7 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
     logout,
   };
 
-  return <AuthContext.Provider value={ value }> { children } </AuthContext.Provider>;
+  return <AuthContext.Provider value={value}> {children} </AuthContext.Provider>;
 }
 
 export function useAuth(): AuthContextType & { refreshUser: () => Promise<void> } {

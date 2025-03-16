@@ -2,7 +2,7 @@
 
 import navigation from "@/lib/links/navbar.json";
 import Link from "next/link";
-import UserButton from "./UserButton";
+import UserButton from "./user-button";
 import { usePathname } from "next/navigation";
 import { buttonVariants } from "../ui/button";
 

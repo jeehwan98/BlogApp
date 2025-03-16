@@ -4,16 +4,14 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ProfileAvatar from "../avatar";
 import { buttonVariants } from "../ui/button";
-import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
 import { generateUniqueUserId } from "@/lib/constants/format";
-import { logoutAPI } from "@/app/api/auth/auth";
 import { useAuth } from "@/lib/auth/auth-client";
+import { DropdownMenu, LogoutNavLink, NavLink } from "./Components";
 
 export default function UserButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
-  // const { user } = get
+  const { user, logout } = useAuth();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -31,21 +29,6 @@ export default function UserButton() {
   const toggleDown = () => { setIsOpen((prev) => !prev); }
   const closeDropdown = () => { setIsOpen(false); }
 
-  const handleLogout = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const success = await logoutAPI();
-
-      if (success) {
-        window.location.reload();
-      } else {
-        console.error("Logout failed, please try again");
-      }
-    } catch (error) {
-      console.error("error occurred while logging in: ", error);
-    }
-  }
-
   return (
     <>
       {user ? (
@@ -62,8 +45,8 @@ export default function UserButton() {
             {isOpen && (
               <DropdownMenu>
                 <NavLink href={`/profile/${generateUniqueUserId(user?.email as string)}/post`} onClick={closeDropdown}>내 프로필</NavLink>
-                <NavLink href="/setting" onClick={closeDropdown}>설정</NavLink>
-                <LogoutNavLink onClick={() => handleLogout}>로그아웃</LogoutNavLink>
+                <NavLink href="/setting/profile" onClick={closeDropdown}>설정</NavLink>
+                <LogoutNavLink onClick={logout}>로그아웃</LogoutNavLink>
               </DropdownMenu>
             )}
           </div>

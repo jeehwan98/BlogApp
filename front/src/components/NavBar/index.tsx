@@ -1,6 +1,6 @@
-import DesktopLink from "./Desktop-Link";
-import Logo from "./Logo";
-import MobileLink from "./Mobile-Link";
+import DesktopLink from "./desktop-link";
+import Logo from "./logo";
+import MobileLink from "./mobile-link";
 
 export default function NavBar() {
 

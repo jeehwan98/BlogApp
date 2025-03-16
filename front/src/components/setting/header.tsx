@@ -7,6 +7,7 @@ import { buttonVariants } from "../ui/button";
 
 export default function SettingsHeader() {
   const path = usePathname();
+
   return (
     <header>
       <nav>
@@ -14,9 +15,9 @@ export default function SettingsHeader() {
           {navigation.map((link) => (
             <li key={link.path}>
               <Link
-                href={`setting/${link.path}`}
+                href={`/setting/${link.path}`}
                 className={`${buttonVariants({ variant: "link" })} 
-                            ${path === `setting/${link.path}` ? 'underline' : ''} 
+                            ${path === `/setting${link.path}` ? 'underline' : ''} 
                             hover:underline dark:hover:underline`}
               >{link.name}</Link>
             </li>
