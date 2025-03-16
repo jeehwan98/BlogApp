@@ -23,3 +23,26 @@ export async function postFeedbackAPI(email: string, feedback: string) {
     throw error;
   }
 }
+
+export async function fetchFeedbackAPI() {
+  try {
+    const response = await fetch(URL.FEEDBACK, {
+      method: "GET",
+      headers: URL.HEADERS,
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Response not OK: ", response.status, errorText);
+      throw new Error("Failed to get feedback");
+    }
+
+    const responseData = await response.json();
+    console.log("success message?: ", responseData.result);
+    return responseData.result;
+  } catch (error) {
+    console.error("Error posting feedback: ", error);
+    throw error;
+  }
+}

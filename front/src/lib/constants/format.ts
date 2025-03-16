@@ -31,13 +31,27 @@ export function capitalizeFirstLetter(input: string) {
 
 export function formatDate(localDateTimeArray: number[]) {
   const [year, month, day, hour, minute, second] = localDateTimeArray;
-  const date = new Date(year, month - 1, day, hour, minute, second); // JavaScript months start from 0
+  const date = new Date(year, month - 1, day, hour, minute, second);
 
   return date.toLocaleDateString("ko-KR", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+}
+
+export function formatDateWithTime(localDateTimeArray: number[]) {
+  if (!Array.isArray(localDateTimeArray) || localDateTimeArray.length < 6) {
+    return "Invalid date";
+  }
+
+  const [year, month, day, hour, minute, second] = localDateTimeArray;
+  const date = new Date(year, month - 1, day, hour, minute, second);
+
+  const formattedDate = `${year}/${String(month).padStart(2, '0')}/${String(day).padStart(2, '0')}`;
+  const formattedTime = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}`;
+
+  return `${formattedDate} ${formattedTime}`;
 }
 
 export function formatRelativeDate(localDateTimeArray: Date) {
