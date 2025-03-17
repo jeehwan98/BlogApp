@@ -18,5 +18,9 @@
   {
     "name": "Feedback",
     "path": "/feedback"
+  },
+  {
+    "name": "Users",
+    "path": "/users"
   }
 ]
