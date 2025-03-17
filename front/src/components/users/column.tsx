@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table"
 import { formatDateWithTime } from "@/lib/constants/format"
 import { ArrowUpDown } from "lucide-react"
 import { User } from "@/interfaces/user"
+import { useRouter } from "next/navigation"
+import { Button } from "../ui/button"
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -37,6 +39,18 @@ export const columns: ColumnDef<User>[] = [
         </div>
       )
     },
+    cell: ({ row }) => {
+      const router = useRouter();
+      const user = row.original
+      return (
+        <div
+          onClick={() => router.push(`/users/${user.id}`)}
+          className="cursor-pointer hover:underline text-slate-900 underline-offset-4 dark:text-slate-50"
+        >
+          {row.getValue("name")}
+        </div>
+      )
+    },
   },
   {
     accessorKey: "email",
@@ -50,6 +64,18 @@ export const columns: ColumnDef<User>[] = [
           <div className="flex justify-center align-center items-center">
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </div>
+        </div>
+      )
+    },
+    cell: ({ row }) => {
+      const router = useRouter();
+      const user = row.original
+      return (
+        <div
+          onClick={() => router.push(`/users/${user?.id}`)}
+          className="cursor-pointer hover:underline text-slate-900 underline-offset-4 dark:text-slate-50"
+        >
+          {row.getValue("email")}
         </div>
       )
     },

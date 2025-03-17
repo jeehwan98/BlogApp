@@ -24,7 +24,11 @@ export default function UsersInfo() {
     fetchUsers();
   }, [fetchUsers]);
 
-  console.log("users?: ", users);
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
+  console.log(users);
 
   return (
     <div className="container mx-auto py-10">
