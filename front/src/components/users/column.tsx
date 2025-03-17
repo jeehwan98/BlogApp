@@ -1,11 +1,9 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { formatDateWithTime } from "@/lib/constants/format"
 import { ArrowUpDown } from "lucide-react"
 import { User } from "@/interfaces/user"
 import { useRouter } from "next/navigation"
-import { Button } from "../ui/button"
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -44,7 +42,7 @@ export const columns: ColumnDef<User>[] = [
       const user = row.original
       return (
         <div
-          onClick={() => router.push(`/users/${user.id}`)}
+          onClick={() => router.push(`/users/${encodeURIComponent(user.email)}`)}
           className="cursor-pointer hover:underline text-slate-900 underline-offset-4 dark:text-slate-50"
         >
           {row.getValue("name")}
@@ -72,7 +70,7 @@ export const columns: ColumnDef<User>[] = [
       const user = row.original
       return (
         <div
-          onClick={() => router.push(`/users/${user?.id}`)}
+          onClick={() => router.push(`/users/${encodeURIComponent(user.email)}`)}
           className="cursor-pointer hover:underline text-slate-900 underline-offset-4 dark:text-slate-50"
         >
           {row.getValue("email")}
