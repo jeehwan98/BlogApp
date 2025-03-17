@@ -46,7 +46,7 @@ export const columns: ColumnDef<Feedback>[] = [
     },
   },
   {
-    accessorKey: "user.name",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <div

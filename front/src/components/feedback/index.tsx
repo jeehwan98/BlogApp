@@ -25,8 +25,6 @@ export default function FeedbackInfo() {
     fetchFeedback();
   }, [fetchFeedback]);
 
-  console.log("feedback?: ", feedbacks);
-
   return (
     <div className="container mx-auto py-10">
       <DataTable columns={columns} data={feedbacks || []} />

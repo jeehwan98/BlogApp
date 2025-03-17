@@ -20,6 +20,26 @@ export async function fetchUserAPI(email: string) {
   }
 }
 
+export async function fetchAllUsersAPI() {
+  try {
+    const response = await fetch(URL.FETCH_USER, {
+      method: "GET",
+      headers: URL.HEADERS,
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch users");
+    }
+
+    const responseData = await response.json();
+    return responseData.result;
+  } catch (error) {
+    console.error("Error fetching user: ", error);
+    throw error;
+  }
+}
+
 export async function updateIntroductionAPI(email: string, introduction: string) {
   try {
     const response = await fetch(`${URL.FETCH_USER}/${email}`, {

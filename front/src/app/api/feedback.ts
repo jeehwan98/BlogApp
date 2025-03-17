@@ -39,7 +39,6 @@ export async function fetchFeedbackAPI() {
     }
 
     const responseData = await response.json();
-    console.log("success message?: ", responseData.result);
     return responseData.result;
   } catch (error) {
     console.error("Error posting feedback: ", error);

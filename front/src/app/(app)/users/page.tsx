@@ -1,8 +1,8 @@
-import FeedbackInfo from "@/components/feedback";
-import { FeedbackTitle } from "@/components/feedback/components";
+import { UsersInfoTitle } from "@/components/users/components";
+import UsersInfo from "@/components/users/users-info";
 import { getServerSession } from "@/lib/auth/auth-server";
 
-export default async function FeedbackPage() {
+export default async function UsersPage() {
   const user = await getServerSession();
 
   if (!user) {
@@ -15,8 +15,8 @@ export default async function FeedbackPage() {
 
   return (
     <>
-      <FeedbackTitle />
-      <FeedbackInfo />
+      <UsersInfoTitle />
+      <UsersInfo />
     </>
-  );
+  )
 }
