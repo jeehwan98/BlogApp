@@ -23,7 +23,6 @@ export default function FetchedUserInfo({ email }: { email: string }) {
   const pathname = usePathname();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState<boolean>(pathname.endsWith("/edit"));
-  const [toastOpen, setToastOpen] = useState<boolean>(false);
 
   const [state, formAction, isPending] = useActionState(updateUserAction, {
     success: false,

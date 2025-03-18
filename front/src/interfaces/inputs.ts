@@ -16,6 +16,15 @@ export interface FormInputProps {
   icon?: LucideIcon
 }
 
+export interface FormInputWithoutLabelProps {
+  name: string;
+  placeholder: string;
+  error?: string;
+  value: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  icon?: LucideIcon
+}
+
 export interface UserFormInputProps {
   name: string;
   placeholder: string;

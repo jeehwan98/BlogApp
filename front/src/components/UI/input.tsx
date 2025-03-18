@@ -1,4 +1,4 @@
-import { FormInputProps, ImageUploadProps, PasswordInputProps, UserFormInputProps } from "@/interfaces/inputs";
+import { FormInputProps, FormInputWithoutLabelProps, ImageUploadProps, PasswordInputProps, UserFormInputProps } from "@/interfaces/inputs";
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Eye, EyeOff, Lock } from "lucide-react"
@@ -74,6 +74,34 @@ export function FormInput({
         <Input
           type={name}
           name={name}
+          placeholder={placeholder}
+          className="pl-10 pr-4 py-3 w-full mb-2 h-10"
+          required
+        />
+        {Icon && (
+          <Icon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+        )}
+      </div>
+      {error && <p className="text-red-500 text-sm mt-3 ml-1">{error}</p>}
+    </div>
+  )
+}
+
+export function FormInputWithoutLabel({
+  name,
+  placeholder,
+  error,
+  value,
+  onChange,
+  icon: Icon
+}: FormInputWithoutLabelProps) {
+  return (
+    <div className="">
+      <div className="relative mt-1">
+        <Input
+          type={name}
+          name={name}
+          value={value}
           placeholder={placeholder}
           className="pl-10 pr-4 py-3 w-full mb-2 h-10"
           required
