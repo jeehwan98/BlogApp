@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 import updateUserAction from "@/app/(app)/users/[email]/edit/action";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function FetchedUserInfo({ email }: { email: string }) {
   const [user, setUser] = useState<User | null>(null);
@@ -22,6 +23,7 @@ export default function FetchedUserInfo({ email }: { email: string }) {
   const pathname = usePathname();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState<boolean>(pathname.endsWith("/edit"));
+  const [toastOpen, setToastOpen] = useState<boolean>(false);
 
   const [state, formAction, isPending] = useActionState(updateUserAction, {
     success: false,
@@ -52,6 +54,11 @@ export default function FetchedUserInfo({ email }: { email: string }) {
   useEffect(() => {
     if (state.success) {
       setIsEditing(false);
+      if (state.success) {
+        toast.success("User updated successfully");
+      } else {
+        toast.error("Failed to update user")
+      }
       router.push(`/users/${encodeURIComponent(email)}`); // redirect to non-edit URL after success
       fetchUser();
     }
