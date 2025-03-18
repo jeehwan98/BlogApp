@@ -1,3 +1,4 @@
+import { UpdateUserProps } from "@/interfaces/user";
 import { URL } from "@/lib/constants/url";
 
 export async function fetchUserAPI(email: string) {
@@ -51,6 +52,26 @@ export async function updateIntroductionAPI(email: string, introduction: string)
     const responseData = await response.json();
     if (!response.ok) {
       throw new Error("Error updating user introduction:");
+    }
+    return responseData;
+  } catch (error) {
+    console.error("Error updating introduction:", error);
+    throw error;
+  }
+}
+
+export async function updateUserAPI(data: { name: string; email: string; role: string }) {
+  console.log("inputted formData in updateUserAPI:", data);
+  try {
+    const response = await fetch(`${URL.FETCH_USER}/edit/${data.email}`, {
+      body: JSON.stringify(data),
+      method: "PUT",
+      headers: URL.HEADERS,
+    });
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw new Error("Error updating user details:");
     }
     return responseData;
   } catch (error) {

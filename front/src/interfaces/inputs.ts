@@ -16,6 +16,16 @@ export interface FormInputProps {
   icon?: LucideIcon
 }
 
+export interface UserFormInputProps {
+  name: string;
+  placeholder: string;
+  error?: string;
+  value?: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
+}
+
 export interface InputFieldProps {
   type: string;
   name: string;

@@ -19,3 +19,14 @@ export interface UpdateUserImageProps {
   email: string;
   uploadedImageUrl: string;
 }
+
+export enum Role {
+  USER = "USER",
+  ADMIN = "ADMIN"
+}
+
+export interface UpdateUserProps {
+  name: string;
+  email: string;
+  role: string;
+}

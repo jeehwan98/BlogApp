@@ -1,6 +1,6 @@
 import FetchedUserInfo from "@/components/users/specific/fetched-user-info";
 
-export default function SpecificUserInfoPage({ params }: { params: { email: string } }) {
+export default function EditSpecificUserPage({ params }: { params: { email: string } }) {
   const email = decodeURIComponent(params.email);
 
   return (
