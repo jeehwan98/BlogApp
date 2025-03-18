@@ -60,10 +60,10 @@ export async function updateIntroductionAPI(email: string, introduction: string)
   }
 }
 
-export async function updateUserAPI(data: { name: string; email: string; role: string }) {
+export async function updateUserAPI(data: { name: string; email: string; role: string, initialEmail: string }) {
   console.log("inputted formData in updateUserAPI:", data);
   try {
-    const response = await fetch(`${URL.FETCH_USER}/edit/${data.email}`, {
+    const response = await fetch(`${URL.FETCH_USER}/edit/${data.initialEmail}`, {
       body: JSON.stringify(data),
       method: "PUT",
       headers: URL.HEADERS,
