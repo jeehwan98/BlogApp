@@ -1,46 +1,89 @@
-import ProfileAvatar from "@/components/avatar";
-import { FormInputWithoutLabel } from "@/components/ui/input";
+"use client"
+
 import { User } from "@/interfaces/user";
-import { User as UserIcon } from "lucide-react";
+import SettingUserImage from "./user-image";
+import SettingUserName from "./user-name";
+import updateUserProfileAction from "@/app/(app)/setting/profile/action";
+import { useActionState, useEffect, useState } from "react";
+import { SettingsProfileButton } from "../components";
+import { toast } from "sonner";
+import { ERROR } from "@/lib/constants/statements";
+import { HiddenInputs } from "./components";
+import { useRouter } from "next/navigation";
 
 export default function SettingsUserDetails({ user }: { user: User }) {
+  const router = useRouter();
+  const [previewUrl, setPreviewUrl] = useState<string | null>(user.image || null); // for image preview
+  const [formData, setFormData] = useState<{ name: string; image: string; password: string }>({
+    name: user.name || "",
+    image: user.image || "",
+    password: "",
+  });
+  const [state, formAction, isPending] = useActionState(updateUserProfileAction, {
+    success: false,
+    message: "",
+    errors: {},
+  });
+  const [prevState, setPrevState] = useState(state);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement> | { name: string; value: string }) => {
+    const { name, value } = "target" in e ? e.target : e;
+
+    if ("target" in e && e.target?.type === "file") {
+      const file = e.target.files?.[0];
+      if (file) {
+        const imageUrl = URL.createObjectURL(file); // preview URL
+        setPreviewUrl(imageUrl);
+        // setFormData((prev) => ({ ...prev, image: imageUrl })); // update formData.image
+      }
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  useEffect(() => {
+    if (state.success && !prevState.success) {
+      toast.success("Profile updated successfully!", {
+        description: "Your user information has been updated.",
+      });
+      // reset formData upon successful user update to disable the button
+      setFormData({
+        name: state.name || user.name || "",
+        image: state.image || user.image || "",
+        password: "",
+      });
+      setPreviewUrl(state.image || user.image || null);
+      router.refresh();
+    } else if (state.message && !state.success && prevState.success !== state.success) {
+      toast.error(ERROR.SOMETHING_WENT_WRONG, {
+        description: state.message || ERROR.UPDATE_USER_INFO,
+      });
+    }
+    setPrevState(state); // update prevState after checking
+  }, [state, prevState, user, router]);
+
+  const isChanged = formData.name !== user.name || formData.image; // check both name and image
+  console.log("name in formDat", formData.name);
+  console.log("name in user", user.name);
+
   return (
-    <>
-      <div className="flex border w-full">
-        <div className="w-1/5">
-          <div className="px-7 py-10">프로필 사진</div>
-        </div>
-        <div className="w-1/4">
-          <ProfileAvatar
-            image={user?.image}
-            name={user.name}
-            sx={{
-              width: { xs: 100, sm: 150, md: 200 },
-              height: { xs: 100, sm: 150, md: 200 },
-              fontSize: { xs: 60, sm: 90, md: 130 },
-            }}
-            fontSize={130}
-          />
-        </div>
-      </div>
-      <div className="flex border w-full">
-        <div className="w-1/5">
-          <div className="px-7 py-10">이름</div>
-        </div>
-        <div className="w-1/4 flex">
-          <div className="flex align-middle justify-center items-center">
-            <FormInputWithoutLabel
-              name="name"
-              placeholder="John Doe"
-              value={user.name}
-              // error={state?.errors?.name}
-              icon={UserIcon}
-            />
-          </div>
-        </div>
-      </div>
-    </>
-
-
+    <form action={formAction}>
+      <SettingUserImage
+        user={user}
+        formData={formData}
+        onChange={handleChange}
+        previewUrl={previewUrl}
+      />
+      <SettingUserName
+        user={user}
+        formData={formData}
+        onChange={handleChange}
+      />
+      <HiddenInputs user={user} />
+      <SettingsProfileButton
+        isPending={isPending}
+        isChanged={isChanged}
+      />
+    </form>
   )
 }

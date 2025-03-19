@@ -54,15 +54,8 @@ export default async function updateUserAction(
     };
   }
 
-  const formData = new FormData();
-
-  formData.append("name", changedName);
-  formData.append("email", changedEmail);
-  formData.append("role", changedRole);
-  formData.append("initialEmail", initialEmail);
-
   try {
-    await updateUserAPI({ name: changedName, email: changedEmail, role: changedRole, initialEmail });
+    await updateUserAPI({ name: changedName, email: changedEmail, role: changedRole, initialEmail: initialEmail });
     return {
       success: true,
       message: "User updated successfully",

@@ -103,6 +103,7 @@ export function FormInputWithoutLabel({
           name={name}
           value={value}
           placeholder={placeholder}
+          onChange={onChange}
           className="pl-10 pr-4 py-3 w-full mb-2 h-10"
           required
         />

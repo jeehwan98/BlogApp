@@ -79,3 +79,23 @@ export async function updateUserAPI(data: { name: string; email: string; role: s
     throw error;
   }
 }
+
+export async function updateUserInfoAPI(data: { name: string, email: string }) {
+  console.log("inputted formData in updateUserAPI:", data);
+  try {
+    const response = await fetch(`${URL.FETCH_USER}/edit/${data.email}`, {
+      body: JSON.stringify(data),
+      method: "PUT",
+      headers: URL.HEADERS,
+    });
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw new Error("Error updating user details:");
+    }
+    return responseData;
+  } catch (error) {
+    console.error("Error updating introduction:", error);
+    throw error;
+  }
+}
