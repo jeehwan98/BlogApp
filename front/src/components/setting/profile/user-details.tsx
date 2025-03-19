@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 export default function SettingsUserDetails({ user }: { user: User }) {
   const router = useRouter();
   const [previewUrl, setPreviewUrl] = useState<string | null>(user.image || null); // for image preview
-  const [formData, setFormData] = useState<{ name: string; image: string; password: string }>({
+  const [formData, setFormData] = useState<{ name: string; image: string | File; password: string }>({
     name: user.name || "",
     image: user.image || "",
     password: "",
@@ -34,6 +34,7 @@ export default function SettingsUserDetails({ user }: { user: User }) {
       if (file) {
         const imageUrl = URL.createObjectURL(file); // preview URL
         setPreviewUrl(imageUrl);
+        setFormData((prev) => ({ ...prev, image: file }));
         // setFormData((prev) => ({ ...prev, image: imageUrl })); // update formData.image
       }
     } else {
@@ -46,6 +47,9 @@ export default function SettingsUserDetails({ user }: { user: User }) {
       toast.success("Profile updated successfully!", {
         description: "Your user information has been updated.",
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
       // reset formData upon successful user update to disable the button
       setFormData({
         name: state.name || user.name || "",
@@ -53,7 +57,6 @@ export default function SettingsUserDetails({ user }: { user: User }) {
         password: "",
       });
       setPreviewUrl(state.image || user.image || null);
-      router.refresh();
     } else if (state.message && !state.success && prevState.success !== state.success) {
       toast.error(ERROR.SOMETHING_WENT_WRONG, {
         description: state.message || ERROR.UPDATE_USER_INFO,
@@ -62,7 +65,7 @@ export default function SettingsUserDetails({ user }: { user: User }) {
     setPrevState(state); // update prevState after checking
   }, [state, prevState, user, router]);
 
-  const isChanged = formData.name !== user.name || formData.image; // check both name and image
+  const isChanged = formData.name !== user.name || formData.image !== user.image; // check both name and image
   console.log("name in formDat", formData.name);
   console.log("name in user", user.name);
 

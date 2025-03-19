@@ -8,7 +8,7 @@ export default function SettingUserName({
   onChange,
 }: {
   user: User;
-  formData: { name: string; image: string; password: string };
+  formData: { name: string; image: string | File; password: string };
   onChange: (e: React.ChangeEvent<HTMLInputElement> | { name: string; value: string }) => void;
 }) {
   return (

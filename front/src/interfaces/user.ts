@@ -1,10 +1,13 @@
+import { BlogLikes } from "./blog-likes";
+
 export interface User {
-  id: number,
-  email: string,
-  name: string,
-  image: string,
-  introduction: string,
-  role: string,
+  id: number;
+  email: string;
+  name: string;
+  image: string;
+  introduction: string;
+  role: string;
+  likes: BlogLikes;
 }
 
 export interface AuthContextType {

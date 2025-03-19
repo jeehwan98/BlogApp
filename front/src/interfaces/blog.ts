@@ -1,3 +1,4 @@
+import { BlogLikes } from "./blog-likes";
 import { User } from "./user";
 
 export interface PostBlog {
@@ -18,6 +19,7 @@ export interface Blog {
   user: User;
   createdAt: Date;
   updatedAt: Date;
+  likes: BlogLikes;
 }
 
 export interface Comment {
