@@ -19,7 +19,7 @@ export interface Blog {
   user: User;
   createdAt: Date;
   updatedAt: Date;
-  likes: BlogLikes;
+  likesCount: BlogLikes;
   isLiked: boolean;
 }
 

@@ -35,7 +35,7 @@ export default function HandleLike({
       <Heart
         className={`w-4 h-4 ${liked ? 'fill-current' : ''}`}
       />
-      <span className="ml-2 font-thin">0</span>
+      <span className="ml-2 font-thin">{initialLikes}</span>
     </div>
   )
 }

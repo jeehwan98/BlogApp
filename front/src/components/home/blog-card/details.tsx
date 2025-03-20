@@ -58,8 +58,8 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
         <div className="flex justify-between align-center items-center">
           <span className="text-sm text-gray-600">{formatRelativeDate(blog.createdAt)}</span>
           <HandleLike
-            initialLikes={blog.likes || 0}
-            iniitialLiked={blog.isLiked || false}
+            initialLikes={typeof blog.likesCount === 'number' ? blog.likesCount : 0}
+            initialLiked={blog.isLiked || false}
             id={blog.id}
           />
         </div>
