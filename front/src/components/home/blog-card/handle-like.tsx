@@ -16,7 +16,7 @@ export default function HandleLike({
 ) {
   const [likes, setLikes] = useState<number>(initialLikes);
   const [liked, setLiked] = useState<boolean>(initialLiked);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false); // For animation
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   const handleLike = async () => {
     const newLikedState = !liked;

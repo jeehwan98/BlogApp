@@ -1,5 +1,6 @@
 "use server"
 
+import { cookies } from "next/headers";
 import { PostBlog } from "@/interfaces/blog";
 import { getServerSession } from "@/lib/auth/auth-server";
 import { URL } from "@/lib/constants/url";
@@ -34,7 +35,7 @@ export async function fetchBlogAPI() {
   try {
     const response = await fetch(URL.BLOG, {
       method: "GET",
-      headers: URL.HEADERS,
+      headers: { Cookie: cookies().toString() },
     });
 
     if (!response.ok) {
@@ -55,6 +56,7 @@ export async function fetchBlogByUserAPI(email: string) {
     const response = await fetch(`${URL.BLOG}/user/${email}`, {
       method: "GET",
       headers: URL.HEADERS,
+      credentials: "include",
     });
 
     const responseData = await response.json();
@@ -94,7 +96,10 @@ export async function fetchBlogById(id: number) {
 export const likeBlogAPI = async (blogId: number, like: boolean) => {
   const user = await getServerSession();
   const method = like ? "POST" : "DELETE";
-  const response = await fetch(`http://localhost:8080/api/v1/like/${blogId}/${user?.email}`, { method }); // Adjust URL and userEmail as needed
+  const response = await fetch(`http://localhost:8080/api/v1/like/${blogId}/${user?.email}`, {
+    method,
+    headers: { Cookie: cookies().toString() },
+  }); // Adjust URL and userEmail as needed
   if (!response.ok) {
     console.log("Response Status:", response.status, response.statusText);
     throw new Error("Failed to update like");

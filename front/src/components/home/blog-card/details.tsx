@@ -31,6 +31,7 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
   };
 
   const { coverImageSrc, remainingContent } = parseContent(blog.content);
+  console.log("blogs?: ", blog);
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
@@ -59,7 +60,7 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
           <span className="text-sm text-gray-600">{formatRelativeDate(blog.createdAt)}</span>
           <HandleLike
             initialLikes={typeof blog.likesCount === 'number' ? blog.likesCount : 0}
-            initialLiked={blog.isLiked || false}
+            initialLiked={blog.liked || false}
             id={blog.id}
           />
         </div>

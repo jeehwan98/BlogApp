@@ -20,7 +20,7 @@ export interface Blog {
   createdAt: Date;
   updatedAt: Date;
   likesCount: BlogLikes;
-  isLiked: boolean;
+  liked: boolean;
 }
 
 export interface HandleLikeProps {
