@@ -2,7 +2,6 @@ import { useRouter } from "next/navigation";
 
 export default function TagList({ tags }: { tags: string[] }) {
   const router = useRouter();
-
   return (
     <div className="flex flex-wrap items-center gap-2 border-none overflow-x">
       {tags.map((tag: string, index: number) => (

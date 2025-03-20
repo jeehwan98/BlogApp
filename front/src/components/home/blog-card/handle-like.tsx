@@ -20,16 +20,13 @@ export default function HandleLike({
 
   const handleLike = async () => {
     const newLikedState = !liked;
-    // Optimistically update UI before API call
+    // update UI before API call
     setLiked(newLikedState);
     setLikes((prev) => (newLikedState ? prev + 1 : prev - 1));
     setIsAnimating(true); // Trigger animation
 
     try {
       const response = await likeBlogAPI(id, newLikedState);
-      console.log("response in client side?: ", response);
-      // Assuming likeBlogAPI returns updated like count or confirmation
-      // If response contains updated data, sync it here
       if (response && response.success) {
         setLikes(response.likes);
         if (response.isLiked) {
@@ -38,12 +35,12 @@ export default function HandleLike({
           toast.success("Post has been unliked");
         }
       }
-      if (onLikeChange) {
-        onLikeChange(newLikedState, likes); // Notify parent if provided
-      }
+      // if (onLikeChange) {
+      //   onLikeChange(likes); // Notify parent if provided
+      // }
     } catch (error) {
       console.error("Error updating like:", error);
-      // Revert UI on failure
+      // revert UI on failure
       setLiked(!newLikedState);
       setLikes((prev) => (newLikedState ? prev - 1 : prev + 1));
     } finally {

@@ -8,6 +8,10 @@
     "path": "/introduction"
   },
   {
+    "name": "Liked Posts",
+    "path": "/liked-posts"
+  },
+  {
     "name": "Feedback",
     "path": "/feedback"
   }

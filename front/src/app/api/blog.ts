@@ -107,22 +107,22 @@ export const likeBlogAPI = async (blogId: number, like: boolean) => {
   const responseData = await response.json();
   return responseData; // Assuming it returns { likes: number }
 };
-// export async function likeBlogAPI(id: number, newLikedState: boolean) {
-//   try {
-//     const response = await fetch(`${URL.BLOG}/${id}`, {
-//       method: newLikedState ? "POST" : "DELETE",
-//       headers: URL.HEADERS,
-//     });
 
-//     const responseData = await response.json();
+export async function fetchLikedBlogsByUserAPI(email: string) {
+  try {
+    const response = await fetch(`http://localhost:8080/api/v1/like/user/${email}`, {
+      headers: { Cookie: cookies().toString() },
+    });
 
-//     if (!response.ok) {
-//       throw new Error("Error fetching blog");
-//     }
+    const responseData = await response.json();
 
-//     return responseData;
-//   } catch (error) {
-//     console.error("Error fetching blog:", error);
-//     throw error;
-//   }
-// }
+    if (!response.ok) {
+      return responseData;
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    throw error;
+  }
+}
