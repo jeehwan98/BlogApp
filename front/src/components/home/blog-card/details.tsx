@@ -3,8 +3,13 @@ import Link from "next/link";
 import blankBlogImage from "../../../../public/images/blog-image.avif";
 import { formatRelativeDate } from "@/lib/constants/format";
 import { Blog } from "@/interfaces/blog";
+import { Button } from "@/components/ui/button";
+import { Heart } from "lucide-react";
+import HandleLike from "./handle-like";
+import { useRouter } from "next/navigation";
 
 export default function BlogCardDetails({ blog }: { blog: Blog }) {
+  const router = useRouter();
 
   const parseContent = (htmlContent: string) => {
     const parser = new DOMParser();
@@ -33,28 +38,33 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
   const { coverImageSrc, remainingContent } = parseContent(blog.content);
 
   return (
-    <Link href={`blogs/${blog.id}`} className="h-full flex flex-col overflow-hidden">
+    <div className="h-full flex flex-col overflow-hidden">
       {/* Blog Image */}
-      <Image
-        className="w-full h-[180px] object-cover"
-        src={coverImageSrc}
-        alt={`${blog.title}`}
-        width={300}
-        height={180}
-        onError={(e) => {
-          e.currentTarget.src = blankBlogImage.src;
-        }}
-      />
+      <Link href={`blogs/${blog.id}`} className="block">
+        <Image
+          className="w-full h-[180px] object-cover"
+          src={coverImageSrc}
+          alt={`${blog.title}`}
+          width={300}
+          height={180}
+          onError={(e) => {
+            e.currentTarget.src = blankBlogImage.src;
+          }}
+        />
+      </Link>
       <div className="flex flex-col flex-1 justify-between p-4">
-        <div>
+        <Link href={`blogs/${blog.id}`} className="block">
           <h3 className="text-xl font-bold truncate">{blog.title}</h3>
           <p
             className="text-sm text-gray-700 mt-2 overflow-hidden line-clamp-6"
             dangerouslySetInnerHTML={{ __html: remainingContent }}
           />
+        </Link>
+        <div className="flex justify-between align-center items-center">
+          <span className="text-sm text-gray-600">{formatRelativeDate(blog.createdAt)}</span>
+          <HandleLike id={blog.id} />
         </div>
-        <span className="text-sm text-gray-600 mt-4">{formatRelativeDate(blog.createdAt)}</span>
       </div>
-    </Link>
+    </div >
   );
 }
