@@ -20,6 +20,14 @@ export interface Blog {
   createdAt: Date;
   updatedAt: Date;
   likes: BlogLikes;
+  isLiked: boolean;
+}
+
+export interface HandleLikeProps {
+  id: number;
+  initialLikes: number;
+  initialLiked: boolean;
+  onLikeChange?: (id: number, liked: boolean) => void; // Optional callback
 }
 
 export interface Comment {

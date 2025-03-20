@@ -3,14 +3,9 @@ import Link from "next/link";
 import blankBlogImage from "../../../../public/images/blog-image.avif";
 import { formatRelativeDate } from "@/lib/constants/format";
 import { Blog } from "@/interfaces/blog";
-import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
 import HandleLike from "./handle-like";
-import { useRouter } from "next/navigation";
 
 export default function BlogCardDetails({ blog }: { blog: Blog }) {
-  const router = useRouter();
-
   const parseContent = (htmlContent: string) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlContent, "text/html");
@@ -22,7 +17,7 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
 
     if (firstImage) {
       coverImageSrc = firstImage.src;
-      // Remove the first image from the content
+      // remove the first image from the content
       firstImage.remove();
       remainingContent = doc.body.innerHTML;
     }
@@ -39,7 +34,7 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      {/* Blog Image */}
+      {/* BLOG IMAGE */}
       <Link href={`blogs/${blog.id}`} className="block">
         <Image
           className="w-full h-[180px] object-cover"
@@ -62,7 +57,11 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
         </Link>
         <div className="flex justify-between align-center items-center">
           <span className="text-sm text-gray-600">{formatRelativeDate(blog.createdAt)}</span>
-          <HandleLike id={blog.id} />
+          <HandleLike
+            initialLikes={blog.likes || 0}
+            iniitialLiked={blog.isLiked || false}
+            id={blog.id}
+          />
         </div>
       </div>
     </div >

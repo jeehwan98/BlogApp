@@ -86,3 +86,25 @@ export async function fetchBlogById(id: number) {
     throw error;
   }
 }
+
+// like and dislike blog
+export async function likeBlogAPI(id: number, newLikedState: boolean) {
+  try {
+    const response = await fetch(`${URL.BLOG}/${id}`, {
+      method: newLikedState ? "POST" : "DELETE",
+      headers: URL.HEADERS,
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error("Error fetching blog");
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    throw error;
+  }
+}
+
