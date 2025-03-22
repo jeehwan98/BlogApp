@@ -26,7 +26,6 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
   };
 
   const { coverImageSrc, remainingContent } = parseContent(blog.content);
-
   return (
     <Link
       className="flex overflow-hidden hover:bg-slate-50 rounded-md"

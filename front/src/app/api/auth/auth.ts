@@ -1,5 +1,8 @@
+"use server"
+
 import { LoginDetails } from "@/interfaces/auth/login";
 import { URL } from "@/lib/constants/url";
+import { cookies } from "next/headers";
 
 export async function loginAPI(data: LoginDetails) {
   try {
@@ -100,9 +103,6 @@ export async function resetPasswordAPI(token: string, password: string) {
   try {
     const response = await fetch("http://localhost:8080/api/v1/auth/reset-password", {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
       body: formData,
     });
 
@@ -121,6 +121,62 @@ export async function resetPasswordAPI(token: string, password: string) {
     };
   } catch (error) {
     console.error("Error resetting password:", error);
+    return {
+      success: false,
+      errors: { general: responseData.error },
+    };
+  }
+}
+
+export async function checkPasswordAPI(currentPassword: string) {
+  let responseData;
+  try {
+    const response = await fetch(`http://localhost:8080/api/v1/auth/password?password=${encodeURIComponent(currentPassword)}`, {
+      method: "GET",
+      headers: { Cookie: cookies().toString() },
+    });
+
+    responseData = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        errors: { confirmPassword: responseData.error || "Failed to reset password." },
+      };
+    }
+
+    console.log("responseData:", responseData);
+    return responseData;
+  } catch (error) {
+    console.error("Error checking password:", error);
+    return {
+      success: false,
+      errors: { general: responseData.error },
+    };
+  }
+}
+
+export async function updatePasswordAPI(inputtedPassword: string) {
+  let responseData;
+  try {
+    const response = await fetch(`http://localhost:8080/api/v1/auth/password?password=${encodeURIComponent(inputtedPassword)}`, {
+      method: "PUT",
+      headers: { Cookie: cookies().toString() },
+    });
+
+    responseData = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        errors: { confirmPassword: responseData.error || "Failed to update password." },
+      };
+    }
+
+    console.log("responseData:", responseData);
+    return responseData;
+  } catch (error) {
+    console.error("Error checking password:", error);
     return {
       success: false,
       errors: { general: responseData.error },

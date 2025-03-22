@@ -126,3 +126,22 @@ export async function fetchLikedBlogsByUserAPI(email: string) {
     throw error;
   }
 }
+
+export async function fetchBlogsByTagNameAPI(tagName: string) {
+  try {
+    const response = await fetch(`http://localhost:8080/api/v1/blog/tag/${tagName}`, {
+      headers: { Cookie: cookies().toString() },
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      return responseData;
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    throw error;
+  }
+}

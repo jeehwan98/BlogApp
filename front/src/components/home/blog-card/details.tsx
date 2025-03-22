@@ -31,7 +31,6 @@ export default function BlogCardDetails({ blog }: { blog: Blog }) {
   };
 
   const { coverImageSrc, remainingContent } = parseContent(blog.content);
-  console.log("blogs?: ", blog);
 
   return (
     <div className="h-full flex flex-col overflow-hidden">

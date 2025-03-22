@@ -13,7 +13,7 @@ export function BlogContainer({ children }: { children: React.ReactNode }) {
 
 export function BlogTitle({ title }: { title: string }) {
   return (
-    <h1 className="xl:text-5xl lg:text-5xl md:text-4xl sm:text-3xl text-3xl font-bold">
+    <h1 className="xl:text-5xl lg:text-5xl md:text-4xl sm:text-3xl text-3xl font-bold mb-5">
       {title}
     </h1>
   )

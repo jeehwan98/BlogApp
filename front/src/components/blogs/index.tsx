@@ -10,6 +10,7 @@ import SeparateLine from "@/components/ui/separate-line";
 import { Blog, Comment } from "@/interfaces/blog";
 import { BlogDetailsContainer, BlogTitle } from "./components";
 import { fetchCommentsAPI } from "@/app/api/comment";
+import HandleLike from "../home/blog-card/handle-like";
 
 export default function BlogDetails({ id }: { id: string }) {
   const [blogDetail, setBlogDetail] = useState<Blog | null>(null);
@@ -60,6 +61,11 @@ export default function BlogDetails({ id }: { id: string }) {
   return (
     <BlogDetailsContainer>
       <BlogTitle title={blogDetail.title} />
+      <HandleLike
+        initialLikes={typeof blogDetail.likesCount === 'number' ? blogDetail.likesCount : 0}
+        initialLiked={blogDetail.liked || false}
+        id={blogDetail.id}
+      />
       <BlogInfo blogInfo={blogDetail} />
       <BlogContent content={blogDetail.content} />
       <SeparateLine />

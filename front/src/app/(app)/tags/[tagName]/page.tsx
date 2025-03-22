@@ -1,15 +1,17 @@
-"use client"
+import { TagsTitle } from "@/components/tags/components";
+import TagsContent from "@/components/tags/tags-content";
 
-import { useParams } from "next/navigation"
-
-export default function TagsPage() {
-  const params = useParams();
-  const tag = params?.tagName as string;
+export default function TagsPage({
+  params
+}: {
+  params: { tagName: string }
+}) {
+  const tagName = decodeURIComponent(params.tagName);
 
   return (
-    <>
-      <div>Tags Page</div>
-      <div>{tag}</div>
-    </>
+    <div className="w-[70%] mx-auto">
+      <TagsTitle tagName={tagName} />
+      <TagsContent tagName={tagName} />
+    </div>
   )
 }
