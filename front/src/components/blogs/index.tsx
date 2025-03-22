@@ -12,7 +12,7 @@ import { BlogDetailsContainer, BlogTitle } from "./components";
 import { fetchCommentsAPI } from "@/app/api/comment";
 import HandleLike from "../home/blog-card/handle-like";
 
-export default function BlogDetails({ id }: { id: string }) {
+export default function BlogDetails({ id }: { id: number }) {
   const [blogDetail, setBlogDetail] = useState<Blog | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -40,7 +40,7 @@ export default function BlogDetails({ id }: { id: string }) {
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
-  }, [blogDetail?.id]);
+  }, [id]);
 
   useEffect(() => {
     fetchComments();

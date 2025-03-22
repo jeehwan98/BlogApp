@@ -4,32 +4,9 @@ import blankBlogImage from "../../../../public/images/blog-image.avif";
 import { formatRelativeDate } from "@/lib/constants/format";
 import { Blog } from "@/interfaces/blog";
 import HandleLike from "./handle-like";
+import { parseContent } from "@/lib/constants/parseContent";
 
 export default function BlogCardDetails({ blog }: { blog: Blog }) {
-  const parseContent = (htmlContent: string) => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlContent, "text/html");
-
-    // show the first image as the image
-    const firstImage = doc.querySelector("img");
-    let coverImageSrc = blankBlogImage.src; // Default image
-    let remainingContent = htmlContent;
-
-    if (firstImage) {
-      coverImageSrc = firstImage.src;
-      // remove the first image from the content
-      firstImage.remove();
-      remainingContent = doc.body.innerHTML;
-    }
-
-    // remove all remaining images from the content
-    const remainingImages = doc.querySelectorAll("img");
-    remainingImages.forEach(image => image.remove());
-    remainingContent = doc.body.innerHTML;
-
-    return { coverImageSrc, remainingContent };
-  };
-
   const { coverImageSrc, remainingContent } = parseContent(blog.content);
 
   return (

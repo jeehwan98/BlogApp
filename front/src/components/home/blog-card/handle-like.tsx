@@ -2,6 +2,7 @@
 
 import { likeBlogAPI } from "@/app/api/blog";
 import { Blog, HandleLikeProps } from "@/interfaces/blog";
+import { useAuth } from "@/lib/auth/auth-client";
 import { Heart } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -17,8 +18,14 @@ export default function HandleLike({
   const [likes, setLikes] = useState<number>(initialLikes);
   const [liked, setLiked] = useState<boolean>(initialLiked);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
+  const { user } = useAuth();
+
+  console.log("In handle like component");
 
   const handleLike = async () => {
+    if (!user) {
+      toast.error("You must be logged in to like a blog");
+    }
     const newLikedState = !liked;
     // update UI before API call
     setLiked(newLikedState);
@@ -35,9 +42,6 @@ export default function HandleLike({
           toast.success("Post has been unliked");
         }
       }
-      // if (onLikeChange) {
-      //   onLikeChange(likes); // Notify parent if provided
-      // }
     } catch (error) {
       console.error("Error updating like:", error);
       // revert UI on failure
@@ -49,8 +53,7 @@ export default function HandleLike({
   }
   return (
     <div
-      className={`flex items-center cursor-pointer ${liked ? 'text-red-500' : 'hover:text-red-500'
-        }`}
+      className={`flex items-center cursor-pointer ${liked ? 'text-red-500' : 'hover:text-red-500'}`}
       onClick={handleLike}
     >
       <Heart
