@@ -12,7 +12,7 @@ import { BlogDetailsContainer, BlogTitle } from "./components";
 import { fetchCommentsAPI } from "@/app/api/comment";
 import HandleLike from "../home/blog-card/handle-like";
 
-export default function BlogDetails({ id }: { id: number }) {
+export default function BlogDetails({ id }: { id: string }) {
   const [blogDetail, setBlogDetail] = useState<Blog | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [comments, setComments] = useState<Comment[]>([]);
@@ -35,7 +35,8 @@ export default function BlogDetails({ id }: { id: number }) {
 
   const fetchComments = useCallback(async () => {
     try {
-      const fetchedComments = await fetchCommentsAPI(id);
+      const userId = parseInt(id, 10);
+      const fetchedComments = await fetchCommentsAPI(userId);
       setComments(fetchedComments);
     } catch (error) {
       console.error("Error fetching comments:", error);

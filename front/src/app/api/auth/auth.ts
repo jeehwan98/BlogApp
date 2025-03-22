@@ -43,24 +43,6 @@ export async function loginAPI(data: LoginDetails) {
   }
 }
 
-export async function logoutAPI() {
-  try {
-    const response = await fetch(URL.LOGOUT, {
-      method: "POST",
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to log out");
-    }
-
-    return true;
-  } catch (error) {
-    console.error("Logout failed:", error);
-    return false;
-  }
-}
-
 export async function forgotPasswordAPI(email: string) {
   try {
     const response = await fetch(`http://localhost:8080/api/v1/auth/forgot-password/${email}`, {

@@ -3,14 +3,14 @@ import ProfileSection from "@/components/profile/ProfileSection";
 import TabsSection from "@/components/profile/TabSection";
 import React from "react";
 
-export default function ProfilePageLayout({
+export default async function ProfilePageLayout({
   params,
   children,
 }: {
   params: { userId: string },
   children: React.ReactNode,
 }) {
-  const userId = params.userId;
+  const { userId } = await params;
 
   return (
     <ProfileLayoutContainer>

@@ -42,9 +42,16 @@ export function AuthProvider({ children, initialUser }: AuthProviderProps) {
   };
 
   const logout = async () => {
-    console.log("trying to logout in auth/client")
     try {
-      await logoutAPI();
+      const response = await fetch("http://localhost:8080/api/v1/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to log out");
+      }
+
       setUser(null);
       // redirect to login upon successful logout
       window.location.href = "/"; // force reload to re-render RootLayout

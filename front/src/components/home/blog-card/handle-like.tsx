@@ -1,7 +1,7 @@
 "use client"
 
 import { likeBlogAPI } from "@/app/api/blog";
-import { Blog, HandleLikeProps } from "@/interfaces/blog";
+import { HandleLikeProps } from "@/interfaces/blog";
 import { useAuth } from "@/lib/auth/auth-client";
 import { Heart } from "lucide-react";
 import { useState } from "react";
@@ -11,7 +11,6 @@ export default function HandleLike({
   id,
   initialLikes,
   initialLiked,
-  onLikeChange
 }:
   HandleLikeProps
 ) {
@@ -19,8 +18,6 @@ export default function HandleLike({
   const [liked, setLiked] = useState<boolean>(initialLiked);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const { user } = useAuth();
-
-  console.log("In handle like component");
 
   const handleLike = async () => {
     if (!user) {
