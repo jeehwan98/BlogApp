@@ -1,6 +1,7 @@
 "use server"
 
 import { LoginDetails } from "@/interfaces/auth/login";
+import HEADERS from "@/lib/constants/headers";
 import { URL } from "@/lib/constants/url";
 import { cookies } from "next/headers";
 
@@ -14,7 +15,6 @@ export async function loginAPI(data: LoginDetails) {
     });
 
     const responseData = await response.json();
-    console.log(responseData);
 
     if (!response.ok) {
       return {
@@ -32,6 +32,7 @@ export async function loginAPI(data: LoginDetails) {
 
     return {
       success: true,
+      user: responseData.user,
       message: responseData.message,
       accessToken: responseData.accessToken,
       refreshToken: responseData.refreshToken
@@ -111,11 +112,12 @@ export async function resetPasswordAPI(token: string, password: string) {
 }
 
 export async function checkPasswordAPI(currentPassword: string) {
+  const headers = await HEADERS();
   let responseData;
   try {
     const response = await fetch(`http://localhost:8080/api/v1/auth/password?password=${encodeURIComponent(currentPassword)}`, {
       method: "GET",
-      headers: { Cookie: cookies().toString() },
+      headers
     });
 
     responseData = await response.json();

@@ -65,7 +65,7 @@ export async function loginAction(
       maxAge: 7 * 24 * 60 * 60,
       sameSite: "lax",
     });
-    console.log("Cookies set in loginAction: accessToken, refreshToken");
+    // console.log("Cookies set in loginAction: accessToken, refreshToken");
   } else {
     console.error("Tokens not found in backend response");
     return {

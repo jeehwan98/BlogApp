@@ -12,10 +12,6 @@ export async function getServerSession(): Promise<User | null> {
     });
 
     if (!response.ok) {
-      // console.log("Failed to fetch current user, status: ", response.status);
-      // console.log("Response headers: ", response.headers);
-      const text = await response.text();
-      // console.log("Response body: ", text);
       return null;
     }
 

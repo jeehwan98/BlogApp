@@ -3,9 +3,9 @@ import DesktopLink from "./desktop-link";
 import Logo from "./logo";
 import MobileLink from "./mobile-link";
 
-export default function NavBar() {
+export default async function NavBar() {
 
-  const headersList = headers();
+  const headersList = await headers();
   const currentPath = headersList.get("x-invoke-path") || "/";
 
   return (

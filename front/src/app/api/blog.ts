@@ -7,12 +7,10 @@ import { URL } from "@/lib/constants/url";
 
 // POST BLOG
 export async function postBlogAPI(data: PostBlog) {
-  console.log("data?: ", data);
   try {
     const response = await fetch(URL.BLOG, {
       method: "POST",
-      headers: URL.HEADERS,
-      credentials: "include",
+      headers: { Cookie: (await cookies()).toString() },
       body: JSON.stringify(data),
     });
 
@@ -35,7 +33,7 @@ export async function fetchBlogAPI() {
   try {
     const response = await fetch(URL.BLOG, {
       method: "GET",
-      headers: { Cookie: cookies().toString() },
+      headers: { Cookie: (await cookies()).toString() }
     });
 
     if (!response.ok) {
@@ -55,8 +53,7 @@ export async function fetchBlogByUserAPI(email: string) {
   try {
     const response = await fetch(`${URL.BLOG}/user/${email}`, {
       method: "GET",
-      headers: URL.HEADERS,
-      credentials: "include",
+      headers: { Cookie: (await cookies()).toString() },
     });
 
     const responseData = await response.json();
@@ -76,7 +73,6 @@ export async function fetchBlogById(id: number) {
   try {
     const response = await fetch(`${URL.BLOG}/${id}`, {
       method: "GET",
-      headers: URL.HEADERS,
     });
 
     const responseData = await response.json();
@@ -92,26 +88,26 @@ export async function fetchBlogById(id: number) {
   }
 }
 
-// like and dislike blog
+// LIKE AND DISLIKE BLOG
 export const likeBlogAPI = async (blogId: number, like: boolean) => {
   const user = await getServerSession();
   const method = like ? "POST" : "DELETE";
   const response = await fetch(`http://localhost:8080/api/v1/like/${blogId}/${user?.email}`, {
     method,
-    headers: { Cookie: cookies().toString() },
-  }); // Adjust URL and userEmail as needed
+    headers: { Cookie: (await cookies()).toString() }
+  });
   if (!response.ok) {
     console.log("Response Status:", response.status, response.statusText);
     throw new Error("Failed to update like");
   }
   const responseData = await response.json();
-  return responseData; // Assuming it returns { likes: number }
+  return responseData;
 };
 
 export async function fetchLikedBlogsByUserAPI(email: string) {
   try {
     const response = await fetch(`http://localhost:8080/api/v1/like/user/${email}`, {
-      headers: { Cookie: cookies().toString() },
+      headers: { Cookie: (await cookies()).toString() },
     });
 
     const responseData = await response.json();
@@ -130,7 +126,7 @@ export async function fetchLikedBlogsByUserAPI(email: string) {
 export async function fetchBlogsByTagNameAPI(tagName: string) {
   try {
     const response = await fetch(`http://localhost:8080/api/v1/blog/tag/${tagName}`, {
-      headers: { Cookie: cookies().toString() },
+      method: "GET"
     });
 
     const responseData = await response.json();
