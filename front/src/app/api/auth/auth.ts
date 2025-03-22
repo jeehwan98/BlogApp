@@ -1,7 +1,6 @@
 "use server"
 
 import { LoginDetails } from "@/interfaces/auth/login";
-import HEADERS from "@/lib/constants/headers";
 import { URL } from "@/lib/constants/url";
 import { cookies } from "next/headers";
 
@@ -9,9 +8,8 @@ export async function loginAPI(data: LoginDetails) {
   try {
     const response = await fetch(URL.LOGIN, {
       method: "POST",
-      headers: URL.HEADERS,
+      headers: { Cookie: (await cookies()).toString() },
       body: JSON.stringify(data),
-      credentials: "include",
     });
 
     const responseData = await response.json();
@@ -112,12 +110,11 @@ export async function resetPasswordAPI(token: string, password: string) {
 }
 
 export async function checkPasswordAPI(currentPassword: string) {
-  const headers = await HEADERS();
   let responseData;
   try {
     const response = await fetch(`http://localhost:8080/api/v1/auth/password?password=${encodeURIComponent(currentPassword)}`, {
       method: "GET",
-      headers
+      headers: { Cookie: (await cookies()).toString() },
     });
 
     responseData = await response.json();
@@ -145,7 +142,7 @@ export async function updatePasswordAPI(inputtedPassword: string) {
   try {
     const response = await fetch(`http://localhost:8080/api/v1/auth/password?password=${encodeURIComponent(inputtedPassword)}`, {
       method: "PUT",
-      headers: { Cookie: cookies().toString() },
+      headers: { Cookie: (await cookies()).toString() },
     });
 
     responseData = await response.json();
