@@ -1,7 +1,9 @@
 import FetchedUserInfo from "@/components/users/specific/fetched-user-info";
 
-export default function SpecificUserInfoPage({ params }: { params: { email: string } }) {
-  const email = decodeURIComponent(params.email);
+export default async function SpecificUserInfoPage({ params }: { params: { email: string } }) {
+  params = await params;
+  const preDecodedEmail = params.email;
+  const email = decodeURIComponent(preDecodedEmail);
 
   return (
     <div className="mt-10">

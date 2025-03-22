@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth/auth-client";
 
 export default function IntroductionPage() {
-  // const { userId } = params;
   const params = useParams();
   const userId = params?.userId as string;
   const { user } = useAuth();
@@ -44,7 +43,6 @@ export default function IntroductionPage() {
     fetchUser();
   }, [userId]);
 
-  console.log("fetched user details:", userDetails);
   const isOwnProfile = user?.email === userDetails?.email;
 
   const handleSaveIntroduction = async () => {
