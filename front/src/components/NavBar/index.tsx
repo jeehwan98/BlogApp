@@ -1,18 +1,14 @@
-import { headers } from "next/headers";
 import DesktopLink from "./desktop-link";
 import Logo from "./logo";
 import MobileLink from "./mobile-link";
 
-export default async function NavBar() {
-
-  const headersList = await headers();
-  const currentPath = headersList.get("x-invoke-path") || "/";
+export default function NavBar() {
 
   return (
     <div className=" w-full h-16 md:h-20 flex items-center justify-between">
       <Logo />
       <MobileLink />
-      <DesktopLink currentPath={currentPath} />
+      <DesktopLink />
     </div>
   )
 }

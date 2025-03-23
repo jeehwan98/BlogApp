@@ -1,15 +1,15 @@
+"use client"
+
 import navigation from "@/lib/links/navbar.json";
 import Link from "next/link";
 import UserButton from "./user-button";
 import { buttonVariants } from "../ui/button";
-import { getServerSession } from "@/lib/auth/auth-server";
+import { usePathname } from "next/navigation";
+import { useAuth } from "@/lib/auth/auth-client";
 
-export default async function DesktopLink({
-  currentPath
-}: {
-  currentPath: string;
-}) {
-  const user = await getServerSession();
+export default function DesktopLink() {
+  const { user } = useAuth();
+  const currentPath = usePathname();
 
   const filteredNavigation = navigation.filter((navItem) => {
     if (navItem.name === "Feedback" && user?.role !== "ADMIN" ||
