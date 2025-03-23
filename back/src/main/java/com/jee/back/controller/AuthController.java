@@ -9,6 +9,7 @@ import com.jee.back.repository.UserRepository;
 import com.jee.back.service.AuthService;
 import com.jee.back.service.UserService;
 import com.jee.back.util.CookieUtil;
+import com.jee.back.util.SecurityUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,16 +43,14 @@ public class AuthController {
     private final PasswordResetTokenRepository tokenRepository;
     private final JavaMailSender mailSender;
     private final UserRepository userRepository;
+    Map<String, Object> responseMap = new HashMap<>();
 
     @PostMapping("/login")
     @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO loginDTO,
                                                      HttpServletRequest request,
                                                      HttpServletResponse httpResponse) throws IOException {
-        log.info("Login request received: email={}", loginDTO.getEmail());
         Map<String, Object> response = authService.login(loginDTO, request, httpResponse);
-
-        log.info("AuthService response: {}", response);
         checkUser();
 
         if (!Boolean.TRUE.equals(response.get("success"))) {
@@ -59,15 +58,14 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
 
-        log.info("Full response headers: {}", httpResponse.getHeaderNames());
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")
     public ResponseEntity<Map<String, Object>> logout(HttpServletRequest request, HttpServletResponse response) {
+        log.info("in logout controller method");
         SecurityContextHolder.clearContext();
         cookieUtil.clearCookies(response);
-        log.info("SecurityContextHolder cleared and cookies cleared");
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("success", true);
         responseBody.put("message", "Logout successful");
@@ -76,7 +74,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> register(@Valid @RequestBody RegisterDTO registerDTO) {
-        log.info("registering user ✅");
         Map<String, Object> response = authService.registerUser(registerDTO);
         if (!(Boolean) response.get("success")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
@@ -86,7 +83,6 @@ public class AuthController {
 
     @GetMapping("/login/github")
     public ResponseEntity<Void> loginWithGitHub() {
-        log.info("in login github ✅");
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header("Location", "/oauth2/authorization/github")
                 .build();
@@ -94,7 +90,6 @@ public class AuthController {
 
     @GetMapping("/current")
     public ResponseEntity<Map<String, Object>> getCurrentUserInfo(HttpServletRequest request) {
-        log.info("in current!");
         try {
             String email = cookieUtil.getLoggedInUserEmail(request);
             if (email == null) {
@@ -105,16 +100,14 @@ public class AuthController {
 
             User user = userService.findUserByEmail(email);
 
-            Map<String, Object> userDetails = new HashMap<>();
-            userDetails.put("email", user.getEmail());
-            userDetails.put("name", user.getName());
-            userDetails.put("image", user.getImage());
-            userDetails.put("bio", user.getIntroduction());
-            userDetails.put("role", user.getRole());
 
-            log.info("userDetails?: {}", userDetails);
+            responseMap.put("email", user.getEmail());
+            responseMap.put("name", user.getName());
+            responseMap.put("image", user.getImage());
+            responseMap.put("bio", user.getIntroduction());
+            responseMap.put("role", user.getRole());
 
-            return ResponseEntity.ok(userDetails);
+            return ResponseEntity.ok(responseMap);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", "User not authenticated in auth controller"));
@@ -123,8 +116,6 @@ public class AuthController {
 
     @PostMapping("/forgot-password/{email}")
     public ResponseEntity<Map<String, Object>> forgotPassword(@PathVariable("email") String email) {
-        log.info("inputted email in forgotPassword method: {}", email);
-        Map<String, Object> responseMap = new HashMap<>();
         User user = userService.findUserByEmail(email);
 
         if (user == null) {
@@ -154,18 +145,11 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> resetPassword(
             @RequestParam String token,
             @RequestParam String password) {
-        log.info("in reset-password method ✅");
-        Map<String, Object> response = new HashMap<>();
         Optional<PasswordResetToken> tokenOpt = tokenRepository.findByToken(token);
-        if (tokenOpt.isEmpty() || tokenOpt.get().isExpired()) {
-            response.put("success", false);
-            response.put("error", "Invalid or expired token");
-            return ResponseEntity.badRequest().body(response);
-        }
 
         User user = tokenOpt.get().getUser();
-        response =  userService.updatePassword(user, password, tokenOpt.get());
-        return ResponseEntity.ok(response);
+        responseMap =  userService.updatePassword(user, password, tokenOpt.get());
+        return ResponseEntity.ok(responseMap);
     }
 
     private void sendResetEmail(String email, String resetUrl) throws MessagingException {
@@ -189,5 +173,39 @@ public class AuthController {
         Authentication authCheck = SecurityContextHolder.getContext().getAuthentication();
         log.info("check for authenticated user's email: {}",
                 authCheck != null ? authCheck.getName() : "No authentication found");
+    }
+
+    @GetMapping("/password")
+    public ResponseEntity<Map<String, Object>> checkPassword(
+            @RequestParam String password
+    ) {
+        String email = SecurityUtil.getAuthenticatedUserEmail();
+        User user = userService.getUserByEmail(email);
+        if (password == null || password.isEmpty()) {
+            responseMap.put("success", false);
+            responseMap.put("message", "Current password is required");
+            return ResponseEntity.badRequest().body(responseMap);
+        }
+        boolean isPasswordValid = authService.checkUserPassword(user, email);
+        if (!isPasswordValid) {
+            responseMap.put("success", false);
+            responseMap.put("message", "Invalid password");
+        }
+
+        responseMap.put("success", true);
+        responseMap.put("message", "password is valid");
+        return ResponseEntity.ok(responseMap);
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<Map<String, Object>> updatePassword(
+            @RequestParam String password
+    ) {
+        log.info("in update password method");
+        String email = SecurityUtil.getAuthenticatedUserEmail();
+        User user = userService.getUserByEmail(email);
+        responseMap = authService.updatePassword(user, password);
+
+        return ResponseEntity.ok(responseMap);
     }
 }

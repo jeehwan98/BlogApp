@@ -5,6 +5,7 @@ import com.jee.back.filter.JwtFilter;
 import com.jee.back.repository.UserRepository;
 import com.jee.back.service.CustomOAuth2UserService;
 import com.jee.back.util.CookieUtil;
+import com.jee.back.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -51,7 +52,7 @@ public class SecurityConfig {
     public SecurityFilterChain permittedURLS(HttpSecurity http) throws Exception {
 
         http
-                .securityMatcher("/api/v1/auth/register", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout", "/api/v1/auth/forgot-password/**", "/api/v1/auth/reset-password/**")
+                .securityMatcher("/api/v1/auth/logout/**","/api/v1/auth/register/**", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout", "/api/v1/auth/forgot-password/**", "/api/v1/auth/reset-password/**", "/api/v1/feedback/**", "/api/v1/like/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session
@@ -66,7 +67,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain loginFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/v1/auth/login")
+                .securityMatcher("/api/v1/auth/login/**")
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(Customizer.withDefaults())
@@ -97,7 +98,6 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(((request, response, authentication) -> {
-                            log.info("security config success handler ✅");
                             String email = authentication.getName();
                             User user = userRepository.findByEmail(email)
                                     .orElseThrow(
@@ -117,9 +117,7 @@ public class SecurityConfig {
 
                             // manually clear session to avoid persistence
                             request.getSession().invalidate();
-
                             response.sendRedirect("http://localhost:3000/");
-
                         })))
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {

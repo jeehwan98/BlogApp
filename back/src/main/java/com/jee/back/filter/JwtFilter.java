@@ -2,6 +2,7 @@ package com.jee.back.filter;
 
 import com.jee.back.service.UsersDetailsService;
 import com.jee.back.util.JwtUtil;
+import com.jee.back.util.SecurityUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -34,8 +35,9 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         return path.startsWith("/api/v1/auth/forgot-password/**") ||
                 path.startsWith("/api/v1/auth/reset-password/**") ||
-                path.startsWith("/api/v1/auth/current/**") ||
-                path.startsWith("/api/v1/comments/**");
+                path.startsWith("/api/v1/auth/**") ||
+                path.startsWith("/api/v1/comments/**") ||
+                path.startsWith("/api/v1/like/**");
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -57,6 +59,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                String email123 = SecurityUtil.getAuthenticatedUserEmail();
             }
         }
         filterChain.doFilter(request, response);

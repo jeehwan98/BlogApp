@@ -2,6 +2,7 @@ package com.jee.back.service;
 
 import com.jee.back.dto.UpdateUserDTO;
 import com.jee.back.dto.UpdateUserImageDTO;
+import com.jee.back.dto.UserResponseDTO;
 import com.jee.back.entity.PasswordResetToken;
 import com.jee.back.entity.User;
 import com.jee.back.repository.PasswordResetTokenRepository;
@@ -14,8 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -30,7 +33,7 @@ public class UserService {
         return (User) userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found with email: " + email));
     }
 
-    public User updateUser(String email, UpdateUserDTO updateUserDTO) {
+    public User updateUserForIntroduction(String email, UpdateUserDTO updateUserDTO) {
         User user = getUserByEmail(email);
         user.setIntroduction(updateUserDTO.getIntroduction());
         User updatedUser = userRepository.save(user);
@@ -47,9 +50,9 @@ public class UserService {
         try {
             User user = findUserByEmail(updateUserImageDTO.getEmail());
             user.setImage(updateUserImageDTO.getImage());
-            userRepository.save(user);
+            User savedUser = userRepository.save(user);
             response.put("success", true);
-            response.put("message", "User image updated successfully");
+            response.put("message", savedUser.getImage());
         } catch (Exception e) {
             log.error("Error updating user image: {}", e.getMessage());
             response.put("success", false);
@@ -68,5 +71,18 @@ public class UserService {
         response.put("message", "Password updated successfully");
 
         return response;
+    }
+
+    public List<UserResponseDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(UserResponseDTO::new).collect(Collectors.toList());
+    }
+
+    public User updateUserDetails(String email, UpdateUserDTO updateUserDTO) {
+        User user = getUserByEmail(email);
+        user.setName(updateUserDTO.getName());
+        user.setEmail(updateUserDTO.getEmail());
+        user.setRole(updateUserDTO.getRole());
+        return userRepository.save(user);
     }
 }

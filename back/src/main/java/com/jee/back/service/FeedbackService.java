@@ -1,6 +1,7 @@
 package com.jee.back.service;
 
 import com.jee.back.dto.FeedbackDTO;
+import com.jee.back.dto.FeedbackResponseDTO;
 import com.jee.back.entity.Feedback;
 import com.jee.back.entity.User;
 import com.jee.back.repository.FeedbackRepository;
@@ -11,10 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
-@Log4j2
 public class FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
@@ -36,5 +38,10 @@ public class FeedbackService {
 
     public List<Feedback> getFeedbackByUser(User user) {
         return feedbackRepository.findByUser(user);
+    }
+
+    public List<FeedbackResponseDTO> getAllFeedback() {
+        List<Feedback> feedbacks = feedbackRepository.findAll();
+        return feedbacks.stream().map(FeedbackResponseDTO::new).collect(Collectors.toList());
     }
 }

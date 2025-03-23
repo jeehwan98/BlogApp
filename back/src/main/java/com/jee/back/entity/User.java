@@ -38,6 +38,11 @@ public class User implements UserDetails {
     private List<Comment> comments;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Feedback> feedbacks = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<BlogsLike> likedBlogs;
+    public boolean hasLiked(Blog blog) {
+        return likedBlogs != null && likedBlogs.stream().anyMatch(blogsLike -> blogsLike.getBlog().equals(blog));
+    }
 
     public User(RegisterDTO registerDTO) {
         this.id = registerDTO.getId();

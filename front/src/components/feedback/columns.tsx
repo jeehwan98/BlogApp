@@ -4,31 +4,9 @@ import { Feedback } from "@/interfaces/feedback"
 import { ColumnDef } from "@tanstack/react-table"
 import { formatDateWithTime } from "@/lib/constants/format"
 import { ArrowUpDown } from "lucide-react"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useRouter } from "next/navigation"
 
 export const columns: ColumnDef<Feedback>[] = [
-  // {
-  //   id: "select",
-  //   header: ({ table }) => (
-  //     <Checkbox
-  //       checked={
-  //         table.getIsAllPageRowsSelected() ||
-  //         (table.getIsSomePageRowsSelected() && "indeterminate")
-  //       }
-  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-  //       aria-label="Select all"
-  //     />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <Checkbox
-  //       checked={row.getIsSelected()}
-  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-  //       aria-label="Select row"
-  //     />
-  //   ),
-  //   enableSorting: false,
-  //   enableHiding: false,
-  // },
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -60,6 +38,19 @@ export const columns: ColumnDef<Feedback>[] = [
         </div>
       )
     },
+    cell: ({ row }) => {
+      const router = useRouter();
+      const userName = row.original.user.name;
+      const userEmail = row.original.user.email;
+      return (
+        <div
+          onClick={() => router.push(`/users/${encodeURIComponent(userEmail)}`)}
+          className="cursor-pointer hover:underline text-slate-900 underline-offset-4 dark:text-slate-50"
+        >
+          {userName}
+        </div>
+      )
+    },
   },
   {
     accessorKey: "user.email",
@@ -73,6 +64,18 @@ export const columns: ColumnDef<Feedback>[] = [
           <div className="flex justify-center align-center items-center">
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </div>
+        </div>
+      )
+    },
+    cell: ({ row }) => {
+      const router = useRouter();
+      const userEmail = row.original.user.email;
+      return (
+        <div
+          onClick={() => router.push(`/users/${encodeURIComponent(userEmail)}`)}
+          className="cursor-pointer hover:underline text-slate-900 underline-offset-4 dark:text-slate-50"
+        >
+          {userEmail}
         </div>
       )
     },

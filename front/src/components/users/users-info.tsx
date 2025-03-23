@@ -28,8 +28,6 @@ export default function UsersInfo() {
     return <div>Loading</div>;
   }
 
-  console.log(users);
-
   return (
     <div className="container mx-auto py-10">
       <DataTable columns={columns} data={users || []} />

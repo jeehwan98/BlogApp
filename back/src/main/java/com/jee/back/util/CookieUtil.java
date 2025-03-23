@@ -27,7 +27,6 @@ public class CookieUtil {
         String cookieHeader = String.format("%s=%s; Max-Age=%d; Path=/; HttpOnly; Secure; SameSite=%s",
                 name, value, maxAge, sameSite);
         response.addHeader("Set-Cookie", cookieHeader);
-        log.info("Set cookie: name={}, value={}, maxAge={}, SameSite={}", name, value, maxAge, sameSite);
     }
 
     public void createCookies(HttpServletResponse response, User user) {
@@ -36,7 +35,6 @@ public class CookieUtil {
 
         setCookie(response, "accessToken", accessToken, 60 * 60);
         setCookie(response, "refreshToken", refreshToken, 7 * 24 * 60 * 60);
-        log.info("Cookies set - accessToken: {}, refreshToken: {}", accessToken, refreshToken);
     }
 
     public String createAccessToken(User user) {

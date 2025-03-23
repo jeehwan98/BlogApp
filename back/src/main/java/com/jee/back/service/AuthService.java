@@ -32,15 +32,16 @@ public class AuthService {
     private final ModelMapper modelMapper;
     private final CookieUtil cookieUtil;
     private final UsersDetailsService usersDetailsService;
+    Map<String, Object> responseMap = new HashMap<>();
 
     public Map<String, Object> login(LoginDTO loginDTO, HttpServletRequest request, HttpServletResponse httpResponse) {
-        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> responseMap = new HashMap<>();
         User user = userService.findUserByEmail(loginDTO.getEmail());
-
         if (user == null || !passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            response.put("success", false);
-            response.put("error", "Invalid email or password");
-            return response;
+            responseMap.put("success", false);
+            responseMap.put("message", "Invalid email or password");
+            responseMap.put("error", "Invalid email or password");
+            return responseMap;
         }
 
         cookieUtil.createCookies(httpResponse, user);
@@ -51,37 +52,12 @@ public class AuthService {
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
 
-        response.put("success", true);
-        response.put("message", "Login successful");
-        response.put("accessToken", cookieUtil.createAccessToken(user));
-        response.put("refreshToken", cookieUtil.createRefreshToken());
+        responseMap.put("success", true);
+        responseMap.put("message", "Login successful");
+        responseMap.put("accessToken", cookieUtil.createAccessToken(user));
+        responseMap.put("refreshToken", cookieUtil.createRefreshToken());
 
-        return response;
-    }
-
-    public User registerCredentials(RegisterDTO registerDTO) {
-        Optional<User> existsByEmail = userRepository.findByEmail(registerDTO.getEmail());
-        if (existsByEmail.isPresent()) {
-            throw new IllegalArgumentException("email already exists");
-        }
-
-        registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        registerDTO.setRole(Role.USER);
-        return userRepository.save(new User(registerDTO));
-    }
-
-    public void registerGithub(RegisterDTO registerDTO) {
-        registerDTO.setRole(Role.USER);
-        System.out.println(registerDTO);
-
-        User user = modelMapper.map(registerDTO, User.class);
-        userRepository.save(user);
-    }
-
-    public UserResponseDTO getResponse(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found with username: " + email));
-        UserResponseDTO userResponseDTO = modelMapper.map(user, UserResponseDTO.class);
-        return userResponseDTO;
+        return responseMap;
     }
 
     public Map<String, Object> registerUser(RegisterDTO registerDTO) {
@@ -102,6 +78,23 @@ public class AuthService {
         response.put("success", true);
         response.put("message", "Registration success");
         return response;
+    }
+
+    public boolean checkUserPassword(User user, String currentPassword) {
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return false;
+        }
+        return true;
+    }
+
+    public Map<String, Object> updatePassword(User user, String inputtedPassword) {
+        Map<String, Object> responseMap = new HashMap<>();
+        user.setPassword(passwordEncoder.encode(inputtedPassword));
+        userRepository.save(user);
+        responseMap.put("success", true);
+        responseMap.put("message", "Password has been successfully update");
+
+        return responseMap;
     }
 }
 

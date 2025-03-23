@@ -9,13 +9,13 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FeedbackInfoDTO {
+public class FeedbackResponseDTO {
     private int id;
     private UserResponseDTO user;
     private String content;
     private LocalDateTime createdAt;
 
-    public FeedbackInfoDTO(Feedback feedback) {
+    public FeedbackResponseDTO(Feedback feedback) {
         this.id = feedback.getId();
         UserResponseDTO userDTO = new UserResponseDTO(feedback.getUser());
         this.user = userDTO;

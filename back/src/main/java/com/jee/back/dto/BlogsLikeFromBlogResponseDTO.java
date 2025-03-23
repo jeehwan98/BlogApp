@@ -1,8 +1,6 @@
 package com.jee.back.dto;
 
-import com.jee.back.entity.Blog;
 import com.jee.back.entity.BlogsLike;
-import com.jee.back.entity.User;
 import lombok.*;
 
 @Data
@@ -10,11 +8,11 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BlogsLikeResponseDTO {
-    private Long id;
+public class BlogsLikeFromBlogResponseDTO {
+    private int id;
     private UserResponseDTO userResponseDTO;
 
-    public BlogsLikeResponseDTO(BlogsLike blogsLike) {
+    public BlogsLikeFromBlogResponseDTO(BlogsLike blogsLike) {
         this.id = blogsLike.getId();
         this.userResponseDTO = new UserResponseDTO(blogsLike.getUser());
     }
