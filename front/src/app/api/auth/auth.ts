@@ -8,7 +8,10 @@ export async function loginAPI(data: LoginDetails) {
   try {
     const response = await fetch(URL.LOGIN, {
       method: "POST",
-      headers: { Cookie: (await cookies()).toString() },
+      headers: {
+        Cookie: (await cookies()).toString(),
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data),
     });
 

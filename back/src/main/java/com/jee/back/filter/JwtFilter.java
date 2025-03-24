@@ -37,7 +37,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 path.startsWith("/api/v1/auth/reset-password/**") ||
                 path.startsWith("/api/v1/auth/**") ||
                 path.startsWith("/api/v1/comments/**") ||
-                path.startsWith("/api/v1/like/**");
+                path.startsWith("/api/v1/like/**") ||
+                path.startsWith("/api/v1/auth/login");
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

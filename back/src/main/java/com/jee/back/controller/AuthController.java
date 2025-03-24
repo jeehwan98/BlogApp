@@ -50,6 +50,7 @@ public class AuthController {
     public ResponseEntity<Map<String, Object>> login(@RequestBody LoginDTO loginDTO,
                                                      HttpServletRequest request,
                                                      HttpServletResponse httpResponse) throws IOException {
+        log.info("in login method");
         Map<String, Object> response = authService.login(loginDTO, request, httpResponse);
         checkUser();
 

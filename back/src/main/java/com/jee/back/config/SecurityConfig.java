@@ -52,7 +52,7 @@ public class SecurityConfig {
     public SecurityFilterChain permittedURLS(HttpSecurity http) throws Exception {
 
         http
-                .securityMatcher("/api/v1/auth/logout/**","/api/v1/auth/register/**", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout", "/api/v1/auth/forgot-password/**", "/api/v1/auth/reset-password/**", "/api/v1/feedback/**", "/api/v1/like/**")
+                .securityMatcher("/api/v1/auth/login/**","/api/v1/auth/logout/**","/api/v1/auth/register/**", "/api/v1/users/image", "/api/v1/auth/current", "/api/v1/auth/logout", "/api/v1/auth/forgot-password/**", "/api/v1/auth/reset-password/**", "/api/v1/feedback/**", "/api/v1/like/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .anyRequest().permitAll())
                 .sessionManagement(session -> session
@@ -67,7 +67,7 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain loginFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/api/v1/auth/login/**")
+                .securityMatcher("/api/v1/auth/login")
                 .authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(Customizer.withDefaults())
