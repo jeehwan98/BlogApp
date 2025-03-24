@@ -7,10 +7,14 @@ import { URL } from "@/lib/constants/url";
 
 // POST BLOG
 export async function postBlogAPI(data: PostBlog) {
+  console.log("blog to post?:", data);
   try {
     const response = await fetch(URL.BLOG, {
       method: "POST",
-      headers: { Cookie: (await cookies()).toString() },
+      headers: {
+        Cookie: (await cookies()).toString(),
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data),
     });
 

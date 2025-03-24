@@ -43,6 +43,7 @@ public class BlogController {
     @PostMapping()
     public ResponseEntity<Map<String, Object>> postBlog(@Valid @RequestBody PostBlogDTO postBlogDTO) {
         String email = SecurityUtil.getAuthenticatedUserEmail();
+        log.info("logged in user's email: {}", email);
         User user = userService.getUserByEmail(email);
         Blog blog = blogService.saveBlog(postBlogDTO, user);
 

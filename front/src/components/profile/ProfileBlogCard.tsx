@@ -9,7 +9,7 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
 
   return (
     <Link
-      className="flex overflow-hidden hover:bg-slate-50 rounded-md"
+      className="flex overflow-hidden hover:bg-slate-50 rounded-md min-h-[200px]"
       href={`/blogs/${blog.id}`}
     >
       <div className="relative w-4/12">
@@ -21,7 +21,7 @@ export default function ProfileBlogCard({ blog }: { blog: Blog }) {
           className="rounded-md"
         />
       </div>
-      <div className="w-2/3 px-4 flex flex-col justify-between">
+      <div className="w-2/3 px-4">
         <h3 className="font-semibold text-xl">{blog.title}</h3>
         <TagList tags={blog.tags} />
         <p
