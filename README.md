@@ -22,3 +22,6 @@ npm start
 cd back
 ./mvnw spring-boot:run
 ```
+
+### 링크
+Notion: https://jeehwan98.notion.site/blog-app
