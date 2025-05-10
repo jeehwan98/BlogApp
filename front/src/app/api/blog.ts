@@ -1,14 +1,20 @@
-import { PostBlog } from "@/lib/interfaces";
-import { URL } from "@/lib/constants";
+"use server"
+
+import { cookies } from "next/headers";
+import { PostBlog } from "@/interfaces/blog";
+import { getServerSession } from "@/lib/auth/auth-server";
+import { URL } from "@/lib/constants/url";
 
 // POST BLOG
 export async function postBlogAPI(data: PostBlog) {
-  console.log("data?: ", data);
+  console.log("blog to post?:", data);
   try {
     const response = await fetch(URL.BLOG, {
       method: "POST",
-      headers: URL.HEADERS,
-      credentials: "include",
+      headers: {
+        Cookie: (await cookies()).toString(),
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(data),
     });
 
@@ -31,7 +37,7 @@ export async function fetchBlogAPI() {
   try {
     const response = await fetch(URL.BLOG, {
       method: "GET",
-      headers: URL.HEADERS,
+      headers: { Cookie: (await cookies()).toString() }
     });
 
     if (!response.ok) {
@@ -51,7 +57,7 @@ export async function fetchBlogByUserAPI(email: string) {
   try {
     const response = await fetch(`${URL.BLOG}/user/${email}`, {
       method: "GET",
-      headers: URL.HEADERS,
+      headers: { Cookie: (await cookies()).toString() },
     });
 
     const responseData = await response.json();
@@ -67,17 +73,70 @@ export async function fetchBlogByUserAPI(email: string) {
   }
 }
 
-export async function fetchBlogById(id: string) {
+export async function fetchBlogById(id: number) {
   try {
     const response = await fetch(`${URL.BLOG}/${id}`, {
       method: "GET",
-      headers: URL.HEADERS,
     });
 
     const responseData = await response.json();
 
     if (!response.ok) {
       throw new Error("Error fetching blog");
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    throw error;
+  }
+}
+
+// LIKE AND DISLIKE BLOG
+export const likeBlogAPI = async (blogId: number, like: boolean) => {
+  const user = await getServerSession();
+  const method = like ? "POST" : "DELETE";
+  const response = await fetch(`http://localhost:8080/api/v1/like/${blogId}/${user?.email}`, {
+    method,
+    headers: { Cookie: (await cookies()).toString() }
+  });
+  if (!response.ok) {
+    console.log("Response Status:", response.status, response.statusText);
+    throw new Error("Failed to update like");
+  }
+  const responseData = await response.json();
+  return responseData;
+};
+
+export async function fetchLikedBlogsByUserAPI(email: string) {
+  try {
+    const response = await fetch(`http://localhost:8080/api/v1/like/user/${email}`, {
+      headers: { Cookie: (await cookies()).toString() },
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      return responseData;
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    throw error;
+  }
+}
+
+export async function fetchBlogsByTagNameAPI(tagName: string) {
+  try {
+    const response = await fetch(`http://localhost:8080/api/v1/blog/tag/${tagName}`, {
+      method: "GET"
+    });
+
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      return responseData;
     }
 
     return responseData;

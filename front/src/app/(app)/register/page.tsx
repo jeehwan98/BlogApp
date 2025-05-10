@@ -1,11 +1,11 @@
-import AuthHeader from "@/components/Auth/AuthHeader";
-import RegisterForm from "@/components/Auth/Form/RegisterForm";
+import { AuthHeader, AuthFormContainer } from "@/components/auth/components";
+import RegisterForm from "@/components/form/auth/register";
 
 export default function RegisterPage() {
   return (
-    <div>
+    <AuthFormContainer>
       <AuthHeader />
       <RegisterForm />
-    </div>
+    </AuthFormContainer>
   )
 }

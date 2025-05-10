@@ -1,14 +1,18 @@
 package com.jee.back.entity;
 
+import com.jee.back.dto.RegisterDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 @Entity
+@Setter
 @Getter
 @AllArgsConstructor
 @Table(name = "user")
@@ -18,7 +22,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(unique = true)
+    @Column(unique = true, name = "email")
     private String email;
     private String name;
     private String password;
@@ -26,8 +30,37 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private String provider;
+    private String githubId;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Blog> blogs;
+    private String introduction;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<BlogsLike> likedBlogs;
+    public boolean hasLiked(Blog blog) {
+        return likedBlogs != null && likedBlogs.stream().anyMatch(blogsLike -> blogsLike.getBlog().equals(blog));
+    }
+
+    public User(RegisterDTO registerDTO) {
+        this.id = registerDTO.getId();
+        this.email = registerDTO.getEmail();
+        this.name = registerDTO.getName();
+        this.password = registerDTO.getPassword();
+        this.image = registerDTO.getImage();
+        this.role = registerDTO.getRole();
+        this.provider = registerDTO.getProvider();
+    }
+
+    public User(String githubId, String email, String name, String avatarUrl, String bio) {
+        this.githubId = githubId;
+        this.email = email;
+        this.name = name;
+        this.image = avatarUrl;
+        this.introduction = bio;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

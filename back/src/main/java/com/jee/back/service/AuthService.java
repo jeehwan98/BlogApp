@@ -6,79 +6,95 @@ import com.jee.back.dto.UserResponseDTO;
 import com.jee.back.entity.Role;
 import com.jee.back.entity.User;
 import com.jee.back.repository.UserRepository;
-import com.jee.back.util.JwtUtil;
+import com.jee.back.util.CookieUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
+    private final UserService userService;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
-    private final JwtUtil jwtUtil;
+    private final CookieUtil cookieUtil;
+    private final UsersDetailsService usersDetailsService;
+    Map<String, Object> responseMap = new HashMap<>();
 
-    public String login(LoginDTO loginDTO) {
-        Optional<User> userOptional = userRepository.findByEmail(loginDTO.getEmail());
-        if (userOptional.isEmpty()) {
-            throw new IllegalArgumentException("Invalid username");
+    public Map<String, Object> login(LoginDTO loginDTO, HttpServletRequest request, HttpServletResponse httpResponse) {
+        Map<String, Object> responseMap = new HashMap<>();
+        User user = userService.findUserByEmail(loginDTO.getEmail());
+        if (user == null || !passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            responseMap.put("success", false);
+            responseMap.put("message", "Invalid email or password");
+            responseMap.put("error", "Invalid email or password");
+            return responseMap;
         }
 
-        User user = userOptional.get();
-        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            throw new IllegalArgumentException("Invalid password");
-        }
+        cookieUtil.createCookies(httpResponse, user);
 
-        UserDetails userDetails = org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail())
-                .password(user.getPassword())
-                .authorities(Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name())))
-                .build();
+        UserDetails userDetails = usersDetailsService.loadUserByUsername(user.getEmail());
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(authToken);
 
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        responseMap.put("success", true);
+        responseMap.put("message", "Login successful");
+        responseMap.put("accessToken", cookieUtil.createAccessToken(user));
+        responseMap.put("refreshToken", cookieUtil.createRefreshToken());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return jwtUtil.generateToken(user);
+        return responseMap;
     }
 
-    public void registerCredentials(RegisterDTO registerDTO) {
+    public Map<String, Object> registerUser(RegisterDTO registerDTO) {
+        Map<String, Object> response = new HashMap<>();
         Optional<User> existsByEmail = userRepository.findByEmail(registerDTO.getEmail());
         if (existsByEmail.isPresent()) {
-            throw new IllegalArgumentException("email already exists");
+            response.put("success", false);
+            response.put("error", "Email already exists");
+            return response;
         }
 
-        registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        registerDTO.setRole(Role.ADMIN);
-
-        User user = modelMapper.map(registerDTO, User.class);
-        userRepository.save(user);
-    }
-
-    public void registerGithub(RegisterDTO registerDTO) {
         registerDTO.setRole(Role.USER);
-        System.out.println(registerDTO);
-
+        registerDTO.setProvider("Email");
+        registerDTO.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         User user = modelMapper.map(registerDTO, User.class);
         userRepository.save(user);
+
+        response.put("success", true);
+        response.put("message", "Registration success");
+        return response;
     }
 
-    public UserResponseDTO getResponse(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found with username: " + email));
-        UserResponseDTO userResponseDTO = modelMapper.map(user, UserResponseDTO.class);
-        return userResponseDTO;
+    public boolean checkUserPassword(User user, String currentPassword) {
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return false;
+        }
+        return true;
+    }
+
+    public Map<String, Object> updatePassword(User user, String inputtedPassword) {
+        Map<String, Object> responseMap = new HashMap<>();
+        user.setPassword(passwordEncoder.encode(inputtedPassword));
+        userRepository.save(user);
+        responseMap.put("success", true);
+        responseMap.put("message", "Password has been successfully update");
+
+        return responseMap;
     }
 }
 

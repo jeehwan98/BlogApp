@@ -8,11 +8,11 @@
     "path": "/write"
   },
   {
-    "name": "About",
-    "path": "/about"
+    "name": "Feedback",
+    "path": "/feedback"
   },
   {
-    "name": "Contact",
-    "path": "/contact"
+    "name": "Users",
+    "path": "/users"
   }
 ]

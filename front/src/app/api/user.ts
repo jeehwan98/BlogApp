@@ -1,4 +1,5 @@
-import { URL } from "@/lib/constants";
+import { UpdateUserProps } from "@/interfaces/user";
+import { URL } from "@/lib/constants/url";
 
 export async function fetchUserAPI(email: string) {
   try {
@@ -20,6 +21,26 @@ export async function fetchUserAPI(email: string) {
   }
 }
 
+export async function fetchAllUsersAPI() {
+  try {
+    const response = await fetch(URL.FETCH_USER, {
+      method: "GET",
+      headers: URL.HEADERS,
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch users");
+    }
+
+    const responseData = await response.json();
+    return responseData.result;
+  } catch (error) {
+    console.error("Error fetching user: ", error);
+    throw error;
+  }
+}
+
 export async function updateIntroductionAPI(email: string, introduction: string) {
   try {
     const response = await fetch(`${URL.FETCH_USER}/${email}`, {
@@ -32,8 +53,46 @@ export async function updateIntroductionAPI(email: string, introduction: string)
     if (!response.ok) {
       throw new Error("Error updating user introduction:");
     }
+    return responseData;
+  } catch (error) {
+    console.error("Error updating introduction:", error);
+    throw error;
+  }
+}
 
-    console.log("responseData?:", responseData.success);
+export async function updateUserAPI(data: { name: string; email: string; role: string, initialEmail: string }) {
+  console.log("inputted formData in updateUserAPI:", data);
+  try {
+    const response = await fetch(`${URL.FETCH_USER}/edit/${data.initialEmail}`, {
+      body: JSON.stringify(data),
+      method: "PUT",
+      headers: URL.HEADERS,
+    });
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw new Error("Error updating user details:");
+    }
+    return responseData;
+  } catch (error) {
+    console.error("Error updating introduction:", error);
+    throw error;
+  }
+}
+
+export async function updateUserInfoAPI(data: { name: string, email: string }) {
+  console.log("inputted formData in updateUserAPI:", data);
+  try {
+    const response = await fetch(`${URL.FETCH_USER}/edit/${data.email}`, {
+      body: JSON.stringify(data),
+      method: "PUT",
+      headers: URL.HEADERS,
+    });
+
+    const responseData = await response.json();
+    if (!response.ok) {
+      throw new Error("Error updating user details:");
+    }
     return responseData;
   } catch (error) {
     console.error("Error updating introduction:", error);

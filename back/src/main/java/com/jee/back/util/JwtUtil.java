@@ -3,12 +3,13 @@ package com.jee.back.util;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
-
 import com.jee.back.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -16,8 +17,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
+  private static String SECRET_KEY;
+  public static final long ACCESS_TOKEN_EXPIRATION = 60 * 60 * 1000;      // 1 hour
+  public static final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 1000; // 7 days
+
   @Value("${jwt.secret-key}")
-  private String SECRET_KEY;
+  private String secretKey;
+  @PostConstruct
+  public void init() {
+    SECRET_KEY = secretKey;
+  }
+
+  public static String generateAccessToken(String email) {
+    return Jwts.builder()
+            .setSubject(email)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
+            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .compact();
+  }
+
+  public static String generateRefreshToken() {
+    return UUID.randomUUID().toString();
+  }
 
   public String extractEmail(String token) {
     return extractClaim(token, Claims::getSubject);

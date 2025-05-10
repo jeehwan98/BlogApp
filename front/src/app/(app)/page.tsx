@@ -1,34 +1,48 @@
 "use client"
 
-import BreadCrumbs from "@/components/HomePage/BreadCrumbs";
-import Title from "@/components/HomePage/Components";
-import { Blog } from "@/lib/interfaces";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { fetchBlogAPI } from "../api/blog";
-import BlogCard from "@/components/HomePage/BlogCard/index";
+import BlogCard from "@/components/home/blog-card/index";
+import { Blog } from "@/interfaces/blog";
+import { BlogsCardContainer, HomeContainer, Title } from "@/components/home/components";
+import { BlogCardSkeletonArray } from "@/components/home/blog-card/skeleton";
 
 export default function Home() {
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    const fetchedBlogs = async () => {
+  const fetchBlogs = useCallback(async () => {
+    try {
       const fetchedBlogs = await fetchBlogAPI();
       setBlogs(fetchedBlogs);
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    } finally {
+      setLoading(false);
     }
-    fetchedBlogs();
   }, []);
 
-  return (
-    <div className="mt-4 flex flex-col gap-4">
-      {/* <BreadCrumbs /> */}
+  useEffect(() => {
+    fetchBlogs();
+  }, [fetchBlogs]);
+
+  if (loading) return (
+    <HomeContainer>
       <Title />
-      <div className="w-full px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {blogs.map((blog) => (
-            <BlogCard key={blog.id} blog={blog} />
-          ))}
-        </div>
-      </div>
-    </div>
+      <BlogsCardContainer>
+        <BlogCardSkeletonArray count={15} />
+      </BlogsCardContainer>
+    </HomeContainer>
+  )
+
+  return (
+    <HomeContainer>
+      <Title />
+      <BlogsCardContainer>
+        {blogs.map((blog) => (
+          <BlogCard key={blog.id} blog={blog} />
+        ))}
+      </BlogsCardContainer>
+    </HomeContainer>
   );
 }

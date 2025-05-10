@@ -1,5 +1,7 @@
 package com.jee.back.controller;
 
+import com.jee.back.dto.UpdateUserDTO;
+import com.jee.back.dto.UpdateUserImageDTO;
 import com.jee.back.dto.UserResponseDTO;
 import com.jee.back.entity.User;
 import com.jee.back.service.UserService;
@@ -33,18 +35,45 @@ public class UserController {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not authenticated"));
         }
-
         String email1 = SecurityUtil.getAuthenticatedUserEmail();
+        log.info("email1?: ", email1);
         String email = userDetails.getUsername();
 
         return ResponseEntity.ok(Map.of("email", email));
     }
 
+    @GetMapping()
+    public ResponseEntity<Map<String, Object>> getAllUsers() {
+        return ResponseEntity.ok(Map.of("result", userService.getAllUsers()));
+    }
+
     @GetMapping("/{email}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable String email) {
-        User user = userService.getUser(email);
+        User user = userService.getUserByEmail(email);
         UserResponseDTO responseDTO = modelMapper.map(user, UserResponseDTO.class);
 
         return ResponseEntity.ok(responseDTO);
+    }
+
+    @PutMapping("/{email}")
+    public ResponseEntity<Map<String, Object>> updateUserInfo(@PathVariable String email, @RequestBody UpdateUserDTO updateUserDTO) {
+        User user = userService.updateUserForIntroduction(email, updateUserDTO);
+        return ResponseEntity.ok(Map.of("success", user));
+    }
+
+    @PutMapping("/image")
+    public ResponseEntity<Map<String, Object>> updateUserImage(@RequestBody UpdateUserImageDTO updateImageDTO) {
+        Map<String, Object> response = userService.updateUserImage(updateImageDTO);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/edit/{email}")
+    public ResponseEntity<Map<String, Object>> updateUserDetails(@PathVariable String email, @RequestBody UpdateUserDTO updateUserDTO) {
+        User user;
+        user = userService.getUserByEmail(email);
+        log.info("initial user details: {}", user);
+        user = userService.updateUserDetails(email, updateUserDTO);
+        log.info("updated user info?: {}", user);
+        return ResponseEntity.ok(Map.of("success", "user updated successfully"));
     }
 }

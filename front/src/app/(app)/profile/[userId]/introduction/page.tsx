@@ -1,18 +1,17 @@
 "use client"
 
 import { fetchUserAPI, updateIntroductionAPI } from "@/app/api/user";
-import { convertIdToEmail } from "@/lib/constants";
-import { User } from "@/lib/interfaces";
-import { useSession } from "@/lib/SessionProvider";
+import { convertIdToEmail } from "@/lib/constants/format";
+import { User } from "@/interfaces/user";
 import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "@/components/UI/Button";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth/auth-client";
 
 export default function IntroductionPage() {
-  // const { userId } = params;
   const params = useParams();
   const userId = params?.userId as string;
-  const { user } = useSession();
+  const { user } = useAuth();
   const [userDetails, setUserDetails] = useState<User>();
   const [loading, setLoading] = useState<boolean>(true);
   const [introduction, setIntroduction] = useState<string>("");
@@ -44,7 +43,6 @@ export default function IntroductionPage() {
     fetchUser();
   }, [userId]);
 
-  console.log("fetched user details:", userDetails);
   const isOwnProfile = user?.email === userDetails?.email;
 
   const handleSaveIntroduction = async () => {

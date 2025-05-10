@@ -37,5 +37,12 @@ public class Blog {
     private User user;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+    @OneToMany(mappedBy = "blog", cascade = CascadeType.ALL)
+    private List<BlogsLike> blogsLikes;
 
+    public int getLikeCount() {
+        return blogsLikes != null ? blogsLikes.size() : 0;
+    }
 }

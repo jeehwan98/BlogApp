@@ -1,5 +1,6 @@
-import { RegisterDetails } from "@/lib/interfaces";
-import { URL } from "@/lib/constants";
+
+import { RegisterDetails } from "@/interfaces/auth/register";
+import { URL } from "@/lib/constants/url";
 
 export async function registerAPI(data: RegisterDetails) {
   console.log("inputted data?:", data);
@@ -14,9 +15,8 @@ export async function registerAPI(data: RegisterDetails) {
     if (!response.ok) {
       throw new Error(responseData.error || "Registration failed");
     }
-    const user = responseData.user;
-    console.log("user?:", user);
-    return user;
+
+    return responseData;
   } catch (error) {
     console.error("Error during registration", error);
     throw error;

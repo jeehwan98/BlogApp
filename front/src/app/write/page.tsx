@@ -1,13 +1,19 @@
-import EditSection from "@/components/WritePage/Edit";
-import PreviewSection from "@/components/WritePage/Preview";
-import { WriteWrapper } from "@/components/WritePage/WriteComponents";
+import EditSection from "@/components/write/edit";
+import PreviewSection from "@/components/write/preview";
+import { WriteContainer } from "@/components/write/components";
+import { getServerSession } from "@/lib/auth/auth-server";
+import { redirect } from "next/navigation";
 
-export default function WritePage() {
+export default async function WritePage() {
+  const user = await getServerSession();
+  if (!user) {
+    redirect("/login");
+  }
   return (
     // currently only available on desktop and not mobile or tablet
-    <WriteWrapper>
+    <WriteContainer>
       <EditSection />
       <PreviewSection />
-    </WriteWrapper>
+    </WriteContainer>
   )
 }

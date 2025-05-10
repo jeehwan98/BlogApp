@@ -2,6 +2,7 @@ package com.jee.back.filter;
 
 import com.jee.back.service.UsersDetailsService;
 import com.jee.back.util.JwtUtil;
+import com.jee.back.util.SecurityUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -28,6 +29,17 @@ public class JwtFilter extends OncePerRequestFilter {
     /** this filter extracts the token from the request, validates it, and sets authentication in the context */
     private final JwtUtil jwtUtil;
     private final UsersDetailsService usersDetailsService;
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/api/v1/auth/forgot-password/**") ||
+                path.startsWith("/api/v1/auth/reset-password/**") ||
+                path.startsWith("/api/v1/auth/**") ||
+                path.startsWith("/api/v1/comments/**") ||
+                path.startsWith("/api/v1/like/**") ||
+                path.startsWith("/api/v1/auth/login");
+    }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = extractTokenFromCookies(request);
@@ -48,6 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
+                String email123 = SecurityUtil.getAuthenticatedUserEmail();
             }
         }
         filterChain.doFilter(request, response);

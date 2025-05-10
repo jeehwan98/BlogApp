@@ -1,11 +1,21 @@
-import AuthHeader from "@/components/Auth/AuthHeader";
-import LoginForm from "@/components/Auth/Form/LoginForm";
+import { AlertMessage, AuthFormContainer, AuthHeader } from "@/components/auth/components";
+import LoginForm from "@/components/form/auth/login";
+import { Line, LoginBottomNav } from "@/components/form/auth/login/components";
+import GithubSignInButton from "@/components/form/auth/login/github-button";
 
 export default function LoginPage() {
+
+
   return (
-    <div>
-      <AuthHeader />
-      <LoginForm />
-    </div>
+    <>
+      <AlertMessage />
+      <AuthFormContainer>
+        <AuthHeader />
+        <LoginForm />
+        <LoginBottomNav />
+        <Line />
+        <GithubSignInButton />
+      </AuthFormContainer>
+    </>
   )
 }
